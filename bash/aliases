@@ -1,0 +1,13 @@
+alias c='clear'
+
+#Git
+alias g='git status'
+
+#commit changes and get args as message
+function gg(){
+	git commit -m "$*"
+}
+
+function ga(){
+	git add $*
+}
