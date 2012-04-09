@@ -1,5 +1,5 @@
 alias c='clear'
-
+alias ..='cd ..'
 #Git
 alias g='git status'
 
