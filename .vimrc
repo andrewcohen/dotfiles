@@ -79,12 +79,6 @@ nmap <leader>n :NERDTreeToggle<CR>
 "" close nerdtree if its the only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-"" rails.vim plugin configuration
-map :R :Rails
-
-"" Ack.vim plugin configuration
-let g:ackprg="ack -H --nocolor --nogroup --column --type-set log=.log --nolog"
-
 "" CtrlP plugin configuration
 let g:ctrlp_open_new_file = "t"
 let g:ctrlp_custom_ignore = { 'dir': '\v[\/](\.git|node_modules|log|tmp|public\/docs|public\/uploads|db\/fixtures)$' }
