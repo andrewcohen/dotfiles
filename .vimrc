@@ -93,3 +93,6 @@ let g:ctrlp_cmd = 'CtrlP'
 ""html closetag
 let g:closetag_html_style = 1
 au Filetype html,html.erb, source ~/.vim/bundle/closetag.vim
+
+""handlebars/moustache
+let g:mustache_abbreviations = 1
