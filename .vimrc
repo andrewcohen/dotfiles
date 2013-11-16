@@ -13,14 +13,8 @@ set backupdir=~/.vimtmp
 set directory=~/.vimtmp
 
 "" statusline settings
-function! Current_branch(...)
-  if !exists('b:git_dir')
-    return ''
-  endif
-  return ' (' . fugitive#head(7) . ')'
-endfunction
 set laststatus=2
-set statusline=%h%w\ %f\ (#%n)\ %y\ [%l:%c]\ %LL\ (%p%%)%{Current_branch()}\ %m
+let g:airline_powerline_fonts = 1
 
 "" indentation settings
 filetype plugin on
@@ -51,7 +45,6 @@ set background=dark
 set number
 set cul
 set guifont=Source\ Code\ Pro\ for\ Powerline:h13
-"let g:Powerline_symbols = 'fancy'
 set colorcolumn=120
 set textwidth=100
 set wrapmargin=0
@@ -83,8 +76,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 let g:ctrlp_open_new_file = "t"
 let g:ctrlp_custom_ignore = { 'dir': '\v[\/](\.git|node_modules|log|tmp|public\/docs|public\/uploads|db\/fixtures)$' }
 
-"" powerline plugin configuration
-set rtp+=~/.vim/bundle/powerline/bindings/vim
 
 ""ctrlP
 let g:ctrlp_map = '<c-p>'
