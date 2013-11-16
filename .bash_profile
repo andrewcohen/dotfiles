@@ -23,22 +23,24 @@ function mkcd {
   fi
 }
 
+if [ -f `brew --prefix`/etc/bash_completion ]; then
+    . `brew --prefix`/etc/bash_completion
+fi
+
 ##commit changes and get args as message
 function gg(){
-	git commit -m "$*"
+ git commit -m "$*"
 }
 
 function parse_git_branch {
-ref=$( git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/') || return
-echo ${ref#refs/heads/}
+  ref=$( git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/') || return
+  echo ${ref#refs/heads/}
 }
 
 
 RED="\[\033[0;31m\]"
 YELLOW="\[\033[0;33m\]"
 GREEN="\[\033[0;32m\]"
-
-#export PS1="$(parse_git_branch)\W\$ "
 
 export PS1="[ \W ]$YELLOW\$(parse_git_branch)$GREEN\$ "
 
