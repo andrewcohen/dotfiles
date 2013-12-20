@@ -87,3 +87,10 @@ au Filetype html,html.erb, source ~/.vim/bundle/closetag.vim
 
 ""handlebars/moustache
 let g:mustache_abbreviations = 1
+
+function! HashReformat()
+ %s/:\(\w\+\)\(\s*=>\s*\)/\1: /gce
+endfunction
+
+command! HashReformat call HashReformat()
+com! FormatJSON %!python -m json.tool
