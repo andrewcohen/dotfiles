@@ -7,7 +7,7 @@ set nowrap
 set autoread
 set history=1000
 if has("gui_running")
-  set guioptions=egmrt
+  set guioptions=egmt
 endif
 set backupdir=~/.vimtmp
 set directory=~/.vimtmp
@@ -94,3 +94,7 @@ endfunction
 
 command! HashReformat call HashReformat()
 com! FormatJSON %!python -m json.tool
+
+""Goyo - 140 char looks nice on fullscreen mba
+let g:goyo_width = 120
+nnoremap <silent> <leader>G :Goyo<cr>
