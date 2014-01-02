@@ -41,8 +41,15 @@ function parse_git_branch {
 RED="\[\033[0;31m\]"
 YELLOW="\[\033[0;33m\]"
 GREEN="\[\033[0;32m\]"
+RESET="\[\033[0m\]"
 
-export PS1="[ \W ]$YELLOW\$(parse_git_branch)$GREEN\$ "
+export PS1="[ \W ]$YELLOW\$(parse_git_branch)$GREEN\$$RESET "
+
+# tell ls to be colourful
+export CLICOLOR=1
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+# tell grep to highlight matches
+export GREP_OPTIONS='--color=auto'
 
 export position_in_class="before"
 export exclude_tests="true"
