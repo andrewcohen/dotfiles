@@ -1,4 +1,21 @@
-execute pathogen#infect()
+filetype off
+set rtp+=~/.vim/bundle/vundle
+
+call vundle#rc()
+Bundle 'gmarik/vundle'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'tpope/vim-rails.git'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-fugitive'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'justinmk/vim-sneak'
+Bundle 'mileszs/ack.vim'
+Bundle 'kien/ctrlp.vim'
+Bundle 'bling/vim-airline'
+Bundle 'ervandew/supertab'
+Bundle 'Townk/vim-autoclose'
+Bundle 'airblade/vim-gitgutter'
 
 "" general settings
 set hidden
@@ -94,10 +111,6 @@ endfunction
 
 command! HashReformat call HashReformat()
 com! FormatJSON %!python -m json.tool
-
-""Goyo - 140 char looks nice on fullscreen mba
-let g:goyo_width = 120
-nnoremap <silent> <leader>G :Goyo<cr>
 
 let g:syntastic_disabled_filetypes = ['scss', 'sass']
 
