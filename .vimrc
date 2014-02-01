@@ -16,6 +16,7 @@ Bundle 'bling/vim-airline'
 Bundle 'ervandew/supertab'
 Bundle 'Townk/vim-autoclose'
 Bundle 'airblade/vim-gitgutter'
+Bundle 'kchmck/vim-coffee-script'
 
 "" general settings
 set hidden
