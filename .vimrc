@@ -98,3 +98,14 @@ com! FormatJSON %!python -m json.tool
 ""Goyo - 140 char looks nice on fullscreen mba
 let g:goyo_width = 120
 nnoremap <silent> <leader>G :Goyo<cr>
+
+let g:syntastic_disabled_filetypes = ['scss', 'sass']
+
+com! ZeusTest call system("zeus test " . shellescape(expand("%")) . "&")
+com! ZeusTestAll call system("zeus test spec/ &")
+nnoremap <leader>z :ZeusTest<cr>
+nnoremap <leader>Z :ZeusTestAll<cr>
+
+com! CopyCurrentPath call system("echo " . expand("%") . "|pbcopy")
+nnoremap <leader>C :CopyCurrentPath<cr>
+
