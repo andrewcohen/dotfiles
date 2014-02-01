@@ -122,3 +122,5 @@ nnoremap <leader>Z :ZeusTestAll<cr>
 com! CopyCurrentPath call system("echo " . expand("%") . "|pbcopy")
 nnoremap <leader>C :CopyCurrentPath<cr>
 
+"" Git gutter
+highlight clear SignColumn
