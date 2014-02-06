@@ -100,10 +100,6 @@ let g:ctrlp_custom_ignore = { 'dir': '\v[\/](\.git|node_modules|log|tmp|public\/
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
-""html closetag
-let g:closetag_html_style = 1
-au Filetype html,html.erb, source ~/.vim/bundle/closetag.vim
-
 ""handlebars/moustache
 let g:mustache_abbreviations = 1
 
@@ -116,8 +112,8 @@ com! FormatJSON %!python -m json.tool
 
 let g:syntastic_disabled_filetypes = ['scss', 'sass']
 
-com! ZeusTest call system("zeus test " . shellescape(expand("%")) . "&")
-com! ZeusTestAll call system("zeus test spec/ &")
+com! ZeusTest call system("yes exit | zeus test " . shellescape(expand("%")) . "&")
+com! ZeusTestAll call system("yes exit | zeus test spec/ &")
 nnoremap <leader>z :ZeusTest<cr>
 nnoremap <leader>Z :ZeusTestAll<cr>
 
