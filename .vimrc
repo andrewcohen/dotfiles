@@ -1,7 +1,8 @@
 filetype off
+set nocompatible
 set rtp+=~/.vim/bundle/vundle
-
 call vundle#rc()
+
 Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'tpope/vim-rails.git'
@@ -14,9 +15,11 @@ Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'bling/vim-airline'
 Bundle 'ervandew/supertab'
-Bundle 'Townk/vim-autoclose'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'kchmck/vim-coffee-script'
+
+syntax on
+filetype plugin indent on
 
 "" general settings
 set hidden
@@ -35,8 +38,6 @@ set laststatus=2
 let g:airline_powerline_fonts = 1
 
 "" indentation settings
-filetype plugin on
-filetype indent on
 set autoindent
 set expandtab
 set shiftwidth=2
@@ -125,3 +126,7 @@ nnoremap <leader>C :CopyCurrentPath<cr>
 
 "" Git gutter
 highlight clear SignColumn
+
+" Write all writeable buffers when changing buffers or losing focus.
+set autowriteall                " Save when doing various buffer-switching things.
+autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or MacVim loses focus.

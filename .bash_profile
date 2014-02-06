@@ -3,6 +3,8 @@ alias grb='git rebase'
 alias gs='git status'
 alias ga='git add'
 alias gd='git diff'
+alias gp='git pull'
+alias gpr='git pull --rebase'
 
 alias zs="zeus rspec"
 alias zr="zeus rake"
@@ -12,6 +14,9 @@ alias la='ls -a'
 alias ll='ls -al'
 alias c='clear'
 alias guard='rake db:test:prepare && guard'
+
+alias zake='zeus rake'
+alias zspec='zeus rspec'
 
 function mkcd {
   if [ ! -n "$1" ]; then
@@ -59,4 +64,6 @@ export PATH="/usr/local/heroku/bin:$PATH"
 #export PATH=$HOME/local/bin:$PATH
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
 source ~/.profile
+export PATH=/usr/local/bin:$PATH
