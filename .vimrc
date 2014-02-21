@@ -113,6 +113,9 @@ endfunction
 command! HashReformat call HashReformat()
 com! FormatJSON %!python -m json.tool
 
+map <silent> <D-C> :let @* = expand("%")<CR>:echo "Copied: ".expand("%")<CR>
+map <leader>C :let @* = expand("%").":".line(".")<CR>:echo "Copied: ".expand("%").":".line(".")<CR>
+
 let g:syntastic_disabled_filetypes = ['scss', 'sass']
 
 com! ZeusTest call system("yes exit | zeus test " . shellescape(expand("%")) . "&")
@@ -120,8 +123,6 @@ com! ZeusTestAll call system("yes exit | zeus test spec/ &")
 nnoremap <leader>z :ZeusTest<cr>
 nnoremap <leader>Z :ZeusTestAll<cr>
 
-com! CopyCurrentPath call system("echo " . expand("%") . "|pbcopy")
-nnoremap <leader>C :CopyCurrentPath<cr>
 
 "" Git gutter
 highlight clear SignColumn
