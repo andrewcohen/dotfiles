@@ -67,3 +67,5 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 source ~/.profile
 export PATH=/usr/local/bin:$PATH
+
+eval "$(direnv hook $0)"
