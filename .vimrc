@@ -20,6 +20,7 @@ Bundle 'airblade/vim-gitgutter'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'nono/vim-handlebars'
 Bundle 'matchit.zip'
+Bundle 'jaxbot/brolink.vim'
 
 syntax on
 filetype plugin indent on
@@ -102,9 +103,6 @@ let g:ctrlp_custom_ignore = { 'dir': '\v[\/](\.git|node_modules|log|tmp|public\/
 ""ctrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-
-""handlebars/moustache
-let g:mustache_abbreviations = 1
 
 function! HashReformat()
  %s/:\(\w\+\)\(\s*=>\s*\)/\1: /gce
