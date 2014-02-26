@@ -129,8 +129,7 @@ highlight clear SignColumn
 " Write all writeable buffers when changing buffers or losing focus.
 set autowriteall                " Save when doing various buffer-switching things.
 autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or MacVim loses focus.
-
-
+"
 "Clojure
 let g:slime_target = "tmux"
 
@@ -160,3 +159,5 @@ let g:tmuxline_preset = {
       \'x'    : '%R',
       \'y'    : ['%a', '%Y'],
       \'z'    : '#(uptime | cut -d":" -f4- | sed s/,//g)' }
+""ACK
+map <leader>a :Ack! "<cword>"<CR>
