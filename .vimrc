@@ -153,7 +153,7 @@ endif
 " :TmuxlineSnapshot <file> to save styles
 let g:tmuxline_preset = {
       \'a'    : '#S',
-      \'b'    : ['#I:#P', '#W','#(whoami)'],
+      \'b'    : ['#I:#P', '#(whoami)', '#W'],
       \'win'  : ['#I', '#W'],
       \'cwin' : ['#I', '#W', '#F'],
       \'x'    : '%R',
