@@ -14,13 +14,19 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
-Bundle 'bling/vim-airline'
 Bundle 'ervandew/supertab'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'nono/vim-handlebars'
 Bundle 'matchit.zip'
 Bundle 'jaxbot/brolink.vim'
+Bundle 'guns/vim-clojure-static'
+Bundle 'tpope/vim-fireplace'
+Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'vim-scripts/paredit.vim'
+Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'bling/vim-airline'
+Bundle 'edkolev/tmuxline.vim'
 
 syntax on
 filetype plugin indent on
@@ -54,12 +60,6 @@ set wildmode=list:longest,full
 "" mappings
 map <leader>t :set ft=
 imap jj <esc>
-nnoremap <C-j> :m .+1<CR>==
-nnoremap <C-k> :m .-2<CR>==
-inoremap <C-j> <Esc>:m .+1<CR>==gi
-inoremap <C-k> <Esc>:m .-2<CR>==gi
-vnoremap <C-j> :m '>+1<CR>gv=gv
-vnoremap <C-k> :m '<-2<CR>gv=gv
 
 "" look and feel (margins, colors, etc)
 colorscheme solarized
@@ -67,7 +67,7 @@ syntax enable
 set background=dark
 set number
 set cul
-set guifont=Source\ Code\ Pro\ for\ Powerline:h13
+set guifont=Source\ Code\ Pro\ for\ Powerline:h15
 set colorcolumn=120
 set textwidth=100
 set wrapmargin=0
@@ -92,13 +92,13 @@ autocmd BufWritePre * :%s/\s\+$//e
 
 "" NERDTree plugin configuration
 nmap <leader>n :NERDTreeToggle<CR>
+nmap <leader>N :NERDTreeCWD<CR>
 "" close nerdtree if its the only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 "" CtrlP plugin configuration
 let g:ctrlp_open_new_file = "t"
 let g:ctrlp_custom_ignore = { 'dir': '\v[\/](\.git|node_modules|log|tmp|public\/docs|public\/uploads|db\/fixtures)$' }
-
 
 ""ctrlP
 let g:ctrlp_map = '<c-p>'
@@ -128,3 +128,16 @@ highlight clear SignColumn
 " Write all writeable buffers when changing buffers or losing focus.
 set autowriteall                " Save when doing various buffer-switching things.
 autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or MacVim loses focus.
+
+" Tmuxline
+"let g:tmuxline_powerline_separators = 0
+" :TmuxlineSnapshot <file> to save styles
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'b'    : ['#W','#(whoami)'],
+      \'c'    : '#(uptime | cut -d":" -f4- | sed s/,//g)',
+      \'win'  : ['#I', '#W'],
+      \'cwin' : ['#I', '#W', '#F'],
+      \'x'    : '%R',
+      \'y'    : ['%a', '%Y'],
+      \'z'    : '#H' }

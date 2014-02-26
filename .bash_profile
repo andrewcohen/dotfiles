@@ -69,3 +69,4 @@ source ~/.profile
 export PATH=/usr/local/bin:$PATH
 
 eval "$(direnv hook $0)"
+alias t='tmux new -s dev'
