@@ -27,6 +27,7 @@ Bundle 'vim-scripts/paredit.vim'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'bling/vim-airline'
 Bundle 'edkolev/tmuxline.vim'
+Bundle 'jpalardy/vim-slime'
 
 syntax on
 filetype plugin indent on
@@ -129,6 +130,16 @@ highlight clear SignColumn
 set autowriteall                " Save when doing various buffer-switching things.
 autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or MacVim loses focus.
 
+
+"Clojure
+let g:slime_target = "tmux"
+
+autocmd Syntax clojure RainbowParenthesesLoadRound
+autocmd BufEnter *.clj RainbowParenthesesToggle
+autocmd BufLeave *.clj RainbowParenthesesToggle
+
+let g:rbpt_max = 9
+
 " tmux will only forward escape sequences to the terminal if surrounded by a DCS sequence
 if exists('$TMUX')
   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -143,10 +154,9 @@ endif
 " :TmuxlineSnapshot <file> to save styles
 let g:tmuxline_preset = {
       \'a'    : '#S',
-      \'b'    : ['#W','#(whoami)'],
-      \'c'    : '#(uptime | cut -d":" -f4- | sed s/,//g)',
+      \'b'    : ['#I:#P', '#W','#(whoami)'],
       \'win'  : ['#I', '#W'],
       \'cwin' : ['#I', '#W', '#F'],
       \'x'    : '%R',
       \'y'    : ['%a', '%Y'],
-      \'z'    : '#H' }
+      \'z'    : '#(uptime | cut -d":" -f4- | sed s/,//g)' }
