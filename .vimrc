@@ -34,6 +34,7 @@ filetype plugin indent on
 
 "" general settings
 set hidden
+set backspace=indent,eol,start
 let mapleader = ","
 set nowrap
 set autoread
