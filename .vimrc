@@ -71,6 +71,7 @@ set number
 set cul
 set guifont=Source\ Code\ Pro\ for\ Powerline:h15
 set colorcolumn=120
+set synmaxcol=120
 set textwidth=100
 set wrapmargin=0
 set list listchars=trail:·
