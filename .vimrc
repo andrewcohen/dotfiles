@@ -28,6 +28,7 @@ Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'bling/vim-airline'
 Bundle 'edkolev/tmuxline.vim'
 Bundle 'jpalardy/vim-slime'
+Bundle 'Valloric/YouCompleteMe'
 
 syntax on
 filetype plugin indent on
