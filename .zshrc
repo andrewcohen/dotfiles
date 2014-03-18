@@ -7,9 +7,7 @@ ZSH=/Users/andrewcohen/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="avit"
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias gpr="git pull --rebase"
 
 # Set this to use case-sensitive completion
 # CASE_SENSITIVE="true"
