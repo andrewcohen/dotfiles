@@ -23,12 +23,10 @@ Bundle 'jaxbot/brolink.vim'
 Bundle 'guns/vim-clojure-static'
 Bundle 'tpope/vim-fireplace'
 Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'vim-scripts/paredit.vim'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'bling/vim-airline'
-Bundle 'edkolev/tmuxline.vim'
-Bundle 'jpalardy/vim-slime'
 Bundle 'Valloric/YouCompleteMe'
+Bundle 'AndrewRadev/vim-golang'
 
 syntax on
 filetype plugin indent on
@@ -134,33 +132,11 @@ set autowriteall                " Save when doing various buffer-switching thing
 autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or MacVim loses focus.
 "
 "Clojure
-let g:slime_target = "tmux"
-
 autocmd Syntax clojure RainbowParenthesesLoadRound
 autocmd BufEnter *.clj RainbowParenthesesToggle
 autocmd BufLeave *.clj RainbowParenthesesToggle
 
 let g:rbpt_max = 9
-
-" tmux will only forward escape sequences to the terminal if surrounded by a DCS sequence
-if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
-
-" Tmuxline
-"let g:tmuxline_powerline_separators = 0
-" :TmuxlineSnapshot <file> to save styles
-let g:tmuxline_preset = {
-      \'a'    : '#S',
-      \'b'    : ['#I:#P', '#(whoami)', '#W'],
-      \'win'  : ['#I', '#W'],
-      \'cwin' : ['#I', '#W', '#F'],
-      \'x'    : '%R',
-      \'y'    : ['%a', '%Y'],
-      \'z'    : '#(uptime | cut -d":" -f4- | sed s/,//g)' }
+"
 ""ACK
 map <leader>a :Ack! "<cword>"<CR>
