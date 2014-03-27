@@ -64,4 +64,5 @@ export PATH="/usr/local/bin:/usr/local/heroku/bin:/usr/bin:/bin:/usr/sbin:/sbin:
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
+source ~/.profile
 eval "$(direnv hook zsh)"
