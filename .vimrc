@@ -27,6 +27,7 @@ Bundle 'bling/vim-airline'
 Bundle 'Blackrush/vim-gocode'
 Bundle 'ervandew/supertab'
 Bundle 'chriskempson/base16-vim'
+Bundle 'ekalinin/Dockerfile.vim'
 
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabClosePreviewOnPopupClose = 1
