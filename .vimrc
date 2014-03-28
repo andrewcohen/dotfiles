@@ -66,7 +66,7 @@ map <leader>t :set ft=
 imap jj <esc>
 
 "" look and feel (margins, colors, etc)
-colorscheme base16-default
+colorscheme base16-tomorrow
 syntax enable
 set background=dark
 set number
@@ -80,10 +80,10 @@ set list listchars=trail:·
 
 "" customize the default color scheme a little bit
 set fillchars=vert:\|,stl:\ ,stlnc:\
-hi StatusLine guibg=#DDDDDD guifg=#222222
-hi StatusLineNC guibg=#BBBBBB guifg=#222222
-hi VertSplit guibg=#DDDDDD
-hi Search guibg=LightBlue
+"hi StatusLine guibg=#DDDDDD guifg=#222222
+"hi StatusLineNC guibg=#BBBBBB guifg=#222222
+"hi VertSplit guibg=#DDDDDD
+"hi Search guibg=LightBlue
 
 "" search settings
 set hlsearch
