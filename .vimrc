@@ -26,6 +26,7 @@ Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'bling/vim-airline'
 Bundle 'Blackrush/vim-gocode'
 Bundle 'ervandew/supertab'
+Bundle 'chriskempson/base16-vim'
 
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabClosePreviewOnPopupClose = 1
@@ -65,7 +66,7 @@ map <leader>t :set ft=
 imap jj <esc>
 
 "" look and feel (margins, colors, etc)
-colorscheme solarized
+colorscheme base16-default
 syntax enable
 set background=dark
 set number
