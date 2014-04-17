@@ -28,6 +28,7 @@ Bundle 'Blackrush/vim-gocode'
 Bundle 'ervandew/supertab'
 Bundle 'chriskempson/base16-vim'
 Bundle 'ekalinin/Dockerfile.vim'
+Bundle 'terryma/vim-expand-region'
 
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabClosePreviewOnPopupClose = 1
@@ -44,6 +45,7 @@ set autoread
 set history=1000
 if has("gui_running")
   set guioptions=egmt
+  set guicursor+=a:blinkon0
 endif
 set backupdir=~/.vimtmp
 set directory=~/.vimtmp
@@ -87,6 +89,7 @@ set fillchars=vert:\|,stl:\ ,stlnc:\
 "hi Search guibg=LightBlue
 
 "" search settings
+set incsearch
 set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
