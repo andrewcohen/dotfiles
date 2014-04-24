@@ -3,32 +3,34 @@ set nocompatible
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
-Bundle 'gmarik/vundle'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tpope/vim-rails.git'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'mileszs/ack.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'ervandew/supertab'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'nono/vim-handlebars'
-Bundle 'matchit.zip'
-Bundle 'guns/vim-clojure-static'
-Bundle 'tpope/vim-fireplace'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'bling/vim-airline'
-Bundle 'Blackrush/vim-gocode'
-Bundle 'ervandew/supertab'
-Bundle 'chriskempson/base16-vim'
-Bundle 'ekalinin/Dockerfile.vim'
-Bundle 'terryma/vim-expand-region'
+Plugin 'gmarik/vundle'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tpope/vim-rails.git'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/syntastic'
+Plugin 'mileszs/ack.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'ervandew/supertab'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'nono/vim-handlebars'
+Plugin 'matchit.zip'
+"Plugin 'guns/vim-clojure-static'
+"Plugin 'tpope/vim-fireplace'
+"Plugin 'kien/rainbow_parentheses.vim'
+"Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'bling/vim-airline'
+"Plugin 'Blackrush/vim-gocode'
+Plugin 'ervandew/supertab'
+Plugin 'chriskempson/base16-vim'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'terryma/vim-expand-region'
+Plugin 'jeetsukumaran/vim-buffergator'
 
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabClosePreviewOnPopupClose = 1
@@ -53,6 +55,14 @@ set directory=~/.vimtmp
 "" statusline settings
 set laststatus=2
 let g:airline_powerline_fonts = 1
+let g:airline_left_sep=' '
+let g:airline_right_sep=' '
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#left_sep=' '
+let g:airline#extensions#tabline#left_alt_sep='|'
+let g:airline#extensions#tabline#right_sep=' '
+let g:airline#extensions#tabline#right_alt_sep='|'
+
 
 "" indentation settings
 set autoindent
@@ -68,6 +78,21 @@ set wildmode=list:longest,full
 map <leader>t :set ft=
 imap jj <esc>
 
+" Move to the previous buffer with "gp"
+nnoremap gN :bp<CR>
+
+" Move to the next buffer with "gn"
+nnoremap gn :bn<CR>
+
+" List all possible buffers with "gl"
+nnoremap gl :ls<CR>
+
+" List all possible buffers with "gb" and accept a new buffer argument [1]
+nnoremap gb :ls<CR>:b
+
+" delete buffer
+map <leader>d :bd<CR>
+
 "" look and feel (margins, colors, etc)
 colorscheme base16-tomorrow
 syntax enable
@@ -76,7 +101,7 @@ set number
 set cul
 set guifont=Source\ Code\ Pro\ for\ Powerline:h15
 set colorcolumn=120
-set synmaxcol=120
+set synmaxcol=240
 set textwidth=100
 set wrapmargin=0
 set list listchars=trail:·
@@ -101,7 +126,8 @@ autocmd BufWritePre * :%s/\s\+$//e
 
 "" NERDTree plugin configuration
 nmap <leader>n :NERDTreeToggle<CR>
-nmap <leader>N :NERDTreeCWD<CR>
+nmap <leader>N :NERDTreeFind<CR>
+
 "" close nerdtree if its the only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
