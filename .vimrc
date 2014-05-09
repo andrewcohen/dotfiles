@@ -20,12 +20,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'nono/vim-handlebars'
 Plugin 'matchit.zip'
-"Plugin 'guns/vim-clojure-static'
-"Plugin 'tpope/vim-fireplace'
-"Plugin 'kien/rainbow_parentheses.vim'
-"Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'bling/vim-airline'
-"Plugin 'Blackrush/vim-gocode'
+Plugin 'Blackrush/vim-gocode'
 Plugin 'ervandew/supertab'
 Plugin 'chriskempson/base16-vim'
 Plugin 'ekalinin/Dockerfile.vim'
@@ -149,7 +145,7 @@ com! FormatJSON %!python -m json.tool
 map <silent> <D-C> :let @* = expand("%")<CR>:echo "Copied: ".expand("%")<CR>
 map <leader>C :let @* = expand("%").":".line(".")<CR>:echo "Copied: ".expand("%").":".line(".")<CR>
 
-let g:syntastic_disabled_filetypes = ['scss', 'sass']
+let g:syntastic_disabled_filetypes = ['scss', 'sass', 'hbs']
 
 com! ZeusTest call system("yes exit | zeus test " . shellescape(expand("%")) . "&")
 com! ZeusTestAll call system("yes exit | zeus test spec/ &")
