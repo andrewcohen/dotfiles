@@ -57,6 +57,7 @@ let g:airline#extensions#tabline#left_sep=' '
 let g:airline#extensions#tabline#left_alt_sep='|'
 let g:airline#extensions#tabline#right_sep=' '
 let g:airline#extensions#tabline#right_alt_sep='|'
+let g:airline#extensions#tabline#show_buffers = 0
 
 
 "" indentation settings
@@ -144,7 +145,7 @@ com! FormatJSON %!python -m json.tool
 map <silent> <D-C> :let @* = expand("%")<CR>:echo "Copied: ".expand("%")<CR>
 map <leader>C :let @* = expand("%").":".line(".")<CR>:echo "Copied: ".expand("%").":".line(".")<CR>
 
-let g:syntastic_disabled_filetypes = ['scss', 'sass', 'hbs']
+let g:syntastic_disabled_filetypes = ['scss', 'sass', 'hbs', 'handlebars.html']
 
 com! ZeusTest call system("yes exit | zeus test " . shellescape(expand("%")) . "&")
 com! ZeusTestAll call system("yes exit | zeus test spec/ &")
