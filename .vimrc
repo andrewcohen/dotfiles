@@ -15,7 +15,8 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'mileszs/ack.vim'
 Plugin 'kien/ctrlp.vim'
-Plugin 'ervandew/supertab'
+"Plugin 'ervandew/supertab'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'nono/vim-handlebars'
@@ -27,6 +28,7 @@ Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'terryma/vim-expand-region'
 Plugin 'jeetsukumaran/vim-buffergator'
 
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabClosePreviewOnPopupClose = 1
 
