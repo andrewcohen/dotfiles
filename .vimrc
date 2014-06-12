@@ -4,29 +4,26 @@ set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
 Plugin 'gmarik/vundle'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'tpope/vim-rails.git'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-haml'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'mileszs/ack.vim'
 Plugin 'kien/ctrlp.vim'
-"Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'nono/vim-handlebars'
-Plugin 'matchit.zip'
 Plugin 'bling/vim-airline'
-Plugin 'Blackrush/vim-gocode'
-Plugin 'chriskempson/base16-vim'
+Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 Plugin 'ekalinin/Dockerfile.vim'
-Plugin 'terryma/vim-expand-region'
-Plugin 'jeetsukumaran/vim-buffergator'
+Plugin 'matchit.zip'
 
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:SuperTabDefaultCompletionType = "context"
@@ -61,42 +58,25 @@ let g:airline#extensions#tabline#right_sep=' '
 let g:airline#extensions#tabline#right_alt_sep='|'
 let g:airline#extensions#tabline#show_buffers = 0
 
-
-"" indentation settings
+""" indentation settings
 set autoindent
 set expandtab
 set shiftwidth=2
 set softtabstop=2
 
-"" tab completion settings
+""" tab completion settings
 set wildmenu
 set wildmode=list:longest,full
 
-"" mappings
+""" mappings
 map <leader>t :set ft=
 imap jj <esc>
 
-" Move to the previous buffer with "gp"
-nnoremap gN :bp<CR>
-
-" Move to the next buffer with "gn"
-nnoremap gn :bn<CR>
-
-" List all possible buffers with "gl"
-nnoremap gl :ls<CR>
-
-" List all possible buffers with "gb" and accept a new buffer argument [1]
-nnoremap gb :ls<CR>:b
-
-" delete buffer
-map <leader>d :bd<CR>
-
-"" look and feel (margins, colors, etc)
-colorscheme base16-tomorrow
-syntax enable
+""" look and feel (margins, colors, etc)
+colorscheme Tomorrow-Night
 set background=dark
 set number
-set cul
+"set cul
 set guifont=Source\ Code\ Pro\ for\ Powerline:h15
 set colorcolumn=120
 set synmaxcol=240
@@ -104,12 +84,7 @@ set textwidth=100
 set wrapmargin=0
 set list listchars=trail:·
 
-"" customize the default color scheme a little bit
 set fillchars=vert:\|,stl:\ ,stlnc:\
-"hi StatusLine guibg=#DDDDDD guifg=#222222
-"hi StatusLineNC guibg=#BBBBBB guifg=#222222
-"hi VertSplit guibg=#DDDDDD
-"hi Search guibg=LightBlue
 
 "" search settings
 set incsearch
