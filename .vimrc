@@ -16,12 +16,18 @@ Plugin 'scrooloose/syntastic'
 Plugin 'mileszs/ack.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'ervandew/supertab'
-Plugin 'Valloric/YouCompleteMe'
+if has("gui_running")
+  Plugin 'Valloric/YouCompleteMe'
+  Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+  colorscheme Tomorrow-Night
+else
+  Plugin 'chriskempson/base16-vim'
+  colorscheme base16-tomorrow
+endif
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'nono/vim-handlebars'
 Plugin 'bling/vim-airline'
-Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'matchit.zip'
 
@@ -73,7 +79,6 @@ map <leader>t :set ft=
 imap jj <esc>
 
 """ look and feel (margins, colors, etc)
-colorscheme Tomorrow-Night
 set background=dark
 set number
 "set cul
@@ -143,6 +148,7 @@ autocmd BufEnter *.clj RainbowParenthesesToggle
 autocmd BufLeave *.clj RainbowParenthesesToggle
 
 let g:rbpt_max = 9
-"
-""ACK
+
 map <leader>a :Ack! "<cword>"<CR>
+map <leader>v :vsplit <CR>
+
