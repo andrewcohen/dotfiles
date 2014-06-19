@@ -16,20 +16,17 @@ Plugin 'scrooloose/syntastic'
 Plugin 'mileszs/ack.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'ervandew/supertab'
-if has("gui_running")
-  Plugin 'Valloric/YouCompleteMe'
-  Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
-  colorscheme Tomorrow-Night
-else
-  Plugin 'chriskempson/base16-vim'
-  colorscheme base16-tomorrow
-endif
+Plugin 'andrewcohen/tomorrow-theme', {'rtp': 'vim/'}
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'nono/vim-handlebars'
 Plugin 'bling/vim-airline'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'matchit.zip'
+
+if has("gui_running")
+  Plugin 'Valloric/YouCompleteMe'
+endif
 
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:SuperTabDefaultCompletionType = "context"
@@ -39,6 +36,7 @@ syntax on
 filetype plugin indent on
 
 "" general settings
+colorscheme Tomorrow-Night
 set hidden
 set backspace=indent,eol,start
 let mapleader = ","
