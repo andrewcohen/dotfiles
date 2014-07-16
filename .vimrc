@@ -16,17 +16,22 @@ Plugin 'scrooloose/syntastic'
 Plugin 'mileszs/ack.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'ervandew/supertab'
-Plugin 'andrewcohen/tomorrow-theme', {'rtp': 'vim/'}
+Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'nono/vim-handlebars'
 Plugin 'bling/vim-airline'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'matchit.zip'
-
-if has("gui_running")
-  Plugin 'Valloric/YouCompleteMe'
-endif
+Plugin 'rizzatti/dash.vim'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'tpope/vim-leiningen'
+Plugin 'tpope/vim-projectionist'
+Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-fireplace'
+Plugin 'guns/vim-clojure-static'
+Plugin 'guns/vim-clojure-highlight'
+Plugin 'paredit.vim'
 
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:SuperTabDefaultCompletionType = "context"
@@ -36,7 +41,7 @@ syntax on
 filetype plugin indent on
 
 "" general settings
-colorscheme Tomorrow-Night
+set visualbell t_vb=
 set hidden
 set backspace=indent,eol,start
 let mapleader = ","
@@ -56,6 +61,8 @@ let g:airline_powerline_fonts = 1
 let g:airline_left_sep=' '
 let g:airline_right_sep=' '
 let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#show_tab_type = 1
 let g:airline#extensions#tabline#left_sep=' '
 let g:airline#extensions#tabline#left_alt_sep='|'
 let g:airline#extensions#tabline#right_sep=' '
@@ -80,7 +87,8 @@ imap jj <esc>
 set background=dark
 set number
 "set cul
-set guifont=Source\ Code\ Pro\ for\ Powerline:h15
+colorscheme Tomorrow-Night-Eighties
+set guifont=Inconsolata-dz\ for\ Powerline:h15
 set colorcolumn=120
 set synmaxcol=240
 set textwidth=100
@@ -109,7 +117,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 "" CtrlP plugin configuration
 let g:ctrlp_open_new_file = "t"
-let g:ctrlp_custom_ignore = { 'dir': '\v[\/](\.git|node_modules|log|tmp|public\/docs|public\/uploads|db\/fixtures)$' }
+let g:ctrlp_custom_ignore = { 'dir': '\v[\/](\.git|target|node_modules|log|tmp|out|public\/docs|public\/uploads|db\/fixtures)$' }
 
 ""ctrlP
 let g:ctrlp_map = '<c-p>'
@@ -127,12 +135,6 @@ map <leader>C :let @* = expand("%").":".line(".")<CR>:echo "Copied: ".expand("%"
 
 let g:syntastic_disabled_filetypes = ['scss', 'sass', 'hbs', 'handlebars.html']
 
-com! ZeusTest call system("yes exit | zeus test " . shellescape(expand("%")) . "&")
-com! ZeusTestAll call system("yes exit | zeus test spec/ &")
-nnoremap <leader>z :ZeusTest<cr>
-nnoremap <leader>Z :ZeusTestAll<cr>
-
-
 "" Git gutter
 highlight clear SignColumn
 
@@ -141,12 +143,13 @@ set autowriteall                " Save when doing various buffer-switching thing
 autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or MacVim loses focus.
 "
 "Clojure
-autocmd Syntax clojure RainbowParenthesesLoadRound
-autocmd BufEnter *.clj RainbowParenthesesToggle
-autocmd BufLeave *.clj RainbowParenthesesToggle
+autocmd Filetype clojure RainbowParenthesesActivate
+autocmd Filetype clojure RainbowParenthesesLoadRound
+autocmd Filetype clojure RainbowParenthesesLoadSquare
+autocmd Filetype clojure RainbowParenthesesLoadBraces
 
 let g:rbpt_max = 9
 
 map <leader>a :Ack! "<cword>"<CR>
 map <leader>v :vsplit <CR>
-
+map <leader>r :Require <CR>
