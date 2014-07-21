@@ -25,13 +25,12 @@ Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'matchit.zip'
 Plugin 'rizzatti/dash.vim'
 Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'tpope/vim-leiningen'
-Plugin 'tpope/vim-projectionist'
-Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fireplace'
 Plugin 'guns/vim-clojure-static'
 Plugin 'guns/vim-clojure-highlight'
 Plugin 'paredit.vim'
+Plugin 'fatih/vim-go'
+Plugin 'majutsushi/tagbar'
 
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:SuperTabDefaultCompletionType = "context"
@@ -74,13 +73,13 @@ set autoindent
 set expandtab
 set shiftwidth=2
 set softtabstop=2
+set tabstop=2
 
 """ tab completion settings
 set wildmenu
 set wildmode=list:longest,full
 
 """ mappings
-map <leader>t :set ft=
 imap jj <esc>
 
 """ look and feel (margins, colors, etc)
@@ -96,6 +95,7 @@ set wrapmargin=0
 set list listchars=trail:·
 
 set fillchars=vert:\|,stl:\ ,stlnc:\
+set listchars=tab:~\ ,extends:#,nbsp:.
 
 "" search settings
 set incsearch
@@ -153,3 +153,32 @@ let g:rbpt_max = 9
 map <leader>a :Ack! "<cword>"<CR>
 map <leader>v :vsplit <CR>
 map <leader>r :Require <CR>
+
+map <leader>t :TagbarToggle <CR>
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
