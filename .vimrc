@@ -1,7 +1,7 @@
 filetype off
 set nocompatible
 set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+call vundle#begin()
 
 Plugin 'gmarik/vundle'
 Plugin 'tpope/vim-rails.git'
@@ -31,6 +31,8 @@ Plugin 'guns/vim-clojure-highlight'
 Plugin 'paredit.vim'
 Plugin 'fatih/vim-go'
 Plugin 'majutsushi/tagbar'
+
+call vundle#end()
 
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:SuperTabDefaultCompletionType = "context"

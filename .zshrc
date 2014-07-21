@@ -64,5 +64,6 @@ source $ZSH/oh-my-zsh.sh
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
+export GOPATH=~/go
 source ~/.profile
 eval "$(direnv hook zsh)"
