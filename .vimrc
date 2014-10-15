@@ -1,45 +1,58 @@
-filetype off
-set nocompatible
-set rtp+=~/.vim/bundle/vundle
-call vundle#begin()
+"NeoBundle Scripts-----------------------------
+if has('vim_starting')
+  set nocompatible               " Be iMproved
+  set runtimepath+=/Users/andrewcohen/.vim/bundle/neobundle.vim/
+endif
 
-Plugin 'gmarik/vundle'
-Plugin 'tpope/vim-rails.git'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-haml'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/syntastic'
-Plugin 'mileszs/ack.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'ervandew/supertab'
-Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
-Plugin 'airblade/vim-gitgutter'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'nono/vim-handlebars'
-Plugin 'bling/vim-airline'
-Plugin 'ekalinin/Dockerfile.vim'
-Plugin 'matchit.zip'
-Plugin 'rizzatti/dash.vim'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'tpope/vim-fireplace'
-Plugin 'guns/vim-clojure-static'
-Plugin 'guns/vim-clojure-highlight'
-Plugin 'paredit.vim'
-Plugin 'fatih/vim-go'
-Plugin 'majutsushi/tagbar'
+call neobundle#begin(expand('~/.vim/bundle'))
 
-call vundle#end()
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
 
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabClosePreviewOnPopupClose = 1
+NeoBundle 'Shougo/vimproc.vim', {
+\ 'build' : {
+\     'windows' : 'tools\\update-dll-mingw',
+\     'cygwin' : 'make -f make_cygwin.mak',
+\     'mac' : 'make -f make_mac.mak',
+\     'linux' : 'make',
+\     'unix' : 'gmake',
+\    },
+\ }
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'tpope/vim-rails.git'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'tpope/vim-haml'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'ervandew/supertab'
+NeoBundle 'andrewcohen/tomorrow-theme', {'rtp': 'vim/'}
+NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'mustache/vim-mustache-handlebars'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'honza/dockerfile.vim'
+NeoBundle 'matchit.zip'
+NeoBundle 'rizzatti/dash.vim'
+NeoBundle 'kien/rainbow_parentheses.vim'
+NeoBundle 'tpope/vim-fireplace'
+NeoBundle 'guns/vim-clojure-static'
+NeoBundle 'guns/vim-clojure-highlight'
+NeoBundle 'paredit.vim'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'skwp/greplace.vim'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'SirVer/ultisnips'
+
+call neobundle#end()
 
 syntax on
 filetype plugin indent on
+NeoBundleCheck
 
 "" general settings
 set visualbell t_vb=
@@ -83,6 +96,10 @@ set wildmode=list:longest,full
 
 """ mappings
 imap jj <esc>
+map Y y$
+nmap <leader>s  :%s/
+vmap <leader>s  :s/
+nnoremap <leader>S  :%s/\<<C-r><C-w>\>/
 
 """ look and feel (margins, colors, etc)
 set background=dark
@@ -104,9 +121,6 @@ set incsearch
 set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
-"" automatically reload vimrc after it is saved
-autocmd! bufwritepost .vimrc source %
-
 "" automatically strip trailing whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e
 
@@ -117,13 +131,60 @@ nmap <leader>N :NERDTreeFind<CR>
 "" close nerdtree if its the only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-"" CtrlP plugin configuration
-let g:ctrlp_open_new_file = "t"
-let g:ctrlp_custom_ignore = { 'dir': '\v[\/](\.git|target|node_modules|log|tmp|out|public\/docs|public\/uploads|db\/fixtures)$' }
+""""""""""""""""""
+" Unite.vim
+""""""""""""""""""
+let g:unite_source_rec_async_command= 'ag --nocolor --nogroup -g ""'
+let g:unite_source_history_yank_enable = 1
 
-""ctrlP
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '\.git/',
+      \ 'git5/.*/review/',
+      \ 'google/obj/',
+      \ 'tmp/',
+      \ '.sass-cache',
+      \ 'node_modules/',
+      \ 'bower_components/',
+      \ 'dist/',
+      \ '.git5_specs/',
+      \ '.pyc',
+      \ ], '\|'))
+
+
+nnoremap <C-p> :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
+nnoremap <leader>y :Unite -buffer-name=yank history/yank<cr>
+nnoremap <leader>b :Unite -buffer-name=buffer -quick-match buffer<cr>
+nnoremap <leader>a :UniteWithCursorWord grep:.<cr>
+nnoremap <leader>A :Unite grep:.<cr>
+
+" For ag/ack.
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --silent'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ack')
+  let g:unite_source_grep_command = 'ack'
+  let g:unite_source_grep_default_opts = '--no-heading --no-color -w'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+
+" Custom mappings for the unite buffer
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  " Play nice with supertab
+  let b:SuperTabDisabled=1
+  " Enable navigation with control-j and control-k in insert mode
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+endfunction
+
+""""""""""""""
+" end Unite
+""""""""""""""
 
 function! HashReformat()
  %s/:\(\w\+\)\(\s*=>\s*\)/\1: /gce
@@ -151,11 +212,12 @@ autocmd Filetype clojure RainbowParenthesesLoadSquare
 autocmd Filetype clojure RainbowParenthesesLoadBraces
 
 let g:rbpt_max = 9
-
-map <leader>a :Ack! "<cword>"<CR>
 map <leader>v :vsplit <CR>
-map <leader>r :Require <CR>
+autocmd Filetype clojure nmap <leader>r :Require <CR>
 
+" autocmd go
+autocmd filetype go set nolist
+let g:go_fmt_command = "goimports"
 map <leader>t :TagbarToggle <CR>
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
@@ -184,3 +246,8 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
+
+set grepprg=ack
+let g:grep_cmd_opts = '--noheading'
+
+let g:SuperTabDefaultCompletionType = "context"

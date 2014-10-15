@@ -67,3 +67,5 @@ source $ZSH/oh-my-zsh.sh
 export GOPATH=~/go
 source ~/.profile
 eval "$(direnv hook zsh)"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
