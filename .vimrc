@@ -94,6 +94,10 @@ set tabstop=2
 set wildmenu
 set wildmode=list:longest,full
 
+""" vim command settings
+set ignorecase
+set smartcase
+
 """ mappings
 imap jj <esc>
 map Y y$
