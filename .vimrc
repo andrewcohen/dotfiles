@@ -49,6 +49,7 @@ NeoBundle 'sjl/gundo.vim'
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'szw/vim-ctrlspace'
 NeoBundle 'christoomey/vim-tmux-navigator'
+NeoBundle 'pangloss/vim-javascript'
 
 call neobundle#end()
 
@@ -265,3 +266,6 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:SuperTabClosePreviewOnPopupClose = 1
 
 let g:tmuxline_powerline_separators = 0
+
+set conceallevel=1
+let g:javascript_conceal_function   = "ƒ"
