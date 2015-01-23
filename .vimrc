@@ -47,6 +47,8 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'skwp/greplace.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'SirVer/ultisnips'
+NeoBundle 'szw/vim-ctrlspace'
+NeoBundle 'christoomey/vim-tmux-navigator'
 
 call neobundle#end()
 
@@ -82,6 +84,7 @@ let g:airline#extensions#tabline#left_alt_sep='|'
 let g:airline#extensions#tabline#right_sep=' '
 let g:airline#extensions#tabline#right_alt_sep='|'
 let g:airline#extensions#tabline#show_buffers = 0
+let g:airline_exclude_preview = 1
 
 """ indentation settings
 set autoindent
@@ -150,6 +153,7 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'git5/.*/review/',
       \ 'google/obj/',
       \ 'tmp/',
+      \ 'log/',
       \ '.sass-cache',
       \ 'node_modules/',
       \ 'bower_components/',
@@ -162,8 +166,8 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
 nnoremap <C-p> :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
 nnoremap <leader>y :Unite -buffer-name=yank history/yank<cr>
 nnoremap <leader>b :Unite -buffer-name=buffer -quick-match buffer<cr>
-nnoremap <leader>a :UniteWithCursorWord grep:.<cr>
-nnoremap <leader>A :Unite grep:.<cr>
+nnoremap <leader>a :UniteWithCursorWord -keep-focus -no-quit grep:.<cr>
+nnoremap <leader>A :Unite -keep-focus -no-quit grep:.<cr>
 
 " For ag/ack.
 if executable('ag')
@@ -199,6 +203,8 @@ com! FormatJSON %!python -m json.tool
 
 map <silent> <D-C> :let @* = expand("%")<CR>:echo "Copied: ".expand("%")<CR>
 map <leader>C :let @* = expand("%").":".line(".")<CR>:echo "Copied: ".expand("%").":".line(".")<CR>
+"" copy to system clipboard
+map <leader>cc "*y
 
 let g:syntastic_disabled_filetypes = ['scss', 'sass', 'hbs', 'handlebars.html']
 
@@ -255,3 +261,7 @@ set grepprg=ack
 let g:grep_cmd_opts = '--noheading'
 
 let g:SuperTabDefaultCompletionType = "context"
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+let g:SuperTabClosePreviewOnPopupClose = 1
+
+let g:tmuxline_powerline_separators = 0

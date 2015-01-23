@@ -7,6 +7,7 @@ ZSH=/Users/andrewcohen/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="avit"
 
+alias ssh='TERM=screen ssh'
 alias gpr="git pull --rebase"
 
 # Set this to use case-sensitive completion
