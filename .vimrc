@@ -26,7 +26,7 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-haml'
 NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'tpope/vim-commentary'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'andrewcohen/tomorrow-theme', {'rtp': 'vim/'}
@@ -34,7 +34,6 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'mustache/vim-mustache-handlebars'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'honza/dockerfile.vim'
 NeoBundle 'matchit.zip'
 NeoBundle 'rizzatti/dash.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
@@ -49,7 +48,16 @@ NeoBundle 'sjl/gundo.vim'
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'szw/vim-ctrlspace'
 NeoBundle 'christoomey/vim-tmux-navigator'
+" NeoBundle 'edkolev/tmuxline.vim'
+NeoBundle 'goatslacker/mango.vim'
+NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'mxw/vim-jsx'
+NeoBundle 'cespare/vim-toml'
+NeoBundle 'chase/vim-ansible-yaml'
+NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'justinmk/vim-sneak'
 
 call neobundle#end()
 
@@ -112,6 +120,8 @@ set smartcase
 
 """ mappings
 imap jj <esc>
+imap jk <esc>
+imap kj <esc>
 map Y y$
 nmap <leader>s  :%s/
 vmap <leader>s  :s/
@@ -120,9 +130,9 @@ nnoremap <leader>S  :%s/\<<C-r><C-w>\>/
 """ look and feel (margins, colors, etc)
 set background=dark
 set number
-"set cul
-colorscheme Tomorrow-Night-Eighties
-set guifont=Inconsolata-dz\ for\ Powerline:h15
+set cul
+colorscheme hybrid
+set guifont=Inconsolata-dz\ for\ Powerline:h13
 set colorcolumn=120
 set synmaxcol=240
 set textwidth=100
@@ -143,6 +153,7 @@ autocmd BufWritePre * :%s/\s\+$//e
 "" NERDTree plugin configuration
 nmap <leader>n :NERDTreeToggle<CR>
 nmap <leader>N :NERDTreeFind<CR>
+let NERDTreeShowHidden=1
 
 "" close nerdtree if its the only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
