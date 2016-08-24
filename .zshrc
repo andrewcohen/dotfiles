@@ -9,6 +9,7 @@ ZSH_THEME="avit"
 
 alias ssh='TERM=screen ssh'
 alias gpr="git pull --rebase"
+alias vim="nvim"
 
 # Set this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -44,7 +45,7 @@ alias gpr="git pull --rebase"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew coffee)
+plugins=(git brew coffee mix)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -54,11 +55,11 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -70,3 +71,7 @@ source ~/.profile
 eval "$(direnv hook zsh)"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export GIT_EDITOR=nvim
+export FZF_DEFAULT_COMMAND='ag -g ""'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

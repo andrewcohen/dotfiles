@@ -1,93 +1,69 @@
-"NeoBundle Scripts-----------------------------
-if has('vim_starting')
-  set nocompatible               " Be iMproved
-  set runtimepath+=/Users/andrewcohen/.vim/bundle/neobundle.vim/
-endif
+call plug#begin('~/.vim/plugins')
 
-call neobundle#begin(expand('~/.vim/bundle'))
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-haml', { 'for': 'haml' }
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-commentary'
+Plug 'scrooloose/syntastic'
+Plug 'ervandew/supertab'
+Plug 'andrewcohen/tomorrow-theme', {'rtp': 'vim/'}
+Plug 'airblade/vim-gitgutter'
+Plug 'kchmck/vim-coffee-script', { 'for': 'coffeescript' }
+Plug 'mustache/vim-mustache-handlebars', { 'for': 'handlebars' }
+Plug 'bling/vim-airline'
+Plug 'matchit.zip'
+Plug 'rizzatti/dash.vim'
+Plug 'kien/rainbow_parentheses.vim', { 'for': 'clojure' }
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
+Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
+Plug 'paredit.vim', { 'for': 'clojure' }
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'skwp/greplace.vim'
+Plug 'sjl/gundo.vim'
+Plug 'SirVer/ultisnips'
+Plug 'szw/vim-ctrlspace'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'goatslacker/mango.vim'
+Plug 'nanotech/jellybeans.vim'
+Plug 'w0ng/vim-hybrid'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'mxw/vim-jsx'
+Plug 'cespare/vim-toml', { 'for': 'toml' }
+Plug 'chase/vim-ansible-yaml', { 'for': 'yaml' }
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
+Plug 'slashmili/alchemist.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'kassio/neoterm'
+Plug 'lambdatoast/elm.vim'
 
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'Shougo/vimproc.vim', {
-\ 'build' : {
-\     'windows' : 'tools\\update-dll-mingw',
-\     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make -f make_mac.mak',
-\     'linux' : 'make',
-\     'unix' : 'gmake',
-\    },
-\ }
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'tpope/vim-rails.git'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'tpope/vim-haml'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'tpope/vim-commentary'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'ervandew/supertab'
-NeoBundle 'andrewcohen/tomorrow-theme', {'rtp': 'vim/'}
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'mustache/vim-mustache-handlebars'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'matchit.zip'
-NeoBundle 'rizzatti/dash.vim'
-NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'tpope/vim-fireplace'
-NeoBundle 'guns/vim-clojure-static'
-NeoBundle 'guns/vim-clojure-highlight'
-NeoBundle 'paredit.vim'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'skwp/greplace.vim'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'SirVer/ultisnips'
-NeoBundle 'szw/vim-ctrlspace'
-NeoBundle 'christoomey/vim-tmux-navigator'
-" NeoBundle 'edkolev/tmuxline.vim'
-NeoBundle 'goatslacker/mango.vim'
-NeoBundle 'nanotech/jellybeans.vim'
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'mxw/vim-jsx'
-NeoBundle 'cespare/vim-toml'
-NeoBundle 'chase/vim-ansible-yaml'
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'justinmk/vim-sneak'
-
-call neobundle#end()
+call plug#end()
 
 syntax on
 filetype plugin indent on
-NeoBundleCheck
 
 "" general settings
 set visualbell t_vb=
 set hidden
 set backspace=indent,eol,start
-let mapleader = ","
+let mapleader = "\<Space>"
 set nowrap
 set autoread
 set history=1000
 if has("gui_running")
   set guioptions=egmt
   set guicursor+=a:blinkon0
-else
-  if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-  else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  endif
 endif
 set backupdir=~/.vimtmp
 set directory=~/.vimtmp
 
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 "" statusline settings
 set laststatus=2
 let g:airline_powerline_fonts = 1
@@ -125,7 +101,9 @@ imap kj <esc>
 map Y y$
 nmap <leader>s  :%s/
 vmap <leader>s  :s/
+vmap <leader>y "+y
 nnoremap <leader>S  :%s/\<<C-r><C-w>\>/
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 """ look and feel (margins, colors, etc)
 set background=dark
@@ -146,6 +124,23 @@ set listchars=tab:~\ ,extends:#,nbsp:.
 set incsearch
 set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+nmap <leader><Space> :nohlsearch<Bar>:echo<CR>
+
+"trepl
+tnoremap <Esc> <C-\><C-n>
+nnoremap <silent> <leader>tn :TREPLSend<cr>
+nnoremap <silent> <leader>tf :TREPLSendFile<cr>
+nnoremap <silent> <leader>rt :call neoterm#test#run('all')<cr>
+nnoremap <silent> <leader>rf :call neoterm#test#run('file')<cr>
+nnoremap <silent> <leader>rn :call neoterm#test#run('current')<cr>
+nnoremap <silent> <leader>rr :call neoterm#test#rerun()<cr>
+" hide/close terminal
+nnoremap <silent> <leader>th :call neoterm#close()<cr>
+" clear terminal
+nnoremap <silent> <leader>tl :call neoterm#clear()<cr>
+" kills the current job (send a <c-c>)
+nnoremap <silent> <leader>tc :call neoterm#kill()<cr>
+
 
 "" automatically strip trailing whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e
@@ -157,62 +152,6 @@ let NERDTreeShowHidden=1
 
 "" close nerdtree if its the only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-""""""""""""""""""
-" Unite.vim
-""""""""""""""""""
-let g:unite_source_rec_async_command= 'ag --nocolor --nogroup -g ""'
-let g:unite_source_history_yank_enable = 1
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ 'git5/.*/review/',
-      \ 'google/obj/',
-      \ 'tmp/',
-      \ 'log/',
-      \ '.sass-cache',
-      \ 'node_modules/',
-      \ 'bower_components/',
-      \ 'dist/',
-      \ '.git5_specs/',
-      \ '.pyc',
-      \ ], '\|'))
-
-
-nnoremap <C-p> :Unite -buffer-name=files -start-insert file_rec/async:!<cr>
-nnoremap <leader>y :Unite -buffer-name=yank history/yank<cr>
-nnoremap <leader>b :Unite -buffer-name=buffer -quick-match buffer<cr>
-nnoremap <leader>a :UniteWithCursorWord -keep-focus -no-quit grep:.<cr>
-nnoremap <leader>A :Unite -keep-focus -no-quit grep:.<cr>
-
-" For ag/ack.
-if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --silent'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack')
-  let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -w'
-  let g:unite_source_grep_recursive_opt = ''
-endif
-
-" Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  " Play nice with supertab
-  let b:SuperTabDisabled=1
-  " Enable navigation with control-j and control-k in insert mode
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-endfunction
-
-""""""""""""""
-" end Unite
-""""""""""""""
 
 function! HashReformat()
  %s/:\(\w\+\)\(\s*=>\s*\)/\1: /gce
@@ -227,6 +166,12 @@ map <leader>C :let @* = expand("%").":".line(".")<CR>:echo "Copied: ".expand("%"
 map <leader>cc "*y
 
 let g:syntastic_disabled_filetypes = ['scss', 'sass', 'hbs', 'handlebars.html']
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+""" FZF
+let g:fzf_layout = { 'up': '30%' }
+nnoremap <C-P> :FZF<CR>
 
 "" Git gutter
 highlight clear SignColumn
@@ -235,6 +180,7 @@ highlight clear SignColumn
 set autowriteall                " Save when doing various buffer-switching things.
 autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or MacVim loses focus.
 "
+
 "Clojure
 autocmd Filetype clojure RainbowParenthesesActivate
 autocmd Filetype clojure RainbowParenthesesLoadRound
@@ -248,34 +194,6 @@ autocmd Filetype clojure nmap <leader>r :Require <CR>
 " autocmd go
 autocmd filetype go set nolist
 let g:go_fmt_command = "goimports"
-map <leader>t :TagbarToggle <CR>
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
 
 set grepprg=ack
 let g:grep_cmd_opts = '--noheading'
@@ -285,6 +203,12 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:SuperTabClosePreviewOnPopupClose = 1
 
 let g:tmuxline_powerline_separators = 0
+let g:jsx_ext_required = 0
 
-set conceallevel=1
-let g:javascript_conceal_function   = "ƒ"
+" rust racer completion
+let g:racer_cmd = "~/.cargo/bin/racer"
+let $RUST_SRC_PATH="/usr/local/src/rust/src/"
+
+autocmd filetype cpp set shiftwidth=4
+autocmd filetype cpp set softtabstop=4
+autocmd filetype cpp set tabstop=4
