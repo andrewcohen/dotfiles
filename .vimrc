@@ -42,6 +42,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'kassio/neoterm'
 Plug 'lambdatoast/elm.vim'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
@@ -126,8 +127,24 @@ set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 nmap <leader><Space> :nohlsearch<Bar>:echo<CR>
 
-"trepl
+"" terminal / neoterm
+" enter terminal in insert mode
+au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+
+" enable esc to exit insert mode in terminal
 tnoremap <Esc> <C-\><C-n>
+
+" break out of terminal insert mode with window movements
+tnoremap <c-w>j <c-\><c-n><c-w>j
+tnoremap <c-w>k <c-\><c-n><c-w>k
+tnoremap <c-w>h <c-\><c-n><c-w>h
+tnoremap <c-w>l <c-\><c-n><c-w>l
+tnoremap <c-w>J <c-\><c-n><c-w>J
+tnoremap <c-w>K <c-\><c-n><c-w>K
+tnoremap <c-w>H <c-\><c-n><c-w>H
+tnoremap <c-w>L <c-\><c-n><c-w>L
+tnoremap <c-w>x <c-\><c-n><c-w>x
+
 nnoremap <silent> <leader>tn :TREPLSend<cr>
 nnoremap <silent> <leader>tf :TREPLSendFile<cr>
 nnoremap <silent> <leader>rt :call neoterm#test#run('all')<cr>
