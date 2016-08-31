@@ -110,7 +110,8 @@ nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 set background=dark
 set number
 set cul
-colorscheme hybrid
+set termguicolors
+colorscheme gruvbox
 set guifont=Inconsolata-dz\ for\ Powerline:h13
 set colorcolumn=120
 set synmaxcol=240
