@@ -36,13 +36,17 @@ Plug 'mxw/vim-jsx'
 Plug 'cespare/vim-toml', { 'for': 'toml' }
 Plug 'chase/vim-ansible-yaml', { 'for': 'yaml' }
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
+Plug 'elixir-lang/vim-elixir', { 'for': ['elixir', 'eelixir'] }
 Plug 'slashmili/alchemist.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'kassio/neoterm'
 Plug 'lambdatoast/elm.vim'
 Plug 'morhetz/gruvbox'
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --racer-completer' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 call plug#end()
 
@@ -226,7 +230,45 @@ let g:jsx_ext_required = 0
 " rust racer completion
 let g:racer_cmd = "~/.cargo/bin/racer"
 let $RUST_SRC_PATH="/usr/local/src/rust/src/"
+let g:ycm_rust_src_path="/usr/local/src/rust/src/"
+let g:deoplete#enable_at_startup = 1
 
 autocmd filetype cpp set shiftwidth=4
 autocmd filetype cpp set softtabstop=4
 autocmd filetype cpp set tabstop=4
+
+" Setup Terminal Colors For Neovim:
+" Necessary until https://github.com/morhetz/gruvbox/pull/93 is resolved
+if has('nvim')
+  " dark0 + gray
+  let g:terminal_color_0 = "#282828"
+  let g:terminal_color_8 = "#928374"
+
+  " neurtral_red + bright_red
+  let g:terminal_color_1 = "#cc241d"
+  let g:terminal_color_9 = "#fb4934"
+
+  " neutral_green + bright_green
+  let g:terminal_color_2 = "#98971a"
+  let g:terminal_color_10 = "#b8bb26"
+
+  " neutral_yellow + bright_yellow
+  let g:terminal_color_3 = "#d79921"
+  let g:terminal_color_11 = "#fabd2f"
+
+  " neutral_blue + bright_blue
+  let g:terminal_color_4 = "#458588"
+  let g:terminal_color_12 = "#83a598"
+
+  " neutral_purple + bright_purple
+  let g:terminal_color_5 = "#b16286"
+  let g:terminal_color_13 = "#d3869b"
+
+  " neutral_aqua + faded_aqua
+  let g:terminal_color_6 = "#689d6a"
+  let g:terminal_color_14 = "#8ec07c"
+
+  " light4 + light1
+  let g:terminal_color_7 = "#a89984"
+  let g:terminal_color_15 = "#ebdbb2"
+endif
