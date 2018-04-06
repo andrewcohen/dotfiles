@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh configuration.
-ZSH=/Users/andrewcohen/.oh-my-zsh
+ZSH=/Users/andrew/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -45,7 +45,7 @@ alias vim="nvim"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew coffee mix)
+plugins=(git brew coffee mix node)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -67,11 +67,13 @@ fi
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 export GOPATH=~/go
-source ~/.profile
 eval "$(direnv hook zsh)"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH="$HOME/.fastlane/bin:$PATH"
 export GIT_EDITOR=nvim
 export FZF_DEFAULT_COMMAND='ag -g ""'
+
+source ~/.profile
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

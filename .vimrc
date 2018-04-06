@@ -1,4 +1,4 @@
-call plug#begin('~/.vim/plugins')
+call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-surround'
@@ -32,6 +32,7 @@ Plug 'goatslacker/mango.vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+" Plug 'flowtype/vim-flow', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx'
 Plug 'cespare/vim-toml', { 'for': 'toml' }
 Plug 'chase/vim-ansible-yaml', { 'for': 'yaml' }
@@ -45,8 +46,9 @@ Plug 'lambdatoast/elm.vim'
 Plug 'morhetz/gruvbox'
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
+Plug 'ervandew/supertab'
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --racer-completer' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 call plug#end()
 
