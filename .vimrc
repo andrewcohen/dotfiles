@@ -15,17 +15,17 @@ Plug 'airblade/vim-gitgutter'
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffeescript' }
 Plug 'mustache/vim-mustache-handlebars', { 'for': 'handlebars' }
 Plug 'bling/vim-airline'
-Plug 'matchit.zip'
+" Plug 'matchit.zip'
 Plug 'rizzatti/dash.vim'
 Plug 'kien/rainbow_parentheses.vim', { 'for': 'clojure' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
 Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
-Plug 'paredit.vim', { 'for': 'clojure' }
+" Plug 'paredit.vim', { 'for': 'clojure' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'skwp/greplace.vim'
 Plug 'sjl/gundo.vim'
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 Plug 'szw/vim-ctrlspace'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'goatslacker/mango.vim'
