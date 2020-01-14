@@ -15,7 +15,8 @@ antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
 
 # Load the theme.
-antigen theme avit
+antigen bundle mafredri/zsh-async
+antigen bundle sindresorhus/pure
 
 # Tell Antigen that you're done.
 antigen apply
