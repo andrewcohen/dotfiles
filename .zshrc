@@ -6,6 +6,7 @@ antigen bundle git
 
 export NVM_LAZY_LOAD=true
 export NVM_AUTO_USE=true
+export NVM_NO_USE=true
 antigen bundle lukechilds/zsh-nvm
 
 antigen bundle node
