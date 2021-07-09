@@ -145,8 +145,8 @@ tnoremap <Esc> <C-\><C-n>
 tnoremap <c-w>j <c-\><c-n><c-w>j
 tnoremap <c-w>k <c-\><c-n><c-w>k
 tnoremap <c-w>h <c-\><c-n><c-w>h
-tnoremap <c-w>l <c-\><c-n><c-w>l
-tnoremap <c-w>J <c-\><c-n><c-w>J
+noremap <c-w>l <c-\><c-n><c-w>l
+noremap <c-w>J <c-\><c-n><c-w>J
 tnoremap <c-w>K <c-\><c-n><c-w>K
 tnoremap <c-w>H <c-\><c-n><c-w>H
 tnoremap <c-w>L <c-\><c-n><c-w>L
