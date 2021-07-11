@@ -1,0 +1,26 @@
+local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
+local execute = vim.api.nvim_command
+
+vim.api.nvim_set_keymap('n', '<SPACE>', '<Nop>', {})
+vim.g.mapleader = " "
+
+require('plugins')
+require('options')
+require('mappings')
+
+cmd [[colorscheme onedark]]
+
+-- enable mouse scroll
+execute('set mouse=a')
+
+execute([[
+autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or MacVim loses focus.
+autocmd BufWritePre * undojoin | Neoformat
+autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace on save
+]])
+
+--[[
+paq {'mfussenegger/nvim-dap'}
+paq {'rcarriga/nvim-dap-ui'}
+paq {'theHamsta/nvim-dap-virtual-text'}
+]]
