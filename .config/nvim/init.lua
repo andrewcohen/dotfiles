@@ -3,10 +3,12 @@ local execute = vim.api.nvim_command
 
 vim.api.nvim_set_keymap('n', '<SPACE>', '<Nop>', {})
 vim.g.mapleader = " "
+vim.opt.termguicolors = true
 
 require('plugins')
 require('options')
 require('mappings')
+require('plugins.bufferline')
 
 cmd [[colorscheme onedark]]
 
@@ -18,6 +20,7 @@ autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or M
 autocmd BufWritePre * undojoin | Neoformat
 autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace on save
 ]])
+
 
 --[[
 paq {'mfussenegger/nvim-dap'}

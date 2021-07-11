@@ -68,6 +68,10 @@ require('packer').startup(function(use)
       require('lualine').setup { theme = "onedark" }
     end
   }
+  use {
+    'akinsho/nvim-bufferline.lua',
+    requires = 'kyazdani42/nvim-web-devicons'
+  }
 
   use {
     'hrsh7th/nvim-compe',
@@ -134,6 +138,9 @@ require('packer').startup(function(use)
   }
 
   use 'b3nj5m1n/kommentary'
+  use 'tpope/vim-surround'
+  use 'sbdchd/neoformat'
+
   use {
     'lewis6991/gitsigns.nvim',
     config = function()
@@ -141,5 +148,21 @@ require('packer').startup(function(use)
     end
   }
 
-  use 'sbdchd/neoformat'
+  use {
+    'akinsho/nvim-toggleterm.lua',
+    config = function()
+      require('toggleterm').setup{
+        size =  function(term)
+          if term.direction == "horizontal" then
+            return 15
+          elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+          end
+        end,
+        direction = 'vertical',
+      }
+    end
+  }
+
+
 end)
