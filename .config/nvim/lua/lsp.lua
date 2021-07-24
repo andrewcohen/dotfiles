@@ -128,18 +128,6 @@ function M.setup()
   end
 
   vim.api.nvim_command [[autocmd BufWritePre *.go lua goimports(1000)]]
-
-  nvim_lsp.gopls.setup {
-    cmd = {"gopls", "serve"},
-    settings = {
-      gopls = {
-        analyses = {
-          unusedparams = true,
-        },
-        staticcheck = true,
-      },
-    },
-  }
 end
 
 return M
