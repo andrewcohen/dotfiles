@@ -57,7 +57,7 @@ function tat {
 export GIT_EDITOR=nvim
 export ZVM_VI_EDITOR=nvim
 
-if [ ! "$TMUX" = "" ]; then export TERM=xterm-256color; fi
+if [ ! "$TMUX" = "" ]; then export TERM=screen-256color; fi
 
 source ~/.profile
 
