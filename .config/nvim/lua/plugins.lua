@@ -132,10 +132,10 @@ require('packer').startup(function(use)
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
 
-  use {
+  --[[ use {
     'kyazdani42/nvim-tree.lua',
     requires = {{'kyazdani42/nvim-web-devicons'}}
-  }
+  } ]]
 
   use 'b3nj5m1n/kommentary'
   use 'tpope/vim-surround'
@@ -148,21 +148,6 @@ require('packer').startup(function(use)
     end
   }
 
-  use {
-    'akinsho/nvim-toggleterm.lua',
-    config = function()
-      require('toggleterm').setup{
-        size =  function(term)
-          if term.direction == "horizontal" then
-            return 15
-          elseif term.direction == "vertical" then
-            return vim.o.columns * 0.4
-          end
-        end,
-        direction = 'vertical',
-      }
-    end
-  }
 
-
+  use { 'christoomey/vim-tmux-navigator' }
 end)

@@ -21,9 +21,3 @@ autocmd BufWritePre * undojoin | Neoformat
 autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace on save
 ]])
 
-
---[[
-paq {'mfussenegger/nvim-dap'}
-paq {'rcarriga/nvim-dap-ui'}
-paq {'theHamsta/nvim-dap-virtual-text'}
-]]
