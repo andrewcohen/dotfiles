@@ -40,12 +40,12 @@ require('packer').startup(function(use)
   use {
     'neovim/nvim-lspconfig',
 
-    -- not technically required, but my lsp module uses it
-    requires = {{'kabouzeid/nvim-lspinstall'}},
     config = function ()
       require('lsp').setup()
     end
   }
+
+  use { 'williamboman/nvim-lsp-installer' }
 
   use {
     'glepnir/lspsaga.nvim',
@@ -62,6 +62,7 @@ require('packer').startup(function(use)
 
   -- Theming
   use 'monsonjeremy/onedark.nvim'
+  use 'morhetz/gruvbox'
   use {
     'hoob3rt/lualine.nvim',
     config = function()
@@ -155,6 +156,9 @@ require('packer').startup(function(use)
 
   use {
     'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
     config = function()
       require('gitsigns').setup()
     end
@@ -162,4 +166,14 @@ require('packer').startup(function(use)
 
 
   use { 'christoomey/vim-tmux-navigator' }
+
+  use {
+    'ray-x/go.nvim',
+    config = function()
+      require('go').setup()
+    end
+  }
+
+
+
 end)

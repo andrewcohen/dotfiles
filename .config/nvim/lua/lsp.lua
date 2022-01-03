@@ -6,7 +6,7 @@ function M.setup()
 
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
-  local on_attach = function(client, bufnr)
+  local common_on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -16,22 +16,22 @@ function M.setup()
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K',  ':Lspsaga hover_doc<CR>', opts)
-    -- buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    -- buf_set_keymap('n', 'K',  ':Lspsaga hover_doc<CR>', opts)
+    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
     buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
     buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
     buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<leader>rn', ':Lspsaga rename<CR>', opts)
-    -- buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n', '<leader>ca', ':Lspsaga code_action<CR>', opts)
-    -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', 'gr',':Lspsaga lsp_finder<CR>', opts)
-    -- buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    buf_set_keymap('n', '<space>e', ':Lspsaga diagnostic_jump_next<CR>', opts)
+    buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    -- buf_set_keymap('n', '<leader>rn', ':Lspsaga rename<CR>', opts)
+    buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    -- buf_set_keymap('n', '<leader>ca', ':Lspsaga code_action<CR>', opts)
+    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    -- buf_set_keymap('n', 'gr',':Lspsaga lsp_finder<CR>', opts)
+    buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    -- buf_set_keymap('n', '<space>e', ':Lspsaga diagnostic_jump_next<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
@@ -76,8 +76,28 @@ function M.setup()
     }
   end
 
-  local function setup_servers()
-    require'lspinstall'.setup()
+  local lsp_installer = require("nvim-lsp-installer")
+
+  -- Register a handler that will be called for all installed servers.
+  -- Alternatively, you may also register handlers on specific server instances instead (see example below).
+  lsp_installer.on_server_ready(function(server)
+      local opts = {
+        on_attach = common_on_attach
+      }
+
+
+      -- (optional) Customize the options passed to the server
+      -- if server.name == "tsserver" then
+      --     opts.root_dir = function() ... end
+      -- end
+
+      -- This setup() function is exactly the same as lspconfig's setup function.
+      -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+      server:setup(opts)
+  end)
+
+  --[[ local function setup_servers()
+    require'lspinstall'.setup()kV
     local servers = require'lspinstall'.installed_servers()
     for _, server in pairs(servers) do
       nvim_lsp[server].setup{
@@ -89,13 +109,13 @@ function M.setup()
     end
   end
 
-  setup_servers()
+  setup_servers() ]]
 
   -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-  require'lspinstall'.post_install_hook = function ()
+  --[[ require'lspinstall'.post_install_hook = function ()
     setup_servers() -- reload installed servers
     vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-  end
+  end ]]
 
   -- golang
   function goimports(timeout_ms)
@@ -128,7 +148,7 @@ function M.setup()
     end
   end
 
-  vim.api.nvim_command [[autocmd BufWritePre *.go lua goimports(1000)]]
+  -- vim.api.nvim_command [[autocmd BufWritePre *.go lua goimports(1000)]]
 end
 
 return M
