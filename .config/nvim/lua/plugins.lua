@@ -67,10 +67,9 @@ require('packer').startup(function(use)
   }
 
   use {
-    'akinsho/nvim-bufferline.lua',
-    requires = 'kyazdani42/nvim-web-devicons'
+    'romgrk/barbar.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'}
   }
-
 
   -- completion & snippets
   use {
