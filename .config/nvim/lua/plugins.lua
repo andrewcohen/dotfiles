@@ -21,16 +21,20 @@ require('packer').startup(function(use)
         ensure_installed = {
           "bash",
           "css",
-          "lua",
           "go",
           "html",
           "javascript",
           "json",
+          "lua",
+          "rust",
           "tsx",
           "typescript",
           "yaml",
         },
         highlight = {
+          enable = true
+        },
+        context_commentstring = {
           enable = true
         }
       }
@@ -47,28 +51,21 @@ require('packer').startup(function(use)
 
   use { 'williamboman/nvim-lsp-installer' }
 
+  -- Theming
   use {
-    'glepnir/lspsaga.nvim',
+    'monsonjeremy/onedark.nvim',
     config = function()
-      require'lspsaga'.init_lsp_saga {
-        border_style = "round",
-        error_sign = '',
-        warn_sign = '',
-        hint_sign = '',
-        infor_sign = '',
-      }
+      require('onedark').setup()
     end
   }
 
-  -- Theming
-  use 'monsonjeremy/onedark.nvim'
-  use 'morhetz/gruvbox'
   use {
     'hoob3rt/lualine.nvim',
     config = function()
       require('lualine').setup { theme = "onedark" }
     end
   }
+
   use {
     'akinsho/nvim-bufferline.lua',
     requires = 'kyazdani42/nvim-web-devicons'
@@ -114,6 +111,8 @@ require('packer').startup(function(use)
     end
   }
 
+  use 'tpope/vim-commentary'
+
   use {
     'windwp/nvim-autopairs',
     config = function()
@@ -145,12 +144,6 @@ require('packer').startup(function(use)
     end
   }
 
-  --[[ use {
-    'kyazdani42/nvim-tree.lua',
-    requires = {{'kyazdani42/nvim-web-devicons'}}
-  } ]]
-
-  use 'b3nj5m1n/kommentary'
   use 'tpope/vim-surround'
   use 'sbdchd/neoformat'
 
@@ -168,9 +161,19 @@ require('packer').startup(function(use)
   use { 'christoomey/vim-tmux-navigator' }
 
   use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup { }
+    end
+  }
+
+  use {
     'ray-x/go.nvim',
     config = function()
-      require('go').setup()
+      require('go').setup({
+        tag_transform = 'camelcase'
+      })
     end
   }
 

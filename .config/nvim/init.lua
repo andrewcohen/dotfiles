@@ -10,9 +10,6 @@ require('options')
 require('mappings')
 require('plugins.bufferline')
 
-vim.g.gruvbox_contrast_dark = 'hard'
-cmd [[colorscheme gruvbox]]
-
 -- enable mouse scroll
 execute('set mouse=a')
 
@@ -21,7 +18,3 @@ autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or M
 autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace on save
 autocmd BufWritePre *.go :silent! lua require('go.format').goimport()
 ]], false)
-
--- autocmd BufWritePre * undojoin | Neoformat
--- au BufWritePre * try | undojoin | Neoformat | catch /^Vim\%((\a\+)\)\=:E790/ | endtry
-
