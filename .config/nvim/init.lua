@@ -9,6 +9,7 @@ require('plugins')
 require('options')
 require('mappings')
 require('plugins.bufferline')
+require('plugins.cmp')
 
 -- enable mouse scroll
 execute('set mouse=a')

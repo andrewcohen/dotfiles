@@ -71,61 +71,37 @@ require('packer').startup(function(use)
     requires = 'kyazdani42/nvim-web-devicons'
   }
 
-  use {
-    'hrsh7th/nvim-compe',
-    config = function()
-      require('compe').setup {
-        enabled = true;
-        autocomplete = true;
-        debug = false;
-        min_length = 1;
-        preselect = 'enable';
-        throttle_time = 80;
-        source_timeout = 200;
-        resolve_timeout = 800;
-        incomplete_delay = 400;
-        max_abbr_width = 100;
-        max_kind_width = 100;
-        max_menu_width = 100;
-        documentation = {
-          -- border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
-          border_style = "round",
-          winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-          max_width = 120,
-          min_width = 60,
-          max_height = math.floor(vim.o.lines * 0.3),
-          min_height = 1,
-        };
 
-        source = {
-          path = true;
-          buffer = true;
-          calc = true;
-          nvim_lsp = true;
-          nvim_lua = true;
-          vsnip = true;
-          ultisnips = true;
-          luasnip = true;
-        };
-      }
-    end
+  -- completion & snippets
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-vsnip',
+      'hrsh7th/vim-vsnip',
+    }
   }
+
+  use 'rafamadriz/friendly-snippets'
 
   use 'tpope/vim-commentary'
 
-  use {
-    'windwp/nvim-autopairs',
-    config = function()
-      require('nvim-autopairs').setup({
-        disable_filetype = { "TelescopePrompt" , "vim" },
-        enable_check_bracket_line = true,
-      })
-      require("nvim-autopairs.completion.compe").setup({
-        map_cr = true, --  map <CR> on insert mode
-        map_complete = true -- it will auto insert `(` after select function or method item
-      })
-    end
-  }
+  -- use {
+  --   'windwp/nvim-autopairs',
+  --   config = function()
+  --     require('nvim-autopairs').setup({
+  --       disable_filetype = { "TelescopePrompt" , "vim" },
+  --       enable_check_bracket_line = true,
+  --     })
+  --     require("nvim-autopairs.completion.compe").setup({
+  --       map_cr = true, --  map <CR> on insert mode
+  --       map_complete = true -- it will auto insert `(` after select function or method item
+  --     })
+  --   end
+  -- }
 
   use {
     'nvim-telescope/telescope.nvim',

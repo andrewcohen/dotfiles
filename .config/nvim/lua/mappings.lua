@@ -48,12 +48,5 @@ map("n", "<S-h>", ":BufferLineCyclePrev<cr>", { noremap = true, silent = true })
 map('n', '<C-x>', '<cmd>bd!<cr>', {})
 
 
--- autocomplete
-map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
-map('i', '<C-j>', 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', {expr = true})
-map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
-map('i', '<C-k>', 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', {expr = true})
-
-
 map('n', '<leader>rc', '<cmd>luafile ~/.config/nvim/init.lua<cr>')
 
