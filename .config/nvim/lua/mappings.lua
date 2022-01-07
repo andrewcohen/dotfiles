@@ -6,6 +6,8 @@ end
 
 -- mappings
 
+local opts = { noremap = true, silent = true }
+
 -- clear highlight on return
 map('n', '<cr>', ':noh<CR><CR>', {silent = true})
 
@@ -16,6 +18,7 @@ map('v','<leader>y', '"*y')
 -- telescope
 map('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
+map('n', '<leader>fw', '<cmd>Telescope grep_string<cr>')
 map('n', '<leader>fb', '<cmd>Telescope buffers<cr>')
 map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>')
 map("n", "<leader>fo", '<cmd>Telescope oldfiles<cr>')
@@ -25,8 +28,14 @@ map("n", "<leader>cm", '<cmd>Telescope git_commits<cr>')
 -- file tree
 map('n', '<leader>n', '<cmd>NvimTreeToggle<cr>')
 
--- term
-map('n', '<leader>t', ':ToggleTerm<cr>')
+-- trouble
+--
+map('n', '<leader>tt', '<cmd>TroubleToggle<cr>', opts)
+map('n', '<leader>tw', '<cmd>TroubleToggle workspace_diagnostics<cr>', opts)
+map('n', '<leader>td', '<cmd>TroubleToggle document_diagnostics<cr>', opts)
+map('n', '<leader>tq', '<cmd>TroubleToggle quickfix<cr>', opts)
+map('n', '<leader>tl', '<cmd>TroubleToggle loclist<cr>', opts)
+-- nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
 -- breakout of terminal with window movements
 vim.api.nvim_command([[
@@ -42,7 +51,7 @@ tnoremap <c-w>x <c-\><c-n><c-w>x
 ]])
 
 -- barbar
-local opts = { noremap = true, silent = true }
+map("n", "<C-p>", ":BufferPick<CR>", opts)
 map("n", "<S-h>", ":BufferPrevious<CR>", opts)
 map("n", "<S-l>", ":BufferNext<CR>", opts)
 map('n', '<C-x>', ":BufferClose<CR>", opts)

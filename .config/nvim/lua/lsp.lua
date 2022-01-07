@@ -92,20 +92,50 @@ function M.setup()
           server = vim.tbl_deep_extend("force", server:get_default_options(), opts),
         }
         server:attach_buffers()
-      else
-        -- (optional) Customize the options passed to the server
-        -- if server.name == "tsserver" then
-        --     opts.root_dir = function() ... end
-        -- end
+      elseif server.name == "eslint" then
+        opts.on_attach = function (client, bufnr)
+            -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
+            -- the resolved capabilities of the eslint server ourselves!
+            client.resolved_capabilities.document_formatting = true
+            common_on_attach(client, bufnr)
+        end
+        opts.settings = {
+            format = { enable = true }, -- this will enable formatting
+        }
+      elseif server.name == "tsserver" then
+  --   -- Needed for inlayHints. Merge this table with your settings or copy
+  --   -- it from the source if you want to add your own init_options.
+        local init_options = require("nvim-lsp-ts-utils").init_options
+        local on_attach = function(client, bufnr)
+          common_on_attach(client, bufnr)
+          client.resolved_capabilities.document_formatting = false
+          client.resolved_capabilities.document_range_formatting = false
 
-        -- This setup() function is exactly the same as lspconfig's setup function.
-        -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-        server:setup(opts)
+          local ts_utils = require("nvim-lsp-ts-utils")
+
+          -- defaults
+          ts_utils.setup({
+            auto_inlay_hints = false
+          })
+
+          -- required to fix code action ranges and filter diagnostics
+          ts_utils.setup_client(client)
+
+          -- no default maps, so you may want to define some here
+          local keymap_opts = { silent = true }
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", keymap_opts)
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", keymap_opts)
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", keymap_opts)
+        end
+
+        opts.init_options = init_options
+        opts.on_attach = on_attach
       end
+      server:setup(opts)
   end)
 
 
-  -- vim.api.nvim_command [[autocmd BufWritePre *.go lua goimports(1000)]]
+  -- typescript
 end
 
 return M
