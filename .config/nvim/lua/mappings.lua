@@ -54,7 +54,6 @@ tnoremap <c-w>x <c-\><c-n><c-w>x
 map("n", "<C-p>", ":BufferPick<CR>", opts)
 map("n", "<S-h>", ":BufferPrevious<CR>", opts)
 map("n", "<S-l>", ":BufferNext<CR>", opts)
-map('n', '<C-x>', ":BufferClose<CR>", opts)
 map('n', '<C-1>', ':BufferGoto 1<CR>', opts)
 map('n', '<C-2>', ':BufferGoto 2<CR>', opts)
 map('n', '<C-3>', ':BufferGoto 3<CR>', opts)
@@ -65,10 +64,28 @@ map('n', '<C-7>', ':BufferGoto 7<CR>', opts)
 map('n', '<C-8>', ':BufferGoto 8<CR>', opts)
 map('n', '<C-9>', ':BufferGoto 9<CR>', opts)
 map('n', '<C-0>', ':BufferLast<CR>', opts)
-map('n', '<Space>bb', ':BufferOrderByBufferNumber<CR>', opts)
-map('n', '<Space>bd', ':BufferOrderByDirectory<CR>', opts)
-map('n', '<Space>bl', ':BufferOrderByLanguage<CR>', opts)
+map('n', '<leader>bb', ':BufferOrderByBufferNumber<CR>', opts)
+map('n', '<leader>bd', ':BufferOrderByDirectory<CR>', opts)
+map('n', '<leader>bl', ':BufferOrderByLanguage<CR>', opts)
+map('n', '<leader>bkk', ":BufferClose<CR>", opts)
+map('n', '<leader>bkh', ":BufferCloseBuffersLeft<CR>", opts)
+map('n', '<leader>bkl', ":BufferCloseBuffersRight<CR>", opts)
+map('n', '<leader>bka', ":BufferCloseAllButCurrent<CR>", opts)
 
+-- git
+vim.api.nvim_command([[
+function! s:ToggleBlame()
+    if &l:filetype ==# 'fugitiveblame'
+        :normal gq
+    else
+        Git blame
+    endif
+endfunction
+nnoremap <leader>gb :call <SID>ToggleBlame()<CR>
+]])
+
+map('n', '<leader>gl', ':Git log<CR>', opts)
+map('n', '<leader>gd', ':Gitvdiffsplit<CR>', opts)
 
 map('n', '<leader>rc', '<cmd>luafile ~/.config/nvim/init.lua<cr>')
 
