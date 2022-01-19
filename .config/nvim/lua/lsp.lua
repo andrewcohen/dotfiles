@@ -103,6 +103,39 @@ function M.setup()
             format = { enable = true }, -- this will enable formatting
         }
       elseif server.name == "tsserver" then
+        -- typescript language server goto definition is kinda busted, so hacks
+        -- https://github.com/typescript-language-server/typescript-language-server/issues/216
+
+        local function filter(arr, fn)
+          if type(arr) ~= "table" then
+            return arr
+          end
+
+          local filtered = {}
+          for k, v in pairs(arr) do
+            if fn(v, k, arr) then
+              table.insert(filtered, v)
+            end
+          end
+
+          return filtered
+        end
+
+        local function filterReactDTS(value)
+          return string.match(value.uri, 'react/index.d.ts') == nil
+        end
+
+        opts.handlers = {
+          ['textDocument/definition'] = function(err, result, method, ...)
+            if vim.tbl_islist(result) and #result > 1 then
+              local filtered_result = filter(result, filterReactDTS)
+              return vim.lsp.handlers['textDocument/definition'](err, filtered_result, method, ...)
+            end
+
+            vim.lsp.handlers['textDocument/definition'](err, result, method, ...)
+          end
+        }
+
   --   -- Needed for inlayHints. Merge this table with your settings or copy
   --   -- it from the source if you want to add your own init_options.
         local init_options = require("nvim-lsp-ts-utils").init_options
@@ -115,7 +148,7 @@ function M.setup()
 
           -- defaults
           ts_utils.setup({
-            auto_inlay_hints = false
+            auto_inlay_hints = false,
           })
 
           -- required to fix code action ranges and filter diagnostics
