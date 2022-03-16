@@ -67,14 +67,29 @@ require('packer').startup(function(use)
 
   use {
     'hoob3rt/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'},
     config = function()
       require('lualine').setup { theme = "onedark" }
     end
   }
 
+  -- use {
+  --   'romgrk/barbar.nvim',
+  --   requires = {'kyazdani42/nvim-web-devicons'},
+  -- }
+  --
+
   use {
-    'romgrk/barbar.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'}
+    'ThePrimeagen/harpoon',
+    requires = {'nvim-lua/plenary.nvim'},
+    config = function()
+      require("harpoon").setup({
+        menu = {
+          -- width = vim.api.nvim_win_get_width(0) - 4,
+          width = 120
+        }
+      })
+    end
   }
 
   -- completion & snippets
@@ -118,14 +133,29 @@ require('packer').startup(function(use)
           mappings = {
             i = {
               ["<C-j>"] = actions.move_selection_next,
-              ["<C-k>"] = actions.move_selection_previous
+              ["<C-k>"] = actions.move_selection_previous,
             },
             n = {
               ["q"] = actions.close
             }
           }
+        },
+        pickers = {
+          buffers = {
+            mappings = {
+              i = {
+                ["<c-d>"] = actions.delete_buffer,
+              },
+              n = {
+                ["<c-d>"] = actions.delete_buffer,
+              },
+
+            }
+          }
         }
       }
+
+      require("telescope").load_extension('harpoon')
     end
   }
 
@@ -193,5 +223,6 @@ require('packer').startup(function(use)
   }
 
   use 'jose-elias-alvarez/nvim-lsp-ts-utils'
+  use 'ggandor/lightspeed.nvim'
 
 end)

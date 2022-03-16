@@ -29,7 +29,7 @@ function M.setup()
     buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+    buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.setloclist()<CR>', opts)
     buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
     -- formatting
@@ -92,6 +92,17 @@ function M.setup()
           server = vim.tbl_deep_extend("force", server:get_default_options(), opts),
         }
         server:attach_buffers()
+      elseif server.name == "html" then
+        opts.init_options = {
+          provideFormatter = false
+        }
+        -- opts.settings = {
+        --   html = {
+        --     format = {
+        --       wrapLineLength = 240
+        --     }
+        --   }
+        -- }
       elseif server.name == "eslint" then
         opts.on_attach = function (client, bufnr)
             -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set

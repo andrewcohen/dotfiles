@@ -15,6 +15,9 @@ map('i', 'jj', '<esc>')
 map('', 'Y', 'y$')
 map('v','<leader>y', '"*y')
 
+-- open notes
+map('n', '<leader>n', '<cmd>e ~/notes.md<cr>')
+
 -- telescope
 map('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
@@ -25,8 +28,6 @@ map("n", "<leader>fo", '<cmd>Telescope oldfiles<cr>')
 map("n", "<leader>gt", '<cmd>Telescope git_status<cr>')
 map("n", "<leader>cm", '<cmd>Telescope git_commits<cr>')
 
--- file tree
-map('n', '<leader>n', '<cmd>NvimTreeToggle<cr>')
 
 -- trouble
 --
@@ -50,27 +51,49 @@ tnoremap <c-w>L <c-\><c-n><c-w>L
 tnoremap <c-w>x <c-\><c-n><c-w>x
 ]])
 
+
+-- harpoon
+-- map('n', '<leader>hh',"<cmd> lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
+-- map('n', '<leader>ha',"<cmd> lua require('harpoon.mark').add_file()<cr>", opts)
+
+map('n', '<leader>h',"<cmd> lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
+map('n', '<leader>m',"<cmd> lua require('harpoon.mark').add_file()<cr>", opts)
+
+map("n", "<leader>j", "<cmd> lua require('harpoon.ui').nav_file(1)<cr>")
+map("n", "<leader>k", "<cmd> lua require('harpoon.ui').nav_file(2)<cr>")
+map("n", "<leader>l", "<cmd> lua require('harpoon.ui').nav_file(3)<cr>")
+map("n", "<leader>;", "<cmd> lua require('harpoon.ui').nav_file(4)<cr>")
+
+map('n', '<S-l>',"<cmd> lua require('harpoon.ui').nav_next()<cr>", opts)
+map('n', '<S-h>',"<cmd> lua require('harpoon.ui').nav_prev()<cr>", opts)
+-- map("n", "<leader>hf", '<cmd>Telescope harpoon marks<cr>')
+-- map("n", "<leader>h1", "<cmd> lua require('harpoon.ui').nav_file(1)<cr>")
+-- map("n", "<leader>h2", "<cmd> lua require('harpoon.ui').nav_file(2)<cr>")
+-- map("n", "<leader>h3", "<cmd> lua require('harpoon.ui').nav_file(3)<cr>")
+-- map("n", "<leader>h4", "<cmd> lua require('harpoon.ui').nav_file(4)<cr>")
+-- map("n", "<leader>h5", "<cmd> lua require('harpoon.ui').nav_file(5)<cr>")
+
 -- barbar
-map("n", "<C-p>", ":BufferPick<CR>", opts)
-map("n", "<S-h>", ":BufferPrevious<CR>", opts)
-map("n", "<S-l>", ":BufferNext<CR>", opts)
-map('n', '<C-1>', ':BufferGoto 1<CR>', opts)
-map('n', '<C-2>', ':BufferGoto 2<CR>', opts)
-map('n', '<C-3>', ':BufferGoto 3<CR>', opts)
-map('n', '<C-4>', ':BufferGoto 4<CR>', opts)
-map('n', '<C-5>', ':BufferGoto 5<CR>', opts)
-map('n', '<C-6>', ':BufferGoto 6<CR>', opts)
-map('n', '<C-7>', ':BufferGoto 7<CR>', opts)
-map('n', '<C-8>', ':BufferGoto 8<CR>', opts)
-map('n', '<C-9>', ':BufferGoto 9<CR>', opts)
-map('n', '<C-0>', ':BufferLast<CR>', opts)
-map('n', '<leader>bb', ':BufferOrderByBufferNumber<CR>', opts)
-map('n', '<leader>bd', ':BufferOrderByDirectory<CR>', opts)
-map('n', '<leader>bl', ':BufferOrderByLanguage<CR>', opts)
-map('n', '<leader>bkk', ":BufferClose<CR>", opts)
-map('n', '<leader>bkh', ":BufferCloseBuffersLeft<CR>", opts)
-map('n', '<leader>bkl', ":BufferCloseBuffersRight<CR>", opts)
-map('n', '<leader>bka', ":BufferCloseAllButCurrent<CR>", opts)
+-- map("n", "<C-p>", ":BufferPick<CR>", opts)
+-- map("n", "<S-h>", ":BufferPrevious<CR>", opts)
+-- map("n", "<S-l>", ":BufferNext<CR>", opts)
+-- map('n', '<C-1>', ':BufferGoto 1<CR>', opts)
+-- map('n', '<C-2>', ':BufferGoto 2<CR>', opts)
+-- map('n', '<C-3>', ':BufferGoto 3<CR>', opts)
+-- map('n', '<C-4>', ':BufferGoto 4<CR>', opts)
+-- map('n', '<C-5>', ':BufferGoto 5<CR>', opts)
+-- map('n', '<C-6>', ':BufferGoto 6<CR>', opts)
+-- map('n', '<C-7>', ':BufferGoto 7<CR>', opts)
+-- map('n', '<C-8>', ':BufferGoto 8<CR>', opts)
+-- map('n', '<C-9>', ':BufferGoto 9<CR>', opts)
+-- map('n', '<C-0>', ':BufferLast<CR>', opts)
+-- map('n', '<leader>bb', ':BufferOrderByBufferNumber<CR>', opts)
+-- map('n', '<leader>bd', ':BufferOrderByDirectory<CR>', opts)
+-- map('n', '<leader>bl', ':BufferOrderByLanguage<CR>', opts)
+-- map('n', '<leader>bkk', ":BufferClose<CR>", opts)
+-- map('n', '<leader>bkh', ":BufferCloseBuffersLeft<CR>", opts)
+-- map('n', '<leader>bkl', ":BufferCloseBuffersRight<CR>", opts)
+-- map('n', '<leader>bka', ":BufferCloseAllButCurrent<CR>", opts)
 
 -- git
 vim.api.nvim_command([[

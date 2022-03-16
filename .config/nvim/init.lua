@@ -18,3 +18,10 @@ autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or M
 autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace on save
 autocmd BufWritePre *.go :silent! lua require('go.format').goimport()
 ]], false)
+
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+  augroup end
+]])
