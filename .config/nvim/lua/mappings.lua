@@ -19,7 +19,8 @@ map('v','<leader>y', '"*y')
 map('n', '<leader>n', '<cmd>e ~/notes.md<cr>')
 
 -- telescope
-map('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
+-- map('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
+map('n', '<leader>ff', '<cmd>lua require"plugins.telescope-config".project_files()<cr>')
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
 map('n', '<leader>fw', '<cmd>Telescope grep_string<cr>')
 map('n', '<leader>fb', '<cmd>Telescope buffers<cr>')
@@ -79,4 +80,8 @@ nnoremap <leader>gb :call <SID>ToggleBlame()<CR>
 map('n', '<leader>gl', ':Git log<CR>', opts)
 
 map('n', '<leader>rc', '<cmd>luafile ~/.config/nvim/init.lua<cr>')
+
+map('n', '<leader>bb', '<cmd>:make<cr>')
+map('n', '<leader>bt', '<cmd>:make test<cr>')
+map('n', '<leader>br', '<cmd>:make run<cr>')
 
