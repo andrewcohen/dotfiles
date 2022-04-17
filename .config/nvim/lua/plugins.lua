@@ -60,14 +60,8 @@ require('packer').startup(function(use)
   use { 'williamboman/nvim-lsp-installer' }
 
   -- Theming
-  -- use {
-    -- 'monsonjeremy/onedark.nvim',
-    -- config = function()
-    --   require('onedark').setup()
-    -- end
-  -- }
   use {
-    'ful1e5/onedark.nvim',
+    'monsonjeremy/onedark.nvim',
     config = function()
       require('onedark').setup()
     end
