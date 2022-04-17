@@ -30,7 +30,7 @@ antigen bundle zsh-users/zsh-autosuggestions
 
 # Load the theme.
 antigen bundle mafredri/zsh-async
-antigen bundle sindresorhus/pure
+antigen bundle sindresorhus/pure@main
 
 # Tell Antigen that you're done.
 antigen apply
