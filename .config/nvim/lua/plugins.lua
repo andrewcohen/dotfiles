@@ -47,6 +47,8 @@ require('packer').startup(function(use)
     end
   }
 
+  use 'nvim-treesitter/playground'
+
   use {
     'neovim/nvim-lspconfig',
 
@@ -58,20 +60,37 @@ require('packer').startup(function(use)
   use { 'williamboman/nvim-lsp-installer' }
 
   -- Theming
+  -- use {
+    -- 'monsonjeremy/onedark.nvim',
+    -- config = function()
+    --   require('onedark').setup()
+    -- end
+  -- }
   use {
-    'monsonjeremy/onedark.nvim',
+    'ful1e5/onedark.nvim',
     config = function()
       require('onedark').setup()
     end
   }
 
   use {
-    'hoob3rt/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'},
-    config = function()
-      require('lualine').setup { theme = "onedark" }
+    'windwp/windline.nvim',
+    config = function ()
+      require('wlsample.evil_line')
     end
   }
+
+  -- use {
+  --   'nvim-lualine/lualine.nvim',
+  --   requires = {'kyazdani42/nvim-web-devicons'},
+  --   config = function()
+  --     require('lualine').setup {
+  --       options = {
+  --         theme = "onedark"
+  --       }
+  --     }
+  --   end
+  -- }
 
   -- use {
   --   'romgrk/barbar.nvim',
