@@ -1,9 +1,9 @@
-local fn = vim.fn    -- to call Vim functions e.g. fn.bufnr()
+local fn = vim.fn -- to call Vim functions e.g. fn.bufnr()
 -- bootstrap packer install
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
+  fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path })
   vim.api.nvim_command 'packadd packer.nvim'
 end
 
@@ -20,7 +20,7 @@ require('packer').startup(function(use)
       'windwp/nvim-ts-autotag',
     },
     config = function()
-      require'nvim-treesitter.configs'.setup {
+      require 'nvim-treesitter.configs'.setup {
         ensure_installed = {
           "bash",
           "css",
@@ -52,7 +52,7 @@ require('packer').startup(function(use)
   use {
     'neovim/nvim-lspconfig',
 
-    config = function ()
+    config = function()
       require('lsp').setup()
     end
   }
@@ -60,41 +60,34 @@ require('packer').startup(function(use)
   use { 'williamboman/nvim-lsp-installer' }
 
   -- Theming
+
   use {
-    'monsonjeremy/onedark.nvim',
+    'ful1e5/onedark.nvim',
     config = function()
-      require('onedark').setup()
+      require('onedark').setup({
+        hide_inactive_statusline = false,
+        highlight_linenumber = true
+      })
     end
   }
 
   use {
-    'windwp/windline.nvim',
-    config = function ()
-      require('wlsample.evil_line')
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function()
+      require('lualine').setup {
+        options = {
+          theme = "onedark",
+          component_separators = '|',
+          section_separators = { left = '', right = '' },
+        }
+      }
     end
   }
-
-  -- use {
-  --   'nvim-lualine/lualine.nvim',
-  --   requires = {'kyazdani42/nvim-web-devicons'},
-  --   config = function()
-  --     require('lualine').setup {
-  --       options = {
-  --         theme = "onedark"
-  --       }
-  --     }
-  --   end
-  -- }
-
-  -- use {
-  --   'romgrk/barbar.nvim',
-  --   requires = {'kyazdani42/nvim-web-devicons'},
-  -- }
-  --
 
   use {
     'ThePrimeagen/harpoon',
-    requires = {'nvim-lua/plenary.nvim'},
+    requires = { 'nvim-lua/plenary.nvim' },
     config = function()
       require("harpoon").setup({
         menu = {
@@ -128,18 +121,18 @@ require('packer').startup(function(use)
     requires = { 'hrsh7th/nvim-cmp' },
     config = function()
       require('nvim-autopairs').setup({
-        disable_filetype = { "TelescopePrompt" , "vim" },
+        disable_filetype = { "TelescopePrompt", "vim" },
       })
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
       local cmp = require('cmp')
-      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
     end
   }
 
   use {
     'nvim-telescope/telescope.nvim',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
-    config = function ()
+    requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
+    config = function()
       local actions = require('telescope.actions')
       require('telescope').setup {
         defaults = {
@@ -195,7 +188,7 @@ require('packer').startup(function(use)
     "folke/trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
     config = function()
-      require("trouble").setup { }
+      require("trouble").setup {}
     end
   }
 
@@ -222,20 +215,15 @@ require('packer').startup(function(use)
   }
 
   -- sizzle
-  use {'stevearc/dressing.nvim'}
+  use { 'stevearc/dressing.nvim' }
 
   use {
     "folke/which-key.nvim",
     config = function()
-      require("which-key").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
+      require("which-key").setup({})
     end
   }
 
   use 'jose-elias-alvarez/nvim-lsp-ts-utils'
-  use 'ggandor/lightspeed.nvim'
 
 end)

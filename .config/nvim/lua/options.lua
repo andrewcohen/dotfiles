@@ -1,6 +1,7 @@
 local opt = vim.opt  -- to set options
 
 opt.completeopt = "menuone,noinsert,noselect"
+opt.cursorline = true
 opt.expandtab = true                -- Use spaces instead of tabs
 opt.hidden = true                   -- Enable background buffers
 opt.ignorecase = true               -- Ignore case
