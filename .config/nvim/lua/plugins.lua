@@ -33,6 +33,7 @@ require('packer').startup(function(use)
           "tsx",
           "typescript",
           "yaml",
+          "zig"
         },
         highlight = {
           enable = true
@@ -136,6 +137,16 @@ require('packer').startup(function(use)
       local actions = require('telescope.actions')
       require('telescope').setup {
         defaults = {
+          vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--hidden',
+          },
           mappings = {
             i = {
               ["<C-j>"] = actions.move_selection_next,
@@ -193,26 +204,34 @@ require('packer').startup(function(use)
   }
 
   use {
-    'ray-x/go.nvim',
+    'andrewcohen/go.nvim',
+    -- 'ray-x/go.nvim',
+    -- commit = '86d7b26846951ce73abb5d374cb8a8bbfde28a9d',
     config = function()
       require('go').setup({
-        tag_transform = 'camelcase'
+        tag_transform = 'camelcase',
       })
     end
   }
 
+  use 'mfussenegger/nvim-dap'
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
 
   use {
     'simrat39/rust-tools.nvim',
+    -- https://github.com/simrat39/rust-tools.nvim/issues/157
+    -- 'Freyskeyd/rust-tools.nvim',
+    -- branch = 'dap_fix',
     requires = {
       'neovim/nvim-lspconfig',
       'nvim-lua/plenary.nvim',
       'mfussenegger/nvim-dap'
     },
     config = function()
-      require('rust-tools').setup({})
+      -- require('rust-tools').setup({})
     end
   }
+
 
   -- sizzle
   use { 'stevearc/dressing.nvim' }
@@ -224,6 +243,17 @@ require('packer').startup(function(use)
     end
   }
 
-  use 'jose-elias-alvarez/nvim-lsp-ts-utils'
+  use 'jose-elias-alvarez/typescript.nvim'
+
+  use 'ziglang/zig.vim'
+
+  use 'habamax/vim-godot'
+
+  use {
+    'j-hui/fidget.nvim',
+    config = function()
+      require('fidget').setup()
+    end
+  }
 
 end)

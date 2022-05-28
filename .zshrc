@@ -58,6 +58,9 @@ function tat {
 export GIT_EDITOR=nvim
 export ZVM_VI_EDITOR=nvim
 
+export GOPATH=~/go
+export PATH=$PATH:$GOPATH/bin
+
 source ~/.profile
 
 # zprof
