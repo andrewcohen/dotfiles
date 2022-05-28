@@ -74,7 +74,6 @@ function M.setup()
     }
 
 
-    -- client.resolved_capabilities.document_formatting = false
   end
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -90,23 +89,51 @@ function M.setup()
     'jsonls',
     'eslint'
   }
+
+  local border = {
+    { "╭", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╮", "FloatBorder" },
+    { "│", "FloatBorder" },
+    { "╯", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╰", "FloatBorder" },
+    { "│", "FloatBorder" },
+  }
+
+  -- LSP settings (for overriding per client)
+  local handlers = {
+    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+  }
+
   for _, lsp in pairs(servers) do
     require('lspconfig')[lsp].setup {
       on_attach = common_on_attach,
       capabilities = capabilities,
+      handlers = handlers
     }
   end
 
   local rust_tools = require("rust-tools")
+  local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.7.0/'
+  local codelldb_path = extension_path .. 'adapter/codelldb'
+  local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+
   rust_tools.setup {
     server = {
       on_attach = common_on_attach,
-      -- capabilities = capabilities
+      capabilities = capabilities,
+    },
+    dap = {
+      adapter = require('rust-tools.dap').get_codelldb_adapter(
+        codelldb_path, liblldb_path)
     }
   }
 
   require("typescript").setup({
     server = {
+      handlers = handlers,
       capabilities = capabilities,
       init_options = {
         npmLocation = "/opt/homebrew/bin/npm"
