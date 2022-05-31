@@ -30,10 +30,46 @@ function M.setup()
     buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<leader>gD', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', '<leader>gd', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
     buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+    buf_set_keymap('n', '<leader>gD', '', {
+      noremap = true,
+      callback = function()
+        vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+      end,
+    })
+
+    buf_set_keymap('n', '<leader>gd', '', {
+      noremap = true,
+      callback = function()
+        vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+      end,
+    })
+
+    buf_set_keymap('n', '<leader>ga', '', {
+      noremap = true,
+      callback = function()
+        if #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR }) > 0 then
+          vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+          vim.lsp.buf.code_action()
+        else
+          print("no errors to correct")
+        end
+      end,
+    })
+
+    buf_set_keymap('n', '<leader>gA', '', {
+      noremap = true,
+      callback = function()
+        if #vim.diagnostic.get(0) > 0 then
+          vim.diagnostic.goto_next()
+          vim.lsp.buf.code_action()
+        else
+          print("no diagnostics to correct")
+        end
+      end,
+    })
 
     -- formatting
     if client.resolved_capabilities.document_formatting then

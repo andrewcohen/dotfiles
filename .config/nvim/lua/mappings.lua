@@ -26,8 +26,10 @@ map('n', '<leader>fw', '<cmd>Telescope grep_string<cr>')
 map('n', '<leader>fb', '<cmd>Telescope buffers<cr>')
 map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>')
 map("n", "<leader>fo", '<cmd>Telescope oldfiles<cr>')
-map("n", "<leader>gt", '<cmd>Telescope git_status<cr>')
-map("n", "<leader>cm", '<cmd>Telescope git_commits<cr>')
+map("n", "<leader>fs", '<cmd>Telescope git_status<cr>')
+map("n", "<leader>fc", '<cmd>Telescope git_commits<cr>')
+
+vim.keymap.set('n', '<leader>fd', function() require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') }) end)
 
 
 -- trouble
