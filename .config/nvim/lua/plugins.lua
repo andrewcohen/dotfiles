@@ -49,6 +49,30 @@ require('packer').startup(function(use)
   }
 
   use 'nvim-treesitter/playground'
+  use {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      print('tscontext setup')
+      require('treesitter-context').setup({
+        patterns = {
+          default = {
+            'class',
+            'function',
+            'method',
+            'jsx_opening_element',
+            'jsx_self_closing_element '
+          },
+        }
+
+      })
+
+      vim.cmd [[
+        hi TreesitterContext guibg=#383d47
+        hi TreesitterContextLineNumber guibg=#383d47
+      ]]
+    end
+  }
+
 
   use {
     'neovim/nvim-lspconfig',
@@ -75,16 +99,50 @@ require('packer').startup(function(use)
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons' },
+    after = 'onedark.nvim',
     config = function()
+      local extend_sections = {
+        lualine_a = {
+          'filetype',
+        },
+      }
+
+      local dapui = {
+        sections = extend_sections,
+        filetypes = {
+          -- ['dapui_scopes'] = 'DAP Scopes',
+          -- ['dapui_stacks'] = 'DAP Stacks',
+          -- ['dapui_breakpoints'] = 'DAP Breakpoints',
+          -- ['dapui_watches'] = 'DAP Watches',
+
+          'dapui_scopes',
+          'dapui_stacks',
+          'dapui_breakpoints',
+          'dapui_watches',
+        },
+      }
       require('lualine').setup {
         options = {
           theme = "onedark",
           component_separators = '|',
           section_separators = { left = '', right = '' },
+          extensions = { dapui }
+          -- disabled_filetypes = {
+          --   'dapui_scopes',
+          --   'dapui_stacks',
+          --   'dapui_breakpoints',
+          --   'dapui_watches',
+          -- }
         }
+        -- ['dapui_scopes'] = 'DAP Scopes',
+        -- ['dapui_stacks'] = 'DAP Stacks',
+        -- ['dapui_breakpoints'] = 'DAP Breakpoints',
+        -- ['dapui_watches'] = 'DAP Watches',
       }
+
     end
   }
+
 
   use {
     'ThePrimeagen/harpoon',
@@ -137,15 +195,19 @@ require('packer').startup(function(use)
       local actions = require('telescope.actions')
       require('telescope').setup {
         defaults = {
-          vimgrep_arguments = {
-            'rg',
-            '--color=never',
-            '--no-heading',
-            '--with-filename',
-            '--line-number',
-            '--column',
-            '--smart-case',
-            '--hidden',
+          -- layout_strategy = 'flex',
+          sorting_strategy = 'ascending',
+          layout_config = {
+            prompt_position = 'top',
+            width = 0.9,
+            height = 0.8,
+
+            horizontal = {
+              width = { padding = 0.15 },
+            },
+            vertical = {
+              preview_height = 0.75,
+            },
           },
           mappings = {
             i = {
@@ -172,9 +234,12 @@ require('packer').startup(function(use)
         }
       }
 
-      require("telescope").load_extension('harpoon')
+      require('telescope').load_extension('harpoon')
+      require('telescope').load_extension('dap')
+      require('telescope').load_extension('file_browser')
     end
   }
+  use { "nvim-telescope/telescope-file-browser.nvim" }
 
   use 'tpope/vim-surround'
   use 'sbdchd/neoformat'
@@ -204,18 +269,46 @@ require('packer').startup(function(use)
   }
 
   use {
-    'andrewcohen/go.nvim',
-    -- 'ray-x/go.nvim',
-    -- commit = '86d7b26846951ce73abb5d374cb8a8bbfde28a9d',
+    'ray-x/go.nvim',
     config = function()
       require('go').setup({
         tag_transform = 'camelcase',
+        dap_depbug_keymap = false,
       })
     end
   }
 
-  use 'mfussenegger/nvim-dap'
-  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
+  use {
+    'mfussenegger/nvim-dap',
+    commit = '208c80e'
+  }
+
+  use {
+    "rcarriga/nvim-dap-ui",
+    requires = { "mfussenegger/nvim-dap" },
+    config = function()
+      local dap, dapui = require("dap"), require("dapui")
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        -- require 'mappings'.set_normal_mappings()
+        dapui.setup()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        -- require 'mappings'.unset_normal_mappings()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        -- require 'mappings'.unset_normal_mappings()
+        dapui.close()
+      end
+    end
+  }
+
+  -- use 'nvim-telescope/telescope-dap.nvim'
+  use {
+    'hendrikbursian/telescope-dap.nvim',
+    commit = '04447ba487d0bbe2eb52f704f1366ea55a65bf75'
+  }
 
   use {
     'simrat39/rust-tools.nvim',
@@ -232,6 +325,12 @@ require('packer').startup(function(use)
     end
   }
 
+  use {
+    'leoluz/nvim-dap-go',
+    config = function()
+      require('dap-go').setup()
+    end
+  }
 
   -- sizzle
   use { 'stevearc/dressing.nvim' }
@@ -256,4 +355,13 @@ require('packer').startup(function(use)
     end
   }
 
+  use {
+    'TimUntersberger/neogit',
+    requires = 'nvim-lua/plenary.nvim',
+    config = function()
+      require('neogit').setup({
+        disable_commit_confirmation = true
+      })
+    end
+  }
 end)

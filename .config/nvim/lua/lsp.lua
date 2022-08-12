@@ -1,5 +1,15 @@
 local M = {}
 
+local function has_value(tab, val)
+  for _, value in ipairs(tab) do
+    if value == val then
+      return true
+    end
+  end
+
+  return false
+end
+
 function M.setup()
   local nvim_lsp = require('lspconfig')
   local protocol = require('vim.lsp.protocol')
@@ -26,7 +36,11 @@ function M.setup()
     buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    -- buf_set_keymap('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    buf_set_keymap('n', '<leader>gr', '<cmd>lua require("telescope.builtin").lsp_references()<CR>', opts)
+    buf_set_keymap('n', '<leader>gs',
+      '<cmd>lua require("telescope.builtin").lsp_document_symbols({symbols={"function", "method"}})<CR>', opts)
+    buf_set_keymap('n', '<leader>gS', '<cmd>lua require("telescope.builtin").lsp_workspace_symbols()<CR>', opts)
     buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
@@ -71,15 +85,44 @@ function M.setup()
       end,
     })
 
+    local fmt_augroup = vim.api.nvim_create_augroup("lsp_fmt", { clear = true })
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = fmt_augroup,
+      desc = "lsp formatter",
+      callback = function()
+        local ft = vim.bo.filetype
+        if ft == "go" or ft == "gomod" then
+          require('go.format').goimport()
+          -- vim.api.nvim_command [[ GoFormat ]]
+        elseif has_value({ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }, ft) then
+          print("format with eslint/neo")
+          vim.api.nvim_command [[ EslintFixAll ]]
+          vim.api.nvim_command [[ silent! Neoformat ]]
+          -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
+          -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js silent! NeoFormat
+        else
+          -- vim.lsp.buf.format({ async = false })
+          vim.lsp.buf.formatting_sync()
+        end
+      end
+    })
+
+
+    -- require('aerial').on_attach(client, bufnr)
+
     -- formatting
-    if client.resolved_capabilities.document_formatting then
-      vim.api.nvim_command [[augroup Format]]
-      vim.api.nvim_command [[autocmd! * <buffer>]]
-      vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
-      vim.api.nvim_command [[augroup END]]
-    end
+    -- if client.resolved_capabilities.document_formatting && client.name == "gopls" then
+    --   vim.api.nvim_command [[augroup Format]]
+    --   vim.api.nvim_command [[autocmd! * <buffer>]]
+    --   vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
+    --   vim.api.nvim_command [[augroup END]]
+    -- end
 
     -- require'completion'.on_attach(client, bufnr)
+    --
+    if client.name == "gopls" then
+      buf_set_keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", opts)
+    end
 
     protocol.CompletionItemKind = {
       '', -- Text
@@ -109,22 +152,12 @@ function M.setup()
       '', -- TypeParameter
     }
 
-
   end
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   local lsp_installer = require("nvim-lsp-installer")
 
   lsp_installer.setup {}
-
-  local servers = {
-    'gopls',
-    'golangci_lint_ls',
-    'sumneko_lua',
-    'gdscript',
-    'jsonls',
-    'eslint'
-  }
 
   local border = {
     { "╭", "FloatBorder" },
@@ -141,6 +174,15 @@ function M.setup()
   local handlers = {
     ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
     ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+  }
+
+  local servers = {
+    'gopls',
+    'golangci_lint_ls',
+    'sumneko_lua',
+    'gdscript',
+    'jsonls',
+    'eslint',
   }
 
   for _, lsp in pairs(servers) do
@@ -167,9 +209,47 @@ function M.setup()
     }
   }
 
+  local function filter(arr, fn)
+    if type(arr) ~= "table" then
+      return arr
+    end
+
+    local filtered = {}
+    for k, v in pairs(arr) do
+      if fn(v, k, arr) then
+        table.insert(filtered, v)
+      end
+    end
+
+    return filtered
+  end
+
+  local function filterReactDTS(value)
+    return string.match(value.uri, 'react/index.d.ts') == nil
+    -- return string.match(value.uri, '%.d.ts') == nil
+  end
+
+  local typescript_handlers = {
+    ['textDocument/definition'] = function(err, result, method, ...)
+      if vim.tbl_islist(result) and #result > 1 then
+        local filtered_result = filter(result, filterReactDTS)
+        return vim.lsp.handlers['textDocument/definition'](err, filtered_result, method, ...)
+      end
+
+      vim.lsp.handlers['textDocument/definition'](err, result, method, ...)
+    end
+  }
+
+  local merge = function(a, b)
+    local c = {}
+    for k, v in pairs(a) do c[k] = v end
+    for k, v in pairs(b) do c[k] = v end
+    return c
+  end
+
   require("typescript").setup({
     server = {
-      handlers = handlers,
+      handlers = merge(handlers, typescript_handlers),
       capabilities = capabilities,
       init_options = {
         npmLocation = "/opt/homebrew/bin/npm"
@@ -188,7 +268,6 @@ function M.setup()
       end,
     }
   })
-
 end -- func M.setup()
 
 return M
