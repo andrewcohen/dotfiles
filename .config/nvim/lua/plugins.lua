@@ -52,7 +52,6 @@ require('packer').startup(function(use)
   use {
     'nvim-treesitter/nvim-treesitter-context',
     config = function()
-      print('tscontext setup')
       require('treesitter-context').setup({
         patterns = {
           default = {

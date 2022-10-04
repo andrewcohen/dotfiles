@@ -225,8 +225,28 @@ function M.setup()
     return filtered
   end
 
+  local function tprint(tbl, indent)
+    if not indent then indent = 0 end
+    for k, v in pairs(tbl) do
+      formatting = string.rep("  ", indent) .. k .. ": "
+      if type(v) == "table" then
+        print(formatting)
+        tprint(v, indent + 1)
+      elseif type(v) == 'boolean' then
+        print(formatting .. tostring(v))
+      else
+        print(formatting .. v)
+      end
+    end
+  end
+
   local function filterReactDTS(value)
-    return string.match(value.uri, 'react/index.d.ts') == nil
+    if value == nil or value.targetUri == nil then
+      tprint(value)
+      return true
+    end
+
+    return string.match(value.targetUri, 'react/index.d.ts') == nil
     -- return string.match(value.uri, '%.d.ts') == nil
   end
 
