@@ -93,11 +93,12 @@ function M.setup()
         local ft = vim.bo.filetype
         if ft == "go" or ft == "gomod" then
           require('go.format').goimport()
-          -- vim.api.nvim_command [[ GoFormat ]]
+          require('go.format').gofmt()
         elseif has_value({ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }, ft) then
-          print("format with eslint/neo")
+          -- print("format with eslint/neo")
+          print("eslint fixall!")
           vim.api.nvim_command [[ EslintFixAll ]]
-          vim.api.nvim_command [[ silent! Neoformat ]]
+          -- vim.api.nvim_command [[ silent! Neoformat ]]
           -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
           -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js silent! NeoFormat
         else
