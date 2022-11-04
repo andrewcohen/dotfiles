@@ -247,8 +247,8 @@ function M.setup()
       return true
     end
 
-    return string.match(value.targetUri, 'react/index.d.ts') == nil
-    -- return string.match(value.uri, '%.d.ts') == nil
+    -- return string.match(value.targetUri, 'react/index.d.ts') == nil
+    return string.match(value.targetUri, '%.d.ts') == nil
   end
 
   local typescript_handlers = {
