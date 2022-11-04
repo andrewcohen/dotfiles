@@ -65,10 +65,10 @@ require('packer').startup(function(use)
 
       })
 
-      vim.cmd [[
-        hi TreesitterContext guibg=#383d47
-        hi TreesitterContextLineNumber guibg=#383d47
-      ]]
+      -- vim.cmd [[
+      --   hi TreesitterContext guibg=#383d47
+      --   hi TreesitterContextLineNumber guibg=#383d47
+      -- ]]
     end
   }
 
@@ -81,24 +81,62 @@ require('packer').startup(function(use)
     end
   }
 
-  use { 'williamboman/nvim-lsp-installer' }
+  use { "williamboman/mason.nvim" }
 
   -- Theming
 
-  use {
-    'ful1e5/onedark.nvim',
+  -- use {
+  --   'ful1e5/onedark.nvim',
+  --   config = function()
+  --     require('onedark').setup({
+  --       hide_inactive_statusline = false,
+  --       highlight_linenumber = true
+  --     })
+  --   end
+  -- }
+
+  use { "catppuccin/nvim", as = "catppuccin",
     config = function()
-      require('onedark').setup({
-        hide_inactive_statusline = false,
-        highlight_linenumber = true
+      vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+      require("catppuccin").setup({
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          harpoon = true,
+          lsp_trouble = true,
+          neogit = true,
+          telescope = true,
+          treesitter = true,
+          treesitter_context = true,
+          which_key = true,
+        },
+        native_lsp = {
+          enabled = true,
+          virtual_text = {
+            errors = { "italic" },
+            hints = { "italic" },
+            warnings = { "italic" },
+            information = { "italic" },
+          },
+          underlines = {
+            errors = { "underline" },
+            hints = { "underline" },
+            warnings = { "underline" },
+            information = { "underline" },
+          },
+        },
       })
+      vim.cmd [[colorscheme catppuccin]]
     end
   }
+
+  -- use 'folke/tokyonight.nvim'
+
 
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons' },
-    after = 'onedark.nvim',
+    -- after = 'onedark.nvim',
     config = function()
       local extend_sections = {
         lualine_a = {
@@ -122,7 +160,8 @@ require('packer').startup(function(use)
       }
       require('lualine').setup {
         options = {
-          theme = "onedark",
+          -- theme = "tokyonight",
+          theme = "catppuccin",
           component_separators = '|',
           section_separators = { left = '', right = '' },
           extensions = { dapui }
