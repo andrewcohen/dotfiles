@@ -8,31 +8,31 @@ local feedkey = function(key, mode)
 end
 
 local cmp_kinds = {
-  Text = '',        -- Text
-  Method = '',      -- Method
-  Function = '',    -- Function
-  Constructor = '', -- Constructor
-  Field = '',       -- Field
-  Variable = '',    -- Variable
-  Class = '',       -- Class
-  Interface = 'ﰮ',   -- Interface
-  Module = '',      --
-  Property = '',    --
-  Unit = '',        --
-  Value = '',       --
-  Enum = '',        --
-  Keyword = '',     --
-  Snippet = '﬌',     --
-  Color = '',       --
-  File = '',        --
-  Reference = '',   --
-  Folder = '',      --
-  EnumMember = '',  --
-  Constant = '',    --
-  Struct = '',      --
-  Event = '',       --
-  Operator = 'ﬦ',    --
-  TypeParameter = '', --
+  Text = '',
+  Method = '',
+  Function = '',
+  Constructor = '',
+  Field = '',
+  Variable = '',
+  Class = '',
+  Interface = 'ﰮ',
+  Module = '',
+  Property = '',
+  Unit = '',
+  Value = '',
+  Enum = '',
+  Keyword = '',
+  Snippet = '﬌',
+  Color = '',
+  File = '',
+  Reference = '',
+  Folder = '',
+  EnumMember = '',
+  Constant = '',
+  Struct = '',
+  Event = '',
+  Operator = 'ﬦ',
+  TypeParameter = ''
 }
 
 
