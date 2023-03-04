@@ -99,6 +99,8 @@ require('packer').startup(function(use)
     config = function()
       vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
       require("catppuccin").setup({
+        flavour = "macchiato",
+        transparent_background = true,
         integrations = {
           cmp = true,
           gitsigns = true,
@@ -357,10 +359,7 @@ require('packer').startup(function(use)
       'neovim/nvim-lspconfig',
       'nvim-lua/plenary.nvim',
       'mfussenegger/nvim-dap'
-    },
-    config = function()
-      -- require('rust-tools').setup({})
-    end
+    }
   }
 
   use {

@@ -96,9 +96,8 @@ function M.setup()
           require('go.format').gofmt()
         elseif has_value({ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }, ft) then
           -- print("format with eslint/neo")
-          print("eslint fixall!")
-          vim.api.nvim_command [[ EslintFixAll ]]
-          -- vim.api.nvim_command [[ silent! Neoformat ]]
+          vim.api.nvim_command [[ silent! EslintFixAll ]]
+          vim.api.nvim_command [[ silent! Neoformat ]]
           -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
           -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js silent! NeoFormat
         else
@@ -185,6 +184,8 @@ function M.setup()
     'gdscript',
     'jsonls',
     'eslint',
+    'tailwindcss',
+    'emmet_ls'
   }
 
   for _, lsp in pairs(servers) do
@@ -204,6 +205,12 @@ function M.setup()
     server = {
       on_attach = common_on_attach,
       capabilities = capabilities,
+      settings = {
+        ["rust-analyzer"] = {
+          -- https://github.com/simrat39/rust-tools.nvim/issues/300
+          inlayHints = { locationLinks = false },
+        },
+      }
     },
     dap = {
       adapter = require('rust-tools.dap').get_codelldb_adapter(
@@ -280,13 +287,13 @@ function M.setup()
         common_on_attach(client, bufnr)
         vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "",
           {
-            silent = true,
-            callback = function()
-              local ts = require('typescript').actions
-              ts.removeUnused({ sync = true })
-              ts.organizeImports({ sync = true })
-            end
-          })
+          silent = true,
+          callback = function()
+            local ts = require('typescript').actions
+            ts.removeUnused({ sync = true })
+            ts.organizeImports({ sync = true })
+          end
+        })
       end,
     }
   })
