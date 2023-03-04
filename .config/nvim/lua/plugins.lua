@@ -1,103 +1,22 @@
-local fn = vim.fn -- to call Vim functions e.g. fn.bufnr()
--- bootstrap packer install
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path })
-  vim.api.nvim_command 'packadd packer.nvim'
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none", "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
 
-vim.cmd [[packadd packer.nvim]]
+vim.opt.rtp:prepend(lazypath)
 
-require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
-
-  -- LSP
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
-    requires = {
-      'windwp/nvim-ts-autotag',
-    },
+local plugins = {
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
     config = function()
-      require 'nvim-treesitter.configs'.setup {
-        ensure_installed = {
-          "bash",
-          "css",
-          "go",
-          "html",
-          "javascript",
-          "json",
-          "lua",
-          "rust",
-          "tsx",
-          "typescript",
-          "yaml",
-          "zig"
-        },
-        highlight = {
-          enable = true
-        },
-        context_commentstring = {
-          enable = true
-        },
-        autotag = {
-          enable = true
-        },
-      }
-    end
-  }
-
-  use 'nvim-treesitter/playground'
-  use {
-    'nvim-treesitter/nvim-treesitter-context',
-    config = function()
-      require('treesitter-context').setup({
-        patterns = {
-          default = {
-            'class',
-            'function',
-            'method',
-            'jsx_opening_element',
-            'jsx_self_closing_element '
-          },
-        }
-
-      })
-
-      -- vim.cmd [[
-      --   hi TreesitterContext guibg=#383d47
-      --   hi TreesitterContextLineNumber guibg=#383d47
-      -- ]]
-    end
-  }
-
-
-  use {
-    'neovim/nvim-lspconfig',
-
-    config = function()
-      require('lsp').setup()
-    end
-  }
-
-  use { "williamboman/mason.nvim" }
-
-  -- Theming
-
-  -- use {
-  --   'ful1e5/onedark.nvim',
-  --   config = function()
-  --     require('onedark').setup({
-  --       hide_inactive_statusline = false,
-  --       highlight_linenumber = true
-  --     })
-  --   end
-  -- }
-
-  use { "catppuccin/nvim", as = "catppuccin",
-    config = function()
-      vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
       require("catppuccin").setup({
         flavour = "macchiato",
         transparent_background = true,
@@ -128,16 +47,13 @@ require('packer').startup(function(use)
           },
         },
       })
-      vim.cmd [[colorscheme catppuccin]]
+      vim.cmd.colorscheme "catppuccin"
     end
-  }
+  },
 
-  -- use 'folke/tokyonight.nvim'
-
-
-  use {
+  {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'kyazdani42/nvim-web-devicons' },
     -- after = 'onedark.nvim',
     config = function()
       local extend_sections = {
@@ -179,14 +95,78 @@ require('packer').startup(function(use)
         -- ['dapui_breakpoints'] = 'DAP Breakpoints',
         -- ['dapui_watches'] = 'DAP Watches',
       }
-
     end
-  }
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    dependencies = {
+      'windwp/nvim-ts-autotag',
+    },
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        auto_install = true,
+        highlight = {
+          enable = true
+        },
+        context_commentstring = {
+          enable = true
+        },
+        autotag = {
+          enable = true
+        },
+      }
+    end
+  },
+
+  { 'nvim-treesitter/playground' },
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require('treesitter-context').setup({
+        patterns = {
+          default = {
+            'class',
+            'function',
+            'method',
+            'jsx_opening_element',
+            'jsx_self_closing_element '
+          },
+        }
+      })
+    end
+  },
+
+  -- LSP
+
+  {
+    'neovim/nvim-lspconfig',
+    config = function()
+      require('lsp').setup()
+    end
+  },
 
 
-  use {
+  { "williamboman/mason.nvim" },
+
+  -- CMP
+
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-vsnip',
+      'hrsh7th/vim-vsnip',
+    }
+  },
+
+  {
     'ThePrimeagen/harpoon',
-    requires = { 'nvim-lua/plenary.nvim' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       require("harpoon").setup({
         menu = {
@@ -195,29 +175,17 @@ require('packer').startup(function(use)
         }
       })
     end
-  }
+  },
 
   -- completion & snippets
-  use {
-    'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-vsnip',
-      'hrsh7th/vim-vsnip',
-    }
-  }
+  { 'rafamadriz/friendly-snippets' },
 
-  use 'rafamadriz/friendly-snippets'
+  { 'tpope/vim-commentary' },
+  { 'JoosepAlviste/nvim-ts-context-commentstring' },
 
-  use 'tpope/vim-commentary'
-  use 'JoosepAlviste/nvim-ts-context-commentstring'
-
-  use {
+  {
     'windwp/nvim-autopairs',
-    requires = { 'hrsh7th/nvim-cmp' },
+    depeendencies = { 'hrsh7th/nvim-cmp' },
     config = function()
       require('nvim-autopairs').setup({
         disable_filetype = { "TelescopePrompt", "vim" },
@@ -226,11 +194,11 @@ require('packer').startup(function(use)
       local cmp = require('cmp')
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
     end
-  }
+  },
 
-  use {
+  {
     'nvim-telescope/telescope.nvim',
-    requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
+    dependencies = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
     config = function()
       local actions = require('telescope.actions')
       require('telescope').setup {
@@ -241,7 +209,6 @@ require('packer').startup(function(use)
             prompt_position = 'top',
             width = 0.9,
             height = 0.8,
-
             horizontal = {
               width = { padding = 0.15 },
             },
@@ -251,11 +218,11 @@ require('packer').startup(function(use)
           },
           mappings = {
             i = {
-              ["<C-j>"] = actions.move_selection_next,
-              ["<C-k>"] = actions.move_selection_previous,
+                  ["<C-j>"] = actions.move_selection_next,
+                  ["<C-k>"] = actions.move_selection_previous,
             },
             n = {
-              ["q"] = actions.close
+                  ["q"] = actions.close
             }
           }
         },
@@ -263,12 +230,11 @@ require('packer').startup(function(use)
           buffers = {
             mappings = {
               i = {
-                ["<c-d>"] = actions.delete_buffer,
+                    ["<c-d>"] = actions.delete_buffer,
               },
               n = {
-                ["<c-d>"] = actions.delete_buffer,
+                    ["<c-d>"] = actions.delete_buffer,
               },
-
             }
           }
         }
@@ -278,37 +244,37 @@ require('packer').startup(function(use)
       require('telescope').load_extension('dap')
       require('telescope').load_extension('file_browser')
     end
-  }
-  use { "nvim-telescope/telescope-file-browser.nvim" }
+  },
+  { "nvim-telescope/telescope-file-browser.nvim" },
 
-  use 'tpope/vim-surround'
-  use 'sbdchd/neoformat'
+  { 'tpope/vim-surround' },
+  { 'sbdchd/neoformat' },
 
-  use {
+  {
     'lewis6991/gitsigns.nvim',
-    requires = {
+    dependencies = {
       'nvim-lua/plenary.nvim'
     },
     config = function()
       require('gitsigns').setup()
     end
-  }
+  },
 
-  use 'tpope/vim-fugitive'
-  use 'tpope/vim-rhubarb'
+  { 'tpope/vim-fugitive' },
+  { 'tpope/vim-rhubarb' },
 
 
-  use { 'christoomey/vim-tmux-navigator' }
+  { 'christoomey/vim-tmux-navigator' },
 
-  use {
+  {
     "folke/trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
     config = function()
       require("trouble").setup {}
     end
-  }
+  },
 
-  use {
+  {
     'ray-x/go.nvim',
     config = function()
       require('go').setup({
@@ -316,16 +282,16 @@ require('packer').startup(function(use)
         dap_depbug_keymap = false,
       })
     end
-  }
+  },
 
-  use {
+  {
     'mfussenegger/nvim-dap',
     commit = '208c80e'
-  }
+  },
 
-  use {
+  {
     "rcarriga/nvim-dap-ui",
-    requires = { "mfussenegger/nvim-dap" },
+    dependencies = { "mfussenegger/nvim-dap" },
     config = function()
       local dap, dapui = require("dap"), require("dapui")
       dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -342,63 +308,64 @@ require('packer').startup(function(use)
         dapui.close()
       end
     end
-  }
+  },
 
   -- use 'nvim-telescope/telescope-dap.nvim'
-  use {
+  {
     'hendrikbursian/telescope-dap.nvim',
     commit = '04447ba487d0bbe2eb52f704f1366ea55a65bf75'
-  }
+  },
 
-  use {
+  {
     'simrat39/rust-tools.nvim',
     -- https://github.com/simrat39/rust-tools.nvim/issues/157
     -- 'Freyskeyd/rust-tools.nvim',
     -- branch = 'dap_fix',
-    requires = {
+    dependencies = {
       'neovim/nvim-lspconfig',
       'nvim-lua/plenary.nvim',
       'mfussenegger/nvim-dap'
     }
-  }
+  },
 
-  use {
+  {
     'leoluz/nvim-dap-go',
     config = function()
       require('dap-go').setup()
     end
-  }
+  },
 
   -- sizzle
-  use { 'stevearc/dressing.nvim' }
+  { 'stevearc/dressing.nvim' },
 
-  use {
+  {
     "folke/which-key.nvim",
     config = function()
       require("which-key").setup({})
     end
-  }
+  },
 
-  use 'jose-elias-alvarez/typescript.nvim'
+  { 'jose-elias-alvarez/typescript.nvim' },
 
-  use 'ziglang/zig.vim'
-
-  use 'habamax/vim-godot'
-
-  use {
+  {
     'j-hui/fidget.nvim',
     config = function()
       require('fidget').setup()
     end
-  }
+  },
 
-  use {
+  {
     'TimUntersberger/neogit',
-    requires = 'nvim-lua/plenary.nvim',
+    dependencies = 'nvim-lua/plenary.nvim',
     config = function()
       require('neogit').setup({
         disable_commit_confirmation = true
       })
     end
   }
-end)
+}
+require("lazy").setup(plugins, {
+  ui = {
+    border = "rounded"
+  }
+})

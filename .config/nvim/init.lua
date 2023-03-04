@@ -5,9 +5,9 @@ vim.api.nvim_set_keymap('n', '<SPACE>', '<Nop>', {})
 vim.g.mapleader = " "
 vim.opt.termguicolors = true
 
-require('plugins')
 require('options')
 require('mappings')
+require('plugins')
 require('plugins.completion')
 -- enable mouse scroll
 execute('set mouse=a')
