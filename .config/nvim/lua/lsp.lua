@@ -180,7 +180,7 @@ function M.setup()
   local servers = {
     'gopls',
     'golangci_lint_ls',
-    'sumneko_lua',
+    'lua_ls',
     'gdscript',
     'jsonls',
     'eslint',
