@@ -18,21 +18,6 @@ map('v', '<leader>y', '"*y')
 -- open notes
 map('n', '<leader>n', '<cmd>e ~/notes.md<cr>')
 
--- telescope
--- map('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
-map('n', '<leader>ff', '<cmd>lua require"plugins.telescope-config".project_files()<cr>')
-map('n', '<leader>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>')
-map('n', '<leader>fw', '<cmd>Telescope grep_string<cr>')
-map('n', '<leader>fb', '<cmd>Telescope buffers<cr>')
-map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>')
-map("n", "<leader>fo", '<cmd>Telescope oldfiles<cr>')
-map("n", "<leader>fs", '<cmd>Telescope git_status<cr>')
-map("n", "<leader>fc", '<cmd>Telescope git_commits<cr>')
-map("n", "<leader>E", '<cmd>Telescope file_browser path=%:p:h <cr>')
-
-vim.keymap.set('n', '<leader>fd',
-  function() require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') }) end)
-
 
 -- tmux sessionizer
 map('n', '<leader>F', '<cmd>silent !tmux neww tmux-sessionizer<CR>')

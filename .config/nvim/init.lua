@@ -8,14 +8,12 @@ vim.opt.termguicolors = true
 require('options')
 require('mappings')
 require('plugins')
-require('plugins.completion')
--- enable mouse scroll
-execute('set mouse=a')
 
 vim.api.nvim_exec([[
 autocmd BufLeave,FocusLost * silent! wall  " Save anytime we leave a buffer or MacVim loses focus.
 autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace on save
 ]], false)
+
 -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js  Neoformat
 -- vim.api.nvim_exec([[ autocmd BufWritePre *.go silent! lua require('go.format').goimport() ]], false)
 -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll

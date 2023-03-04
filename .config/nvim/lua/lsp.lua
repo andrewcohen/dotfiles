@@ -10,6 +10,58 @@ local function has_value(tab, val)
   return false
 end
 
+M.icons = {
+  Class = " ",
+  Color = " ",
+  Constant = " ",
+  Constructor = " ",
+  Enum = "了 ",
+  EnumMember = " ",
+  Field = " ",
+  File = " ",
+  Folder = " ",
+  Function = " ",
+  Interface = "ﰮ ",
+  Keyword = " ",
+  Method = "ƒ ",
+  Module = " ",
+  Property = " ",
+  Snippet = "﬌ ",
+  Struct = " ",
+  Text = " ",
+  Unit = " ",
+  Value = " ",
+  Variable = " ",
+}
+
+-- protocol.CompletionItemKind = {
+--   '', -- Text
+--   '', -- Method
+--   '', -- Function
+--   '', -- Constructor
+--   '', -- Field
+--   '', -- Variable
+--   '', -- Class
+--   'ﰮ', -- Interface
+--   '', -- Module
+--   '', -- Property
+--   '', -- Unit
+--   '', -- Value
+--   '', -- Enum
+--   '', -- Keyword
+--   '﬌', -- Snippet
+--   '', -- Color
+--   '', -- File
+--   '', -- Reference
+--   '', -- Folder
+--   '', -- EnumMember
+--   '', -- Constant
+--   '', -- Struct
+--   '', -- Event
+--   'ﬦ', -- Operator
+--   '', -- TypeParameter
+-- }
+
 function M.setup()
   local nvim_lsp = require('lspconfig')
   local protocol = require('vim.lsp.protocol')
@@ -123,35 +175,6 @@ function M.setup()
     if client.name == "gopls" then
       buf_set_keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", opts)
     end
-
-    protocol.CompletionItemKind = {
-      '', -- Text
-      '', -- Method
-      '', -- Function
-      '', -- Constructor
-      '', -- Field
-      '', -- Variable
-      '', -- Class
-      'ﰮ', -- Interface
-      '', -- Module
-      '', -- Property
-      '', -- Unit
-      '', -- Value
-      '', -- Enum
-      '', -- Keyword
-      '﬌', -- Snippet
-      '', -- Color
-      '', -- File
-      '', -- Reference
-      '', -- Folder
-      '', -- EnumMember
-      '', -- Constant
-      '', -- Struct
-      '', -- Event
-      'ﬦ', -- Operator
-      '', -- TypeParameter
-    }
-
   end
 
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -159,6 +182,11 @@ function M.setup()
 
   -- lsp_installer.setup {}
   require("mason").setup()
+
+  local kinds = vim.lsp.protocol.CompletionItemKind
+  for i, kind in ipairs(kinds) do
+    kinds[i] = M.icons[kind] or kind
+  end
 
   local border = {
     { "╭", "FloatBorder" },
@@ -173,8 +201,8 @@ function M.setup()
 
   -- LSP settings (for overriding per client)
   local handlers = {
-    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
   }
 
   local servers = {
@@ -205,8 +233,9 @@ function M.setup()
     server = {
       on_attach = common_on_attach,
       capabilities = capabilities,
+      handlers = handlers,
       settings = {
-        ["rust-analyzer"] = {
+            ["rust-analyzer"] = {
           -- https://github.com/simrat39/rust-tools.nvim/issues/300
           inlayHints = { locationLinks = false },
         },
@@ -259,7 +288,7 @@ function M.setup()
   end
 
   local typescript_handlers = {
-    ['textDocument/definition'] = function(err, result, method, ...)
+        ['textDocument/definition'] = function(err, result, method, ...)
       if vim.tbl_islist(result) and #result > 1 then
         local filtered_result = filter(result, filterReactDTS)
         return vim.lsp.handlers['textDocument/definition'](err, filtered_result, method, ...)
@@ -287,13 +316,13 @@ function M.setup()
         common_on_attach(client, bufnr)
         vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "",
           {
-          silent = true,
-          callback = function()
-            local ts = require('typescript').actions
-            ts.removeUnused({ sync = true })
-            ts.organizeImports({ sync = true })
-          end
-        })
+            silent = true,
+            callback = function()
+              local ts = require('typescript').actions
+              ts.removeUnused({ sync = true })
+              ts.organizeImports({ sync = true })
+            end
+          })
       end,
     }
   })
