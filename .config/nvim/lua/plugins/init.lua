@@ -51,13 +51,11 @@ return {
 
   {
     "williamboman/mason.nvim",
-    config = function()
-      require('mason').setup({
-        ui = {
-          border = "rounded"
-        }
-      })
-    end
+    opts = {
+      ui = {
+        border = "rounded"
+      }
+    }
   },
 
   -- CMP
@@ -83,7 +81,7 @@ return {
 
   {
     'windwp/nvim-autopairs',
-    depeendencies = { 'hrsh7th/nvim-cmp' },
+    dependencies = { 'hrsh7th/nvim-cmp' },
     config = function()
       require('nvim-autopairs').setup({
         disable_filetype = { "TelescopePrompt", "vim" },
@@ -116,7 +114,7 @@ return {
 
   {
     "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
+    dependencies = "kyazdani42/nvim-web-devicons",
     config = function()
       require("trouble").setup {}
     end
