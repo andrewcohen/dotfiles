@@ -148,8 +148,8 @@ function M.setup()
           require('go.format').gofmt()
         elseif has_value({ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }, ft) then
           -- print("format with eslint/neo")
-          vim.api.nvim_command [[ silent! EslintFixAll ]]
           vim.api.nvim_command [[ silent! Neoformat ]]
+          vim.api.nvim_command [[ silent! EslintFixAll ]]
           -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
           -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js silent! NeoFormat
         else
@@ -201,8 +201,8 @@ function M.setup()
 
   -- LSP settings (for overriding per client)
   local handlers = {
-        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
   }
 
   local servers = {
@@ -235,7 +235,7 @@ function M.setup()
       capabilities = capabilities,
       handlers = handlers,
       settings = {
-            ["rust-analyzer"] = {
+        ["rust-analyzer"] = {
           -- https://github.com/simrat39/rust-tools.nvim/issues/300
           inlayHints = { locationLinks = false },
         },
@@ -288,7 +288,7 @@ function M.setup()
   end
 
   local typescript_handlers = {
-        ['textDocument/definition'] = function(err, result, method, ...)
+    ['textDocument/definition'] = function(err, result, method, ...)
       if vim.tbl_islist(result) and #result > 1 then
         local filtered_result = filter(result, filterReactDTS)
         return vim.lsp.handlers['textDocument/definition'](err, filtered_result, method, ...)
