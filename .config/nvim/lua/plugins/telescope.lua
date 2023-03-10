@@ -13,16 +13,16 @@ return {
     'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
     keys = {
-      { '<leader>ff',  project_files },
-      { '<leader>fg',  function() require('telescope.builtin').live_grep() end },
-      { '<leader>fw',  '<cmd>Telescope grep_string<cr>' },
-      { '<leader>fb',  '<cmd>Telescope buffers<cr>' },
-      { '<leader>fh',  '<cmd>Telescope help_tags<cr>' },
-      { '<leader>fo',  '<cmd>Telescope oldfiles<cr>' },
-      { '<leader>fs',  '<cmd>Telescope git_status<cr>' },
-      { '<leader>fc',  '<cmd>Telescope git_commits<cr>' },
-      { '<leader>E',   '<cmd>Telescope file_browser path=%:p:h <cr>' },
-      { '<leader>fd>', dir_files }
+      { '<leader>ff', project_files },
+      { '<leader>fg', function() require('telescope.builtin').live_grep() end },
+      { '<leader>fw', '<cmd>Telescope grep_string<cr>' },
+      { '<leader>fb', '<cmd>Telescope buffers<cr>' },
+      { '<leader>fh', '<cmd>Telescope help_tags<cr>' },
+      { '<leader>fo', '<cmd>Telescope oldfiles<cr>' },
+      { '<leader>fs', '<cmd>Telescope git_status<cr>' },
+      { '<leader>fc', '<cmd>Telescope git_commits<cr>' },
+      { '<leader>E',  '<cmd>Telescope file_browser path=%:p:h <cr>' },
+      { '<leader>fd', dir_files }
     },
     config = function()
       local actions = require('telescope.actions')
@@ -43,11 +43,11 @@ return {
           },
           mappings = {
             i = {
-                  ["<C-j>"] = actions.move_selection_next,
-                  ["<C-k>"] = actions.move_selection_previous,
+              ["<C-j>"] = actions.move_selection_next,
+              ["<C-k>"] = actions.move_selection_previous,
             },
             n = {
-                  ["q"] = actions.close
+              ["q"] = actions.close
             }
           }
         },
@@ -55,10 +55,10 @@ return {
           buffers = {
             mappings = {
               i = {
-                    ["<c-d>"] = actions.delete_buffer,
+                ["<c-d>"] = actions.delete_buffer,
               },
               n = {
-                    ["<c-d>"] = actions.delete_buffer,
+                ["<c-d>"] = actions.delete_buffer,
               },
             }
           }
