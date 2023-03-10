@@ -46,7 +46,16 @@ return {
     end
   },
 
-  { 'stevearc/dressing.nvim' },
+  {
+    'stevearc/dressing.nvim',
+    opts = {
+      input = {
+        win_options = {
+          winblend = 0,
+        }
+      }
+    }
+  },
 
   {
     'j-hui/fidget.nvim',
