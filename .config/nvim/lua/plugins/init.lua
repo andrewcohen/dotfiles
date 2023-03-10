@@ -123,7 +123,7 @@ return {
     config = function()
       require('go').setup({
         tag_transform = 'camelcase',
-        dap_depbug_keymap = false,
+        dap_debug_keymap = false,
       })
     end
   },
@@ -143,12 +143,12 @@ return {
 
   {
     "rcarriga/nvim-dap-ui",
-    dependencies = { "mfussenegger/nvim-dap" },
+    dependencies = { "mfussenegger/nvim-dap", "theHamsta/nvim-dap-virtual-text" },
     config = function()
       local dap, dapui = require("dap"), require("dapui")
+      dapui.setup()
       dap.listeners.after.event_initialized["dapui_config"] = function()
         -- require 'mappings'.set_normal_mappings()
-        dapui.setup()
         dapui.open()
       end
       dap.listeners.before.event_terminated["dapui_config"] = function()
