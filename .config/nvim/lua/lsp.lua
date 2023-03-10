@@ -138,40 +138,49 @@ function M.setup()
     })
 
     local fmt_augroup = vim.api.nvim_create_augroup("lsp_fmt", { clear = true })
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = fmt_augroup,
-      desc = "lsp formatter",
-      callback = function()
-        local ft = vim.bo.filetype
-        if ft == "go" or ft == "gomod" then
+    local ft = vim.bo.filetype
+
+    if ft == "go" or ft == "gomod" then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = fmt_augroup,
+        desc = "lsp formatter",
+        callback = function()
           require('go.format').goimport()
           require('go.format').gofmt()
-        elseif has_value({ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }, ft) then
-          -- print("format with eslint/neo")
-          vim.api.nvim_command [[ silent! Neoformat ]]
-          vim.api.nvim_command [[ silent! EslintFixAll ]]
-          -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
-          -- autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js silent! NeoFormat
-        else
-          -- vim.lsp.buf.format({ async = false })
+        end
+      })
+    elseif has_value({ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }, ft) then
+      local root_file = {
+        '.eslintrc',
+        '.eslintrc.js',
+        '.eslintrc.cjs',
+        '.eslintrc.yaml',
+        '.eslintrc.yml',
+        '.eslintrc.json',
+        'eslint.config.js',
+      }
+      local has_eslint_cfg = require('lspconfig').util.root_pattern(unpack(root_file))(vim.api.nvim_buf_get_name(
+        bufnr))
+      if not has_eslint_cfg then
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          group = fmt_augroup,
+          desc = "lsp formatter",
+          callback = function()
+            vim.api.nvim_command [[silent! Neoformat]]
+          end
+        })
+      end
+    else
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = fmt_augroup,
+        desc = "lsp formatter",
+        callback = function()
           vim.lsp.buf.formatting_sync()
         end
-      end
-    })
+      })
+    end
 
 
-    -- require('aerial').on_attach(client, bufnr)
-
-    -- formatting
-    -- if client.resolved_capabilities.document_formatting && client.name == "gopls" then
-    --   vim.api.nvim_command [[augroup Format]]
-    --   vim.api.nvim_command [[autocmd! * <buffer>]]
-    --   vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
-    --   vim.api.nvim_command [[augroup END]]
-    -- end
-
-    -- require'completion'.on_attach(client, bufnr)
-    --
     if client.name == "gopls" then
       buf_set_keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", opts)
     end
@@ -211,7 +220,6 @@ function M.setup()
     'lua_ls',
     'gdscript',
     'jsonls',
-    'eslint',
     'tailwindcss',
     'emmet_ls'
   }
@@ -223,6 +231,16 @@ function M.setup()
       handlers = handlers
     }
   end
+
+  -- eslint lsp wont attach if the eslint root file is absent
+  require('lspconfig').eslint.setup({
+    on_attach = function(client, bufnr)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        command = "EslintFixAll",
+      })
+    end,
+  })
 
   local rust_tools = require("rust-tools")
   local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.7.0/'
