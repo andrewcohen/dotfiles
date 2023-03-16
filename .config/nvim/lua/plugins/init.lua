@@ -36,6 +36,10 @@ return {
           },
         }
       })
+      vim.cmd [[
+        hi TreesitterContextBottom gui=underline guisp=Grey
+        hi TreesitterContextLineNumber guifg=#eed49f
+      ]]
     end
   },
 
