@@ -16,7 +16,8 @@ map('', 'Y', 'y$')
 map('v', '<leader>y', '"*y')
 
 -- open notes
-map('n', '<leader>n', '<cmd>e ~/notes.md<cr>')
+map('n', '<leader>n', '<cmd>vs ~/notes.md<cr>')
+map('n', '<leader>N', '<cmd>tab drop ~/notes.md<cr>')
 
 
 -- tmux sessionizer
@@ -108,5 +109,4 @@ return {
     vim.cmd [[silent! unmap I]]
     vim.cmd [[silent! unmap S]]
   end
-
 }
