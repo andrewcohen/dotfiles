@@ -88,11 +88,16 @@ function M.setup()
     buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    -- buf_set_keymap('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', '<leader>gr', '<cmd>lua require("telescope.builtin").lsp_references()<CR>', opts)
-    buf_set_keymap('n', '<leader>gs',
-      '<cmd>lua require("telescope.builtin").lsp_document_symbols({symbols={"function", "method"}})<CR>', opts)
-    buf_set_keymap('n', '<leader>gS', '<cmd>lua require("telescope.builtin").lsp_workspace_symbols()<CR>', opts)
+    vim.keymap.set('n', '<leader>gs', function()
+      require 'telescope.builtin'.lsp_document_symbols({
+        symbol_width = 50,     -- make the symbols a bit wider than the 25 by default otherwise they are always cut off
+        symbol_type_width = 0, -- doesn't matter how wide the symbol type is
+        symbols = { 'function', 'method' }
+      })
+    end)
+
+    buf_set_keymap('n', '<leader>gS', '<cmd>lua require("telescope.builtin").lsp_dynamic_workspace_symbols()<CR>', opts)
     buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
