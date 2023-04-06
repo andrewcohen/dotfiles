@@ -49,7 +49,7 @@ return {
             n = {
               ["q"] = actions.close
             }
-          }
+          },
         },
         pickers = {
           buffers = {
@@ -61,7 +61,12 @@ return {
                 ["<c-d>"] = actions.delete_buffer,
               },
             }
-          }
+          },
+          live_grep = {
+            additional_args = function(opts)
+              return { "--hidden" }
+            end
+          },
         }
       }
 

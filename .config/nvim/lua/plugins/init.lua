@@ -117,9 +117,7 @@ return {
   {
     "folke/trouble.nvim",
     dependencies = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("trouble").setup {}
-    end
+    opts = {}
   },
 
   {
@@ -133,46 +131,6 @@ return {
   },
 
   {
-    'mfussenegger/nvim-dap',
-    -- commit = '208c80e',
-    config = function()
-      -- enhanced dap theming for catppuccin
-      require("dap")
-      local sign = vim.fn.sign_define
-      sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-      sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
-      sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
-    end
-  },
-
-  {
-    "rcarriga/nvim-dap-ui",
-    dependencies = { "mfussenegger/nvim-dap", "theHamsta/nvim-dap-virtual-text" },
-    config = function()
-      local dap, dapui = require("dap"), require("dapui")
-      dapui.setup()
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        -- require 'mappings'.set_normal_mappings()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        -- require 'mappings'.unset_normal_mappings()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        -- require 'mappings'.unset_normal_mappings()
-        dapui.close()
-      end
-    end
-  },
-
-  -- use 'nvim-telescope/telescope-dap.nvim'
-  {
-    'hendrikbursian/telescope-dap.nvim',
-    commit = '04447ba487d0bbe2eb52f704f1366ea55a65bf75'
-  },
-
-  {
     'simrat39/rust-tools.nvim',
     -- https://github.com/simrat39/rust-tools.nvim/issues/157
     -- 'Freyskeyd/rust-tools.nvim',
@@ -182,13 +140,6 @@ return {
       'nvim-lua/plenary.nvim',
       'mfussenegger/nvim-dap'
     }
-  },
-
-  {
-    'leoluz/nvim-dap-go',
-    config = function()
-      require('dap-go').setup()
-    end
   },
 
   -- sizzle
@@ -209,5 +160,5 @@ return {
         disable_commit_confirmation = true
       })
     end
-  }
+  },
 }
