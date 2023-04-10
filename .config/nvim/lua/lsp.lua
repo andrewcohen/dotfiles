@@ -180,7 +180,7 @@ function M.setup()
         group = fmt_augroup,
         desc = "lsp formatter",
         callback = function()
-          vim.lsp.buf.formatting_sync()
+          vim.lsp.buf.format()
         end
       })
     end
