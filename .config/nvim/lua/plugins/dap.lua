@@ -81,6 +81,6 @@ return {
     -- required by 'nvim-dap-vscode-js'
     "microsoft/vscode-js-debug",
     opt = true,
-    build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+    build = "git clean -df && npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
   }
 }

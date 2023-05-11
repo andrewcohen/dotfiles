@@ -28,18 +28,18 @@ return {
       local actions = require('telescope.actions')
       require('telescope').setup {
         defaults = {
-          -- layout_strategy = 'flex',
+          layout_strategy = 'flex',
           sorting_strategy = 'ascending',
           layout_config = {
             prompt_position = 'top',
-            width = 0.9,
-            height = 0.8,
-            horizontal = {
-              width = { padding = 0.15 },
-            },
-            vertical = {
-              preview_height = 0.75,
-            },
+            --   width = 0.9,
+            --   height = 0.8,
+            --   horizontal = {
+            --     width = { padding = 0.15 },
+            --   },
+            --   vertical = {
+            --     preview_height = 0.75,
+            --   },
           },
           mappings = {
             i = {
@@ -49,7 +49,7 @@ return {
             n = {
               ["q"] = actions.close
             }
-          },
+          }
         },
         pickers = {
           buffers = {

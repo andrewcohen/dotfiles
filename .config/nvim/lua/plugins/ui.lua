@@ -29,14 +29,19 @@ return {
           -- theme = "tokyonight",
           theme = "catppuccin",
           component_separators = '|',
-          section_separators = { left = '', right = '' },
-          extensions = { dapui }
+          section_separators = { left = '', right = '' },
+          extensions = { dapui },
           -- disabled_filetypes = {
           --   'dapui_scopes',
           --   'dapui_stacks',
           --   'dapui_breakpoints',
           --   'dapui_watches',
           -- }
+        },
+        sections = {
+          lualine_b = { 'branch', 'diff',
+            { 'diagnostics', symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' } }
+          },
         }
         -- ['dapui_scopes'] = 'DAP Scopes',
         -- ['dapui_stacks'] = 'DAP Stacks',
