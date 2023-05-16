@@ -168,5 +168,16 @@ return {
       vim.g.copilot_no_tab_map = true
       vim.api.nvim_set_keymap("i", "<C-l>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
     end
-  }
+  },
+  { 'folke/zen-mode.nvim' },
+  {
+    'dmmulroy/tsc.nvim',
+    config = true
+  },
+  {
+    'rcarriga/nvim-notify',
+    config = function()
+      vim.notify = require('notify')
+    end
+  },
 }
