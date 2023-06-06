@@ -226,7 +226,8 @@ function M.setup()
     'gdscript',
     'jsonls',
     'tailwindcss',
-    'emmet_ls'
+    'emmet_ls',
+    'zls',
   }
 
   for _, lsp in pairs(servers) do

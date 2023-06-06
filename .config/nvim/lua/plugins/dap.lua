@@ -14,7 +14,7 @@ return {
   {
     "rcarriga/nvim-dap-ui",
     dependencies = { "mfussenegger/nvim-dap", "theHamsta/nvim-dap-virtual-text" },
-    config = function()
+    opts = function()
       local dap, dapui = require("dap"), require("dapui")
       dapui.setup()
       dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -34,17 +34,12 @@ return {
 
   { 'nvim-telescope/telescope-dap.nvim' },
 
-  {
-    'leoluz/nvim-dap-go',
-    config = function()
-      require('dap-go').setup()
-    end
-  },
+  { 'leoluz/nvim-dap-go' },
 
   {
     "mxsdev/nvim-dap-vscode-js",
     dependencies = { "mfussenegger/nvim-dap" },
-    config = function()
+    opts = function()
       require("dap-vscode-js").setup({
         -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
         debugger_path = "/Users/andrew/.local/share/nvim/lazy/vscode-js-debug",                      -- Path to vscode-js-debug installation.
@@ -80,7 +75,6 @@ return {
     -- this is kind of a weird hack to have Lazy manage this dependency, but it works
     -- required by 'nvim-dap-vscode-js'
     "microsoft/vscode-js-debug",
-    opt = true,
     build = "git clean -df && npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
   }
 }

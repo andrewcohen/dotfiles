@@ -77,9 +77,9 @@ map('n', '<leader>G', ':Neogit<CR>', opts)
 
 map('n', '<leader>rc', '<cmd>luafile ~/.config/nvim/init.lua<cr>')
 
-map('n', '<leader>bb', '<cmd>:make<cr>')
-map('n', '<leader>bt', '<cmd>:make test<cr>')
-map('n', '<leader>br', '<cmd>:make run<cr>')
+map('n', '<leader>M', '<cmd>:make<cr>')
+map('n', '<leader>T', '<cmd>:make test<cr>')
+-- map('n', '<leader>mr', '<cmd>:make run<cr>')
 
 
 -- debugger

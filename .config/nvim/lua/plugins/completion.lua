@@ -38,6 +38,19 @@ local cmp_kinds = {
 
 return {
   {
+    'windwp/nvim-autopairs',
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    opts = function()
+      require('nvim-autopairs').setup({
+        disable_filetype = { "TelescopePrompt", "vim" },
+      })
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp = require('cmp')
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+    end
+  },
+
+  {
     'hrsh7th/nvim-cmp',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
@@ -49,7 +62,7 @@ return {
     },
     opts = function()
       local cmp = require('cmp')
-      cmp.setup({
+      return {
         snippet = {
           expand = function(args)
             vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
@@ -63,7 +76,6 @@ return {
         },
         window = {
           completion = cmp.config.window.bordered(),
-          -- documentation = cmp.config.window.bordered()
         },
         mapping = {
           ['<C-k>'] = cmp.mapping.select_prev_item(),
@@ -71,12 +83,12 @@ return {
           ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
           ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
           ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-          ['<C-y>'] = cmp.config.disable,     -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+          ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
           ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
           }),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),     -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
           -- https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#super-tab-like-mapping
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
@@ -103,11 +115,7 @@ return {
           { name = "buffer",  keyword_length = 4 },
           { name = "path" },
         })
-        -- }, {
-        --   { name = 'buffer', keyword_length = 4 },
-        -- },
-        -- { name = "path" })
-      })
+      }
     end
   }
 }

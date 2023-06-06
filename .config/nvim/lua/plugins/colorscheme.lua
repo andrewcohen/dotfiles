@@ -3,8 +3,9 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
-    config = function()
-      require("catppuccin").setup({
+    opts = function()
+      vim.cmd.colorscheme "catppuccin"
+      return {
         flavour = "macchiato",
         -- transparent_background = true,
         integrations = {
@@ -39,8 +40,7 @@ return {
             information = { "underline" },
           },
         },
-      })
-      vim.cmd.colorscheme "catppuccin"
+      }
     end
   },
 }

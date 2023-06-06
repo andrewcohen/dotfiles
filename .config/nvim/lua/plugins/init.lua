@@ -5,27 +5,33 @@ return {
     dependencies = {
       'windwp/nvim-ts-autotag',
     },
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        auto_install = true,
-        highlight = {
-          enable = true
-        },
-        context_commentstring = {
-          enable = true
-        },
-        autotag = {
-          enable = true
-        },
+    main = 'nvim-treesitter.configs',
+    opts = {
+      auto_install = true,
+      highlight = {
+        enable = true
+      },
+      context_commentstring = {
+        enable = true
+      },
+      autotag = {
+        enable = true
+      },
+      indent = {
+        enable = true
       }
-    end
+    }
   },
 
   { 'nvim-treesitter/playground' },
   {
     'nvim-treesitter/nvim-treesitter-context',
-    config = function()
-      require('treesitter-context').setup({
+    opts = function()
+      vim.cmd [[
+        hi TreesitterContextBottom gui=underline guisp=Grey
+        hi TreesitterContextLineNumber guifg=#eed49f
+      ]]
+      return {
         patterns = {
           default = {
             'class',
@@ -35,11 +41,7 @@ return {
             'jsx_self_closing_element '
           },
         }
-      })
-      vim.cmd [[
-        hi TreesitterContextBottom gui=underline guisp=Grey
-        hi TreesitterContextLineNumber guifg=#eed49f
-      ]]
+      }
     end
   },
 
@@ -47,9 +49,7 @@ return {
 
   {
     'neovim/nvim-lspconfig',
-    config = function()
-      require('lsp').setup()
-    end
+    main = "lsp"
   },
 
 
@@ -67,14 +67,12 @@ return {
   {
     'ThePrimeagen/harpoon',
     dependencies = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      require("harpoon").setup({
-        menu = {
-          -- width = vim.api.nvim_win_get_width(0) - 4,
-          width = 120
-        }
-      })
-    end
+    opts = {
+      menu = {
+        -- width = vim.api.nvim_win_get_width(0) - 4,
+        width = 120
+      }
+    }
   },
 
   -- completion & snippets
@@ -82,19 +80,6 @@ return {
 
   { 'tpope/vim-commentary' },
   { 'JoosepAlviste/nvim-ts-context-commentstring' },
-
-  {
-    'windwp/nvim-autopairs',
-    dependencies = { 'hrsh7th/nvim-cmp' },
-    config = function()
-      require('nvim-autopairs').setup({
-        disable_filetype = { "TelescopePrompt", "vim" },
-      })
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      local cmp = require('cmp')
-      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
-    end
-  },
 
 
   { 'tpope/vim-surround' },
@@ -122,12 +107,10 @@ return {
 
   {
     'ray-x/go.nvim',
-    config = function()
-      require('go').setup({
-        tag_transform = 'camelcase',
-        dap_debug_keymap = false,
-      })
-    end
+    opts = {
+      tag_transform = 'camelcase',
+      dap_debug_keymap = false,
+    }
   },
 
   {
@@ -145,9 +128,6 @@ return {
   -- sizzle
   {
     "folke/which-key.nvim",
-    config = function()
-      require("which-key").setup({})
-    end
   },
 
   { 'jose-elias-alvarez/typescript.nvim' },
@@ -155,11 +135,9 @@ return {
   {
     'TimUntersberger/neogit',
     dependencies = 'nvim-lua/plenary.nvim',
-    config = function()
-      require('neogit').setup({
-        disable_commit_confirmation = true
-      })
-    end
+    opts = {
+      disable_commit_confirmation = true
+    }
   },
 
   {
@@ -167,17 +145,12 @@ return {
     config = function()
       vim.g.copilot_no_tab_map = true
       vim.api.nvim_set_keymap("i", "<C-l>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-    end
+    end,
   },
   { 'folke/zen-mode.nvim' },
   {
     'dmmulroy/tsc.nvim',
     config = true
   },
-  {
-    'rcarriga/nvim-notify',
-    config = function()
-      vim.notify = require('notify')
-    end
-  },
+  { 'ziglang/zig.vim' }
 }
