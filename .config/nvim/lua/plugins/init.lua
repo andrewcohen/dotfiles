@@ -49,7 +49,9 @@ return {
 
   {
     'neovim/nvim-lspconfig',
-    main = "lsp"
+    config = function()
+      require('lsp').setup()
+    end
   },
 
 
