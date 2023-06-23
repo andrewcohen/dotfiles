@@ -21,7 +21,7 @@ return {
       { '<leader>fo', '<cmd>Telescope oldfiles<cr>' },
       { '<leader>fs', '<cmd>Telescope git_status<cr>' },
       { '<leader>fc', '<cmd>Telescope git_commits<cr>' },
-      { '<leader>E',  '<cmd>Telescope file_browser path=%:p:h <cr>' },
+      -- { '<leader>E',  '<cmd>Telescope file_browser path=%:p:h <cr>' },
       { '<leader>fd', dir_files }
     },
     config = function()
