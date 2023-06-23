@@ -103,7 +103,7 @@ return {
 
   {
     "folke/trouble.nvim",
-    dependencies = "kyazdani42/nvim-web-devicons",
+    dependencies = "nvim-tree/nvim-web-devicons",
     opts = {}
   },
 
@@ -154,5 +154,14 @@ return {
     'dmmulroy/tsc.nvim',
     config = true
   },
-  { 'ziglang/zig.vim' }
+  { 'ziglang/zig.vim' },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    keys={
+      {'<leader>E', '<cmd>Oil --float<cr>'}
+    },
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+}
 }
