@@ -17,6 +17,7 @@ return {
     opts = function()
       local dap, dapui = require("dap"), require("dapui")
       dapui.setup()
+      require("nvim-dap-virtual-text").setup()
       dap.listeners.after.event_initialized["dapui_config"] = function()
         -- require 'mappings'.set_normal_mappings()
         dapui.open()
@@ -50,7 +51,7 @@ return {
         -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
       })
 
-      for _, language in ipairs({ "typescript", "javascript" }) do
+      for _, language in ipairs({ "typescript", "javascript", "typescriptreact", "javascriptreact" }) do
         require("dap").configurations[language] = {
           {
             type = "pwa-node",
@@ -75,6 +76,6 @@ return {
     -- this is kind of a weird hack to have Lazy manage this dependency, but it works
     -- required by 'nvim-dap-vscode-js'
     "microsoft/vscode-js-debug",
-    build = "git clean -df && npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+    build = "git clean -df && rm -r ./out && npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
   }
 }
