@@ -10,58 +10,6 @@ local function has_value(tab, val)
   return false
 end
 
-M.icons = {
-  Class = " ",
-  Color = " ",
-  Constant = " ",
-  Constructor = " ",
-  Enum = "了 ",
-  EnumMember = " ",
-  Field = " ",
-  File = " ",
-  Folder = " ",
-  Function = " ",
-  Interface = "ﰮ ",
-  Keyword = " ",
-  Method = "ƒ ",
-  Module = " ",
-  Property = " ",
-  Snippet = "﬌ ",
-  Struct = " ",
-  Text = " ",
-  Unit = " ",
-  Value = " ",
-  Variable = " ",
-}
-
--- protocol.CompletionItemKind = {
---   '', -- Text
---   '', -- Method
---   '', -- Function
---   '', -- Constructor
---   '', -- Field
---   '', -- Variable
---   '', -- Class
---   'ﰮ', -- Interface
---   '', -- Module
---   '', -- Property
---   '', -- Unit
---   '', -- Value
---   '', -- Enum
---   '', -- Keyword
---   '﬌', -- Snippet
---   '', -- Color
---   '', -- File
---   '', -- Reference
---   '', -- Folder
---   '', -- EnumMember
---   '', -- Constant
---   '', -- Struct
---   '', -- Event
---   'ﬦ', -- Operator
---   '', -- TypeParameter
--- }
-
 function M.setup()
   local nvim_lsp = require('lspconfig')
   local protocol = require('vim.lsp.protocol')
@@ -198,8 +146,9 @@ function M.setup()
   require("mason").setup()
 
   local kinds = vim.lsp.protocol.CompletionItemKind
+  local icons = require('icons')
   for i, kind in ipairs(kinds) do
-    kinds[i] = M.icons[kind] or kind
+    kinds[i] = icons[kind] or kind
   end
 
   local border = {
