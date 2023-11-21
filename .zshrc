@@ -11,7 +11,7 @@ compinit -C
 ##
 
 # source /usr/local/share/antigen/antigen.zsh
-source /opt/homebrew/share/antigen/antigen.zsh
+source $(brew --prefix)/share/antigen/antigen.zsh
 
 antigen use oh-my-zsh
 
