@@ -14,7 +14,7 @@ return {
     dependencies = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
     keys = {
       { '<leader>ff', project_files },
-      { '<leader>fg', function() require('telescope.builtin').live_grep() end },
+      { '<leader>fg', function() require('telescope.builtin').live_grep({ additional_args = { '--hidden', '-g', '!.git' } }) end },
       { '<leader>fw', '<cmd>Telescope grep_string<cr>' },
       { '<leader>fb', '<cmd>Telescope buffers<cr>' },
       { '<leader>fh', '<cmd>Telescope help_tags<cr>' },
