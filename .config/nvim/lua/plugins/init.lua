@@ -11,11 +11,9 @@ return {
       highlight = {
         enable = true
       },
-      context_commentstring = {
-        enable = true
-      },
       autotag = {
-        enable = true
+        enable = true,
+        enable_close_on_slash = false,
       },
       indent = {
         enable = true
@@ -130,12 +128,22 @@ return {
   -- sizzle
   {
     "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {}
   },
 
-  { 'jose-elias-alvarez/typescript.nvim' },
-
   {
-    'TimUntersberger/neogit',
+    'lvimuser/lsp-inlayhints.nvim',
+    config = function()
+      require("lsp-inlayhints").setup()
+    end
+  },
+  {
+    'NeogitOrg/neogit',
     dependencies = 'nvim-lua/plenary.nvim',
     opts = {
       disable_commit_confirmation = true
@@ -147,7 +155,7 @@ return {
     config = function()
       vim.g.copilot_no_tab_map = true
       vim.api.nvim_set_keymap("i", "<C-l>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-      vim.g.copilot_filetypes = { ['dap-repl'] = false, ['TelescopePrompt'] = false  }
+      vim.g.copilot_filetypes = { ['dap-repl'] = false, ['TelescopePrompt'] = false, ['NeogitCommitMessage'] = false }
     end,
   },
   { 'folke/zen-mode.nvim' },
@@ -158,11 +166,15 @@ return {
   { 'ziglang/zig.vim' },
   {
     'stevearc/oil.nvim',
-    opts = {},
-    keys={
-      {'<leader>E', '<cmd>Oil --float<cr>'}
+    opts = {
+      view_options = {
+        show_hidden = true
+      }
+    },
+    keys = {
+      { '<leader>E', '<cmd>Oil --float<cr>' }
     },
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
-}
+  },
 }

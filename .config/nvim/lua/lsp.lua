@@ -103,26 +103,24 @@ function M.setup()
         end
       })
     elseif has_value({ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }, ft) then
-      local root_file = {
-        '.eslintrc',
-        '.eslintrc.js',
-        '.eslintrc.cjs',
-        '.eslintrc.yaml',
-        '.eslintrc.yml',
-        '.eslintrc.json',
-        'eslint.config.js',
-      }
-      local has_eslint_cfg = require('lspconfig').util.root_pattern(unpack(root_file))(vim.api.nvim_buf_get_name(
-        bufnr))
-      if not has_eslint_cfg then
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          group = fmt_augroup,
-          desc = "lsp formatter",
-          callback = function()
-            vim.api.nvim_command [[silent! Neoformat]]
-          end
-        })
-      end
+      -- local root_file = {
+      --   '.eslintrc',
+      --   '.eslintrc.js',
+      --   '.eslintrc.cjs',
+      --   '.eslintrc.yaml',
+      --   '.eslintrc.yml',
+      --   '.eslintrc.json',
+      --   'eslint.config.js',
+      -- }
+      -- local has_eslint_cfg = require('lspconfig').util.root_pattern(unpack(root_file))(vim.api.nvim_buf_get_name(
+      --   bufnr))
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = fmt_augroup,
+        desc = "lsp formatter",
+        callback = function()
+          vim.api.nvim_command [[silent! Neoformat]]
+        end
+      })
     else
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = fmt_augroup,
@@ -137,12 +135,14 @@ function M.setup()
     if client.name == "gopls" then
       buf_set_keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", opts)
     end
+
+    if client.server_capabilities.inlayHintProvider then
+      -- vim.lsp.buf.inlay_hint(bufnr, true)
+      require("lsp-inlayhints").on_attach(client, bufnr)
+    end
   end
 
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  -- local lsp_installer = require("nvim-lsp-installer")
-
-  -- lsp_installer.setup {}
   require("mason").setup()
 
   local kinds = vim.lsp.protocol.CompletionItemKind
@@ -174,9 +174,9 @@ function M.setup()
     'lua_ls',
     'gdscript',
     'jsonls',
-    'tailwindcss',
     'emmet_ls',
     'zls',
+    'eslint'
   }
 
   for _, lsp in pairs(servers) do
@@ -187,14 +187,37 @@ function M.setup()
     }
   end
 
-  -- eslint lsp wont attach if the eslint root file is absent
-  require('lspconfig').eslint.setup({
-    on_attach = function(client, bufnr)
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = bufnr,
-        command = "EslintFixAll",
-      })
-    end,
+  require("lspconfig").lua_ls.setup {
+    on_attach = common_on_attach,
+    capabilities = capabilities,
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          library = {
+            [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+            [vim.fn.stdpath "config" .. "/lua"] = true,
+          },
+        },
+      },
+    },
+  }
+
+  require('lspconfig').tailwindcss.setup({
+    settings = {
+      tailwindCSS = {
+        experimental = {
+          classRegex = {
+            { "tv\\(([^)]*)\\)",    "[\"'`]([^\"'`]*).*?[\"'`]" },
+            { "Styles \\=([^;]*);", "'([^']*)'" },
+            { "Styles \\=([^;]*);", "\"([^\"]*)\"" },
+            { "Styles \\=([^;]*);", "\\`([^\\`]*)\\`" }
+          }
+        }
+      }
+    }
   })
 
   local rust_tools = require("rust-tools")
@@ -252,7 +275,7 @@ function M.setup()
 
   local function filterReactDTS(value)
     if value == nil or value.targetUri == nil then
-      tprint(value)
+      -- tprint(value)
       return true
     end
 
@@ -278,25 +301,51 @@ function M.setup()
     return c
   end
 
-  require("typescript").setup({
-    server = {
-      handlers = merge(handlers, typescript_handlers),
-      capabilities = capabilities,
-      init_options = {
-        npmLocation = "/opt/homebrew/bin/npm"
+  require('lspconfig')['tsserver'].setup({
+    capabilities = capabilities,
+
+    on_attach = function(client, bufnr)
+      common_on_attach(client, bufnr)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "",
+        {
+          silent = true,
+          callback = function()
+            vim.api.nvim_command [[ silent! EslintFixAll ]]
+            vim.lsp.buf.code_action({
+              apply = true,
+              context = {
+                only = { "source.removeUnused.ts" },
+                diagnostics = {},
+              },
+            })
+          end
+        })
+    end,
+    settings = {
+      typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = 'all',
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        }
       },
-      on_attach = function(client, bufnr)
-        common_on_attach(client, bufnr)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "",
-          {
-            silent = true,
-            callback = function()
-              local ts = require('typescript').actions
-              ts.removeUnused({ sync = true })
-              ts.organizeImports({ sync = true })
-            end
-          })
-      end,
+      javascript = {
+        inlayHints = {
+          includeInlayParameterNameHints = 'all',
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        }
+      }
     }
   })
 end -- func M.setup()
