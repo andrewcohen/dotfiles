@@ -33,21 +33,6 @@ map('n', '<leader>tl', '<cmd>TroubleToggle loclist<cr>', opts)
 
 -- nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
-
--- breakout of terminal with window movements
-vim.api.nvim_command([[
-tnoremap <c-w>j <c-\><c-n><c-w>j
-tnoremap <c-w>k <c-\><c-n><c-w>k
-tnoremap <c-w>h <c-\><c-n><c-w>h
-noremap <c-w>l <c-\><c-n><c-w>l
-noremap <c-w>J <c-\><c-n><c-w>J
-tnoremap <c-w>K <c-\><c-n><c-w>K
-tnoremap <c-w>H <c-\><c-n><c-w>H
-tnoremap <c-w>L <c-\><c-n><c-w>L
-tnoremap <c-w>x <c-\><c-n><c-w>x
-]])
-
-
 -- harpoon
 map('n', '<leader>h', "<cmd> lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
 map('n', '<leader>m', "<cmd> lua require('harpoon.mark').add_file()<cr>", opts)
@@ -76,6 +61,7 @@ map('n', '<leader>gl', ':Git log<CR>', opts)
 map('n', '<leader>G', ':Neogit<CR>', opts)
 
 map('n', '<leader>rc', '<cmd>luafile ~/.config/nvim/init.lua<cr>')
+map('n', '<leader>ec', '<cmd>:e ~/.config/nvim/init.lua<cr>')
 
 map('n', '<leader>M', '<cmd>:make<cr>')
 map('n', '<leader>T', '<cmd>:make test<cr>')
