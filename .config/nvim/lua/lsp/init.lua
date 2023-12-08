@@ -1,5 +1,7 @@
 local M = {}
 
+local lspconfig = require('lspconfig')
+
 local function has_value(tab, val)
   for _, value in ipairs(tab) do
     if value == val then
@@ -11,18 +13,14 @@ local function has_value(tab, val)
 end
 
 function M.setup()
-  local nvim_lsp = require('lspconfig')
-  local protocol = require('vim.lsp.protocol')
-
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
   local common_on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    local function nmap(lhs, rhs) vim.api.nvim_buf_set_keymap(bufnr, 'n', lhs, rhs, { noremap = true, silent = true }) end
+    local opts = { noremap = true, silent = true }
 
     -- Mappings.
-    local opts = { noremap = true, silent = true }
 
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -131,14 +129,29 @@ function M.setup()
       })
     end
 
+    if ft == "ocaml" then
+      local augroup_codelens = vim.api.nvim_create_augroup("custom-lsp-codelens", { clear = true })
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "CursorHold" }, {
+        group = augroup_codelens,
+        callback = require('lsp.codelens').refresh_virtlines,
+        buffer = 0
+      })
+
+      vim.keymap.set(
+        "n",
+        "<space>tT",
+        require("lsp.codelens").toggle_virtlines,
+        { silent = true, desc = "[T]oggle [T]ypes", buffer = 0 }
+      )
+    end
+
 
     if client.name == "gopls" then
       buf_set_keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", opts)
     end
 
     if client.server_capabilities.inlayHintProvider then
-      -- vim.lsp.buf.inlay_hint(bufnr, true)
-      require("lsp-inlayhints").on_attach(client, bufnr)
+      vim.lsp.inlay_hint.enable(bufnr, true)
     end
   end
 
@@ -151,74 +164,105 @@ function M.setup()
     kinds[i] = icons[kind] or kind
   end
 
-  local border = {
-    { "╭", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╮", "FloatBorder" },
-    { "│", "FloatBorder" },
-    { "╯", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╰", "FloatBorder" },
-    { "│", "FloatBorder" },
+  vim.diagnostic.config {
+    float = { border = 'rounded' }
   }
 
   -- LSP settings (for overriding per client)
   local handlers = {
-    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
+    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
+    ["textDocument/definition"] = function(_, result)
+      if not result or vim.tbl_isempty(result) then
+        print "[LSP] Could not find definition"
+        return
+      end
+
+      if vim.tbl_islist(result) then
+        vim.lsp.util.jump_to_location(result[1], "utf-8")
+      else
+        vim.lsp.util.jump_to_location(result, "utf-8")
+      end
+    end
+
   }
 
   local servers = {
-    'gopls',
-    'golangci_lint_ls',
-    'lua_ls',
-    'gdscript',
-    'jsonls',
-    'emmet_ls',
-    'zls',
-    'eslint'
-  }
+    gopls = true,
 
-  for _, lsp in pairs(servers) do
-    require('lspconfig')[lsp].setup {
+    golangci_lint_ls = true,
+
+    gdscript = true,
+
+    jsonls = true,
+
+    emmet_ls = true,
+
+    zls = true,
+
+    eslint = true,
+
+    ocamllsp = {
+      settings = {
+        codelens = { enable = true }
+      }
+    },
+
+    lua_ls = {
       on_attach = common_on_attach,
       capabilities = capabilities,
-      handlers = handlers
-    }
-  end
-
-  require("lspconfig").lua_ls.setup {
-    on_attach = common_on_attach,
-    capabilities = capabilities,
-    settings = {
-      Lua = {
-        diagnostics = {
-          globals = { "vim" },
-        },
-        workspace = {
-          library = {
-            [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-            [vim.fn.stdpath "config" .. "/lua"] = true,
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+          workspace = {
+            library = {
+              [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+              [vim.fn.stdpath "config" .. "/lua"] = true,
+            },
           },
         },
       },
     },
-  }
 
-  require('lspconfig').tailwindcss.setup({
-    settings = {
-      tailwindCSS = {
-        experimental = {
-          classRegex = {
-            { "tv\\(([^)]*)\\)",    "[\"'`]([^\"'`]*).*?[\"'`]" },
-            { "Styles \\=([^;]*);", "'([^']*)'" },
-            { "Styles \\=([^;]*);", "\"([^\"]*)\"" },
-            { "Styles \\=([^;]*);", "\\`([^\\`]*)\\`" }
+    tailwindcss = {
+      settings = {
+        tailwindCSS = {
+          experimental = {
+            classRegex = {
+              { "tv\\(([^)]*)\\)",    "[\"'`]([^\"'`]*).*?[\"'`]" },
+              { "Styles \\=([^;]*);", "'([^']*)'" },
+              { "Styles \\=([^;]*);", "\"([^\"]*)\"" },
+              { "Styles \\=([^;]*);", "\\`([^\\`]*)\\`" }
+            }
           }
         }
       }
     }
-  })
+
+  }
+
+  local setup_server = function(server, config)
+    if not config then
+      return
+    end
+
+    if type(config) ~= "table" then
+      config = {}
+    end
+
+    config = vim.tbl_deep_extend("force", {
+      on_attach = common_on_attach,
+      capabilities = capabilities,
+      handlers = handlers
+    }, config)
+    lspconfig[server].setup(config)
+  end
+
+  for server, config in pairs(servers) do
+    setup_server(server, config)
+  end
 
   local rust_tools = require("rust-tools")
   local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.7.0/'
@@ -258,21 +302,6 @@ function M.setup()
     return filtered
   end
 
-  local function tprint(tbl, indent)
-    if not indent then indent = 0 end
-    for k, v in pairs(tbl) do
-      formatting = string.rep("  ", indent) .. k .. ": "
-      if type(v) == "table" then
-        print(formatting)
-        tprint(v, indent + 1)
-      elseif type(v) == 'boolean' then
-        print(formatting .. tostring(v))
-      else
-        print(formatting .. v)
-      end
-    end
-  end
-
   local function filterReactDTS(value)
     if value == nil or value.targetUri == nil then
       -- tprint(value)
@@ -303,7 +332,7 @@ function M.setup()
 
   require('lspconfig')['tsserver'].setup({
     capabilities = capabilities,
-
+    handlers = merge(handlers, typescript_handlers),
     on_attach = function(client, bufnr)
       common_on_attach(client, bufnr)
       vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "",
@@ -314,7 +343,7 @@ function M.setup()
             vim.lsp.buf.code_action({
               apply = true,
               context = {
-                only = { "source.removeUnused.ts" },
+                only = { "ource.removeUnused.ts" },
                 diagnostics = {},
               },
             })
@@ -322,30 +351,30 @@ function M.setup()
         })
     end,
     settings = {
-      typescript = {
-        inlayHints = {
-          includeInlayParameterNameHints = 'all',
-          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayVariableTypeHints = true,
-          includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayEnumMemberValueHints = true,
-        }
-      },
-      javascript = {
-        inlayHints = {
-          includeInlayParameterNameHints = 'all',
-          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayVariableTypeHints = true,
-          includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayEnumMemberValueHints = true,
-        }
-      }
+      -- typescript = {
+      --   inlayHints = {
+      --     includeInlayParameterNameHints = 'all',
+      --     includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+      --     includeInlayFunctionParameterTypeHints = true,
+      --     includeInlayVariableTypeHints = false,
+      --     includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+      --     includeInlayPropertyDeclarationTypeHints = true,
+      --     includeInlayFunctionLikeReturnTypeHints = true,
+      --     includeInlayEnumMemberValueHints = true,
+      --   }
+      -- },
+      -- javascript = {
+      --   inlayHints = {
+      --     includeInlayParameterNameHints = 'all',
+      --     includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+      --     includeInlayFunctionParameterTypeHints = true,
+      --     includeInlayVariableTypeHints = false,
+      --     includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+      --     includeInlayPropertyDeclarationTypeHints = true,
+      --     includeInlayFunctionLikeReturnTypeHints = true,
+      --     includeInlayEnumMemberValueHints = true,
+      --   }
+      -- }
     }
   })
 end -- func M.setup()

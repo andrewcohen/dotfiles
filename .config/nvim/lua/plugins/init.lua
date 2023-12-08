@@ -137,12 +137,6 @@ return {
   },
 
   {
-    'lvimuser/lsp-inlayhints.nvim',
-    config = function()
-      require("lsp-inlayhints").setup()
-    end
-  },
-  {
     'NeogitOrg/neogit',
     dependencies = 'nvim-lua/plenary.nvim',
     opts = {
@@ -151,17 +145,41 @@ return {
   },
 
   {
-    'github/copilot.vim',
+    "zbirenbaum/copilot.lua",
     config = function()
-      vim.g.copilot_no_tab_map = true
-      vim.api.nvim_set_keymap("i", "<C-l>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-      vim.g.copilot_filetypes = { ['dap-repl'] = false, ['TelescopePrompt'] = false, ['NeogitCommitMessage'] = false }
-    end,
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+    end
   },
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require("copilot_cmp").setup()
+    end
+  },
+
+
+  --   {
+  --     'github/copilot.vim',
+  --     config = function()
+  --       vim.g.copilot_no_tab_map = true
+  --       vim.api.nvim_set_keymap("i", "<C-l>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+  --       vim.g.copilot_filetypes = { ['dap-repl'] = false, ['TelescopePrompt'] = false, ['NeogitCommitMessage'] = false }
+  --     end,
+  --   },
+
   { 'folke/zen-mode.nvim' },
   {
     'dmmulroy/tsc.nvim',
-    config = true
+    config = function()
+      require('tsc').setup({
+        -- flags = {
+        --   watch = true,
+        -- }
+      })
+    end
   },
   { 'ziglang/zig.vim' },
   {
