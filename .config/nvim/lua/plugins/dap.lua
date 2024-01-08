@@ -43,7 +43,7 @@ return {
     config = function()
       require("dap-vscode-js").setup({
         -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-        debugger_path = vim.env.HOME .. "/.local/share/nvim/lazy/vscode-js-debug",                      -- Path to vscode-js-debug installation.
+        debugger_path = vim.env.HOME .. "/.local/share/nvim/lazy/vscode-js-debug",                   -- Path to vscode-js-debug installation.
         -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
         adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
         -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
@@ -76,6 +76,6 @@ return {
     -- this is kind of a weird hack to have Lazy manage this dependency, but it works
     -- required by 'nvim-dap-vscode-js'
     "microsoft/vscode-js-debug",
-    build = "git clean -df && rm -r ./out && npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+    build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
   }
 }
