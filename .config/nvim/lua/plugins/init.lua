@@ -170,27 +170,41 @@ return {
   --     end,
   --   },
 
-  { 'folke/zen-mode.nvim' },
   {
-    'dmmulroy/tsc.nvim',
+    "folke/zen-mode.nvim",
+    opts = {
+      window = {
+        options = {
+          number = false,
+          relativenumber = false,
+          wrap = true,
+          linebreak = true,
+          cursorline = false,
+          signcolumn = "no"
+        }
+      }
+    }
+  },
+  {
+    "dmmulroy/tsc.nvim",
     config = function()
-      require('tsc').setup({
+      require("tsc").setup({
         -- flags = {
         --   watch = true,
         -- }
       })
     end
   },
-  { 'ziglang/zig.vim' },
+  { "ziglang/zig.vim" },
   {
-    'stevearc/oil.nvim',
+    "stevearc/oil.nvim",
     opts = {
       view_options = {
         show_hidden = true
       }
     },
     keys = {
-      { '<leader>E', '<cmd>Oil --float<cr>' }
+      { "<leader>E", "<cmd>Oil --float<cr>" }
     },
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
