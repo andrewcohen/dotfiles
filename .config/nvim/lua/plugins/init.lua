@@ -1,11 +1,11 @@
 return {
   {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
     dependencies = {
-      'windwp/nvim-ts-autotag',
+      "windwp/nvim-ts-autotag",
     },
-    main = 'nvim-treesitter.configs',
+    main = "nvim-treesitter.configs",
     opts = {
       auto_install = true,
       highlight = {
@@ -21,9 +21,9 @@ return {
     }
   },
 
-  { 'nvim-treesitter/playground' },
+  { "nvim-treesitter/playground" },
   {
-    'nvim-treesitter/nvim-treesitter-context',
+    "nvim-treesitter/nvim-treesitter-context",
     opts = function()
       vim.cmd [[
         hi TreesitterContextBottom gui=underline guisp=Grey
@@ -32,11 +32,11 @@ return {
       return {
         patterns = {
           default = {
-            'class',
-            'function',
-            'method',
-            'jsx_opening_element',
-            'jsx_self_closing_element '
+            "class",
+            "function",
+            "method",
+            "jsx_opening_element",
+            "jsx_self_closing_element "
           },
         }
       }
@@ -46,9 +46,9 @@ return {
   -- LSP
 
   {
-    'neovim/nvim-lspconfig',
+    "neovim/nvim-lspconfig",
     config = function()
-      require('lsp').setup()
+      require("lsp").setup()
     end
   },
 
@@ -65,8 +65,8 @@ return {
   -- CMP
 
   {
-    'ThePrimeagen/harpoon',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    "ThePrimeagen/harpoon",
+    dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       menu = {
         -- width = vim.api.nvim_win_get_width(0) - 4,
@@ -76,28 +76,28 @@ return {
   },
 
   -- completion & snippets
-  { 'rafamadriz/friendly-snippets' },
+  { "rafamadriz/friendly-snippets" },
 
-  { 'tpope/vim-commentary' },
-  { 'JoosepAlviste/nvim-ts-context-commentstring' },
+  { "tpope/vim-commentary" },
+  { "JoosepAlviste/nvim-ts-context-commentstring" },
 
 
-  { 'tpope/vim-surround' },
-  { 'sbdchd/neoformat' },
+  { "tpope/vim-surround" },
+  { "sbdchd/neoformat" },
 
   {
-    'lewis6991/gitsigns.nvim',
+    "lewis6991/gitsigns.nvim",
     dependencies = {
-      'nvim-lua/plenary.nvim'
+      "nvim-lua/plenary.nvim"
     },
     opts = {}
   },
 
-  { 'tpope/vim-fugitive' },
-  { 'tpope/vim-rhubarb' },
+  { "tpope/vim-fugitive" },
+  { "tpope/vim-rhubarb" },
 
 
-  { 'christoomey/vim-tmux-navigator' },
+  { "christoomey/vim-tmux-navigator" },
 
   {
     "folke/trouble.nvim",
@@ -106,22 +106,22 @@ return {
   },
 
   {
-    'ray-x/go.nvim',
+    "ray-x/go.nvim",
     opts = {
-      tag_transform = 'camelcase',
+      tag_transform = "camelcase",
       dap_debug_keymap = false,
     }
   },
 
   {
-    'simrat39/rust-tools.nvim',
+    "simrat39/rust-tools.nvim",
     -- https://github.com/simrat39/rust-tools.nvim/issues/157
     -- 'Freyskeyd/rust-tools.nvim',
     -- branch = 'dap_fix',
     dependencies = {
-      'neovim/nvim-lspconfig',
-      'nvim-lua/plenary.nvim',
-      'mfussenegger/nvim-dap'
+      "neovim/nvim-lspconfig",
+      "nvim-lua/plenary.nvim",
+      "mfussenegger/nvim-dap"
     }
   },
 
@@ -137,10 +137,18 @@ return {
   },
 
   {
-    'NeogitOrg/neogit',
-    dependencies = 'nvim-lua/plenary.nvim',
+    "NeogitOrg/neogit",
+    dependencies = "nvim-lua/plenary.nvim",
     opts = {
-      disable_commit_confirmation = true
+      disable_commit_confirmation = true,
+      remember_settings = false,
+      commit_popup = {
+        kind = "split",
+        switches = {
+          verbose = true
+
+        }
+      }
     }
   },
 
