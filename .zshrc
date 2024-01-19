@@ -10,30 +10,30 @@ done
 compinit -C
 ##
 
-# source /usr/local/share/antigen/antigen.zsh
-source /opt/homebrew/share/antigen/antigen.zsh
+# # source /usr/local/share/antigen/antigen.zsh
+# source /opt/homebrew/share/antigen/antigen.zsh
 
-antigen use oh-my-zsh
+# antigen use oh-my-zsh
 
-export NVM_LAZY_LOAD=true
-export NVM_AUTO_USE=true
-export NVM_NO_USE=true
-antigen bundle lukechilds/zsh-nvm
+# # export NVM_LAZY_LOAD=true
+# # export NVM_AUTO_USE=true
+# # export NVM_NO_USE=true
+# antigen bundle lukechilds/zsh-nvm
 
-antigen bundle git
-antigen bundle node
-antigen bundle jeffreytse/zsh-vi-mode
-# antigen bundle command-not-found
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zsh-autosuggestions
+# antigen bundle git
+# antigen bundle node
+# antigen bundle jeffreytse/zsh-vi-mode
+# # antigen bundle command-not-found
+# antigen bundle zsh-users/zsh-syntax-highlighting
+# antigen bundle zsh-users/zsh-completions
+# antigen bundle zsh-users/zsh-autosuggestions
 
-# Load the theme.
-antigen bundle mafredri/zsh-async
-# antigen bundle sindresorhus/pure@main
+# # Load the theme.
+# # antigen bundle mafredri/zsh-async
+# # antigen bundle sindresorhus/pure@main
 
-# Tell Antigen that you're done.
-antigen apply
+# # Tell Antigen that you're done.
+# antigen apply
 
 alias gpr="git pull --rebase -p"
 alias vim="nvim"
