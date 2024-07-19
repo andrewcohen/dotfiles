@@ -1,6 +1,5 @@
 local project_files = function()
   local ok = pcall(require('telescope.builtin').git_files, { show_untracked = true })
-  print(ok)
   if not ok then require('telescope.builtin').find_files({}) end
 end
 
@@ -8,14 +7,37 @@ local dir_files = function()
   require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })
 end
 
+local additional_args = { '--hidden', '-g', '!.git' }
+
 return {
   {
     'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
     keys = {
       { '<leader>ff', project_files },
-      { '<leader>fg', function() require('telescope.builtin').live_grep({ additional_args = { '--hidden', '-g', '!.git' } }) end },
+      { '<leader>fg', function() require('telescope.builtin').live_grep({ additional_args }) end },
       { '<leader>fw', '<cmd>Telescope grep_string<cr>' },
+      {
+        '<leader>fw',
+        function()
+          function vim.getVisualSelection()
+            vim.cmd('noau normal! "vy"')
+            local text = vim.fn.getreg('v')
+            vim.fn.setreg('v', {})
+
+            text = string.gsub(text, "\n", "")
+            if #text > 0 then
+              return text
+            else
+              return ''
+            end
+          end
+
+          local text = vim.getVisualSelection()
+          require("telescope.builtin").live_grep({ default_text = text, additional_args })
+        end,
+        mode = "v"
+      },
       { '<leader>fb', '<cmd>Telescope buffers<cr>' },
       { '<leader>fh', '<cmd>Telescope help_tags<cr>' },
       { '<leader>fo', '<cmd>Telescope oldfiles<cr>' },

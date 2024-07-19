@@ -15,6 +15,10 @@ map('i', 'jj', '<esc>')
 map('', 'Y', 'y$')
 map('v', '<leader>y', '"*y')
 
+-- quickfix
+map('n', '<leader>cn', '<cmd>cnext<cr>')
+map('n', '<leader>cp', '<cmd>cprev<cr>')
+
 -- open notes
 map('n', '<leader>n', '<cmd>vs ~/notes.md<cr>')
 map('n', '<leader>N', '<cmd>tab drop ~/notes.md<cr>')
@@ -58,7 +62,7 @@ nnoremap <leader>gb :call <SID>ToggleBlame()<CR>
 ]])
 
 map('n', '<leader>gl', ':Git log<CR>', opts)
-map('n', '<leader>G', ':Neogit<CR>', opts)
+map('n', '<leader>G', ':Git<CR>', opts)
 
 map('n', '<leader>rc', '<cmd>luafile ~/.config/nvim/init.lua<cr>')
 map('n', '<leader>ec', '<cmd>:e ~/.config/nvim/init.lua<cr>')
@@ -79,6 +83,9 @@ vim.keymap.set('n', '<leader>di', "<Cmd>lua require'dap'.step_into()<CR>")
 vim.keymap.set('n', '<leader>dI', "<Cmd>lua require'dap'.step_out()<CR>")
 vim.keymap.set('n', '<leader>du', "<Cmd>lua require'dapui'.toggle()<CR>")
 vim.keymap.set('n', '<leader>dS', "<Cmd>lua require'dap'.disconnect()<CR>")
+
+-- terminal  escape
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 
 return {
   set_normal_mappings = function()

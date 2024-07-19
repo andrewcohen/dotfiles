@@ -11,14 +11,32 @@ return {
       highlight = {
         enable = true
       },
-      autotag = {
-        enable = true,
-        enable_close_on_slash = false,
-      },
       indent = {
         enable = true
       }
     }
+  },
+
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require('nvim-ts-autotag').setup({
+        opts = {
+          -- Defaults
+          enable_close = true,          -- Auto close tags
+          enable_rename = true,         -- Auto rename pairs of tags
+          enable_close_on_slash = false -- Auto close on trailing </
+        },
+        -- Also override individual filetype configs, these take priority.
+        -- Empty by default, useful if one of the "opts" global settings
+        -- doesn't work well in a specific filetype
+        per_filetype = {
+          ["html"] = {
+            enable_close = false
+          }
+        }
+      })
+    end
   },
 
   { "nvim-treesitter/playground" },
@@ -38,7 +56,8 @@ return {
             "jsx_opening_element",
             "jsx_self_closing_element "
           },
-        }
+        },
+        multiline_threshold = 1,
       }
     end
   },
@@ -93,7 +112,10 @@ return {
     opts = {}
   },
 
-  { "tpope/vim-fugitive" },
+  {
+    "tpope/vim-fugitive",
+    dependencies = "tpope/vim-rhubarb"
+  },
   { "tpope/vim-rhubarb" },
 
 
@@ -137,22 +159,6 @@ return {
   },
 
   {
-    "NeogitOrg/neogit",
-    dependencies = "nvim-lua/plenary.nvim",
-    opts = {
-      disable_commit_confirmation = true,
-      remember_settings = false,
-      commit_popup = {
-        kind = "split",
-        switches = {
-          verbose = true
-
-        }
-      }
-    }
-  },
-
-  {
     "zbirenbaum/copilot.lua",
     config = function()
       require("copilot").setup({
@@ -167,16 +173,6 @@ return {
       require("copilot_cmp").setup()
     end
   },
-
-
-  --   {
-  --     'github/copilot.vim',
-  --     config = function()
-  --       vim.g.copilot_no_tab_map = true
-  --       vim.api.nvim_set_keymap("i", "<C-l>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-  --       vim.g.copilot_filetypes = { ['dap-repl'] = false, ['TelescopePrompt'] = false, ['NeogitCommitMessage'] = false }
-  --     end,
-  --   },
 
   {
     "folke/zen-mode.nvim",
@@ -216,5 +212,13 @@ return {
     },
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+
+  {
+    'ggandor/leap.nvim',
+    config = function()
+      require('leap').create_default_mappings()
+    end
   },
 }
