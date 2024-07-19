@@ -36,6 +36,12 @@ compinit -C
 # antigen apply
 
 alias gpr="git pull --rebase -p"
+alias gc="git commit --verbose"
+alias ga="git add"
+alias gd="git diff"
+alias gst="git status"
+alias gco="git checkout"
+
 alias vim="nvim"
 with-env() {
   env $(cat .env | grep -v "#" | xargs) $@
