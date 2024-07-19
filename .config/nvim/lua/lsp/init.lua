@@ -151,7 +151,7 @@ function M.setup()
     end
 
     if client.server_capabilities.inlayHintProvider then
-      vim.lsp.inlay_hint.enable(bufnr, true)
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
   end
 
@@ -165,7 +165,7 @@ function M.setup()
   end
 
   vim.diagnostic.config {
-    float = { border = 'rounded' }
+    float = { border = 'rounded' },
   }
 
   -- LSP settings (for overriding per client)
@@ -178,7 +178,7 @@ function M.setup()
         return
       end
 
-      if vim.tbl_islist(result) then
+      if vim.islist(result) then
         vim.lsp.util.jump_to_location(result[1], "utf-8")
       else
         vim.lsp.util.jump_to_location(result, "utf-8")
@@ -196,11 +196,17 @@ function M.setup()
 
     jsonls = true,
 
-    emmet_ls = true,
+    emmet_language_server = true,
 
     zls = true,
 
-    eslint = true,
+    eslint = {
+      settings = {
+        experimental = {
+          useFlatConfig = false
+        }
+      }
+    },
 
     ocamllsp = {
       settings = {
@@ -239,7 +245,9 @@ function M.setup()
           }
         }
       }
-    }
+    },
+    phpactor = true,
+    intelephense = true
 
   }
 
@@ -330,6 +338,7 @@ function M.setup()
     return c
   end
 
+
   require('lspconfig')['tsserver'].setup({
     capabilities = capabilities,
     handlers = merge(handlers, typescript_handlers),
@@ -339,26 +348,26 @@ function M.setup()
         {
           silent = true,
           callback = function()
-            vim.api.nvim_command [[ silent! EslintFixAll ]]
             vim.lsp.buf.code_action({
               apply = true,
               context = {
-                only = { "ource.removeUnused.ts" },
+                only = { "source.removeUnusedImports.ts" },
                 diagnostics = {},
               },
             })
+            -- vim.api.nvim_command [[ silent! EslintFixAll ]]
           end
         })
     end,
     settings = {
       -- typescript = {
       --   inlayHints = {
-      --     includeInlayParameterNameHints = 'all',
+      --     includeInlayParameterNameHints = 'none',
       --     includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-      --     includeInlayFunctionParameterTypeHints = true,
+      --     includeInlayFunctionParameterTypeHints = false,
       --     includeInlayVariableTypeHints = false,
       --     includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-      --     includeInlayPropertyDeclarationTypeHints = true,
+      --     includeInlayPropertyDeclarationTypeHints = false,
       --     includeInlayFunctionLikeReturnTypeHints = true,
       --     includeInlayEnumMemberValueHints = true,
       --   }

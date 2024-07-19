@@ -16,6 +16,10 @@ return {
           gitsigns = true,
           harpoon = true,
           lsp_trouble = true,
+          indent_blankline = {
+            enabled = true,
+            scope_color = "overlay0"
+          },
           markdown = true,
           mason = true,
           neogit = true,

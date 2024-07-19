@@ -13,7 +13,7 @@ return {
 
   {
     "rcarriga/nvim-dap-ui",
-    dependencies = { "mfussenegger/nvim-dap", "theHamsta/nvim-dap-virtual-text" },
+    dependencies = { "mfussenegger/nvim-dap", "theHamsta/nvim-dap-virtual-text", "nvim-neotest/nvim-nio" },
     opts = function()
       local dap, dapui = require("dap"), require("dapui")
       dapui.setup()
