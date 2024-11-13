@@ -14,3 +14,4 @@ offset = { x = 0, y = 2 }
 padding = { x = 10, y = 10 }
 dynamic_padding = true
 decorations = "Buttonless"
+option_as_alt = "Both"
