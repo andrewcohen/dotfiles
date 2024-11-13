@@ -2,19 +2,30 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    dependencies = {
-      "windwp/nvim-ts-autotag",
-    },
-    main = "nvim-treesitter.configs",
-    opts = {
-      auto_install = true,
-      highlight = {
-        enable = true
-      },
-      indent = {
-        enable = true
-      }
-    }
+    config = function()
+      local configs = require("nvim-treesitter.configs")
+
+      configs.setup({
+        auto_install = true,
+        -- sync_install = false,
+        highlight = { enable = true },
+        indent = { enable = true },
+      })
+    end
+    -- build = ":TSUpdate",
+    -- dependencies = {
+    --   "windwp/nvim-ts-autotag",
+    -- },
+    -- main = "nvim-treesitter.configs",
+    -- opts = {
+    --   auto_install = true,
+    --   highlight = {
+    --     enable = true
+    --   },
+    --   indent = {
+    --     enable = true
+    --   }
+    -- }
   },
 
   {
@@ -225,5 +236,11 @@ return {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {}
+  },
+  {
+    'echasnovski/mini.nvim',
+    config = function()
+      require('mini.move').setup()
+    end
   },
 }

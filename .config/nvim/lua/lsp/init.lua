@@ -160,7 +160,7 @@ function M.setup()
   require("mason").setup()
 
   local kinds = vim.lsp.protocol.CompletionItemKind
-  local icons = require('icons')
+  local icons = require('config.icons')
   for i, kind in ipairs(kinds) do
     kinds[i] = icons[kind] or kind
   end
@@ -342,7 +342,7 @@ function M.setup()
   end
 
 
-  require('lspconfig')['tsserver'].setup({
+  require('lspconfig')['ts_ls'].setup({
     capabilities = capabilities,
     handlers = merge(handlers, typescript_handlers),
     on_attach = function(client, bufnr)
