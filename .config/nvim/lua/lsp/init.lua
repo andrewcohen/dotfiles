@@ -49,6 +49,7 @@ function M.setup()
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
     buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    buf_set_keymap('n', 'gF', '<c-w>v<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
     buf_set_keymap('n', '<leader>gD', '', {
       noremap = true,
@@ -237,17 +238,19 @@ function M.setup()
         tailwindCSS = {
           experimental = {
             classRegex = {
-              { "tv\\(([^)]*)\\)",    "[\"'`]([^\"'`]*).*?[\"'`]" },
-              { "Styles \\=([^;]*);", "'([^']*)'" },
-              { "Styles \\=([^;]*);", "\"([^\"]*)\"" },
-              { "Styles \\=([^;]*);", "\\`([^\\`]*)\\`" }
+              { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
+              { "tv\\(([^)]*)\\)",           "[\"'`]([^\"'`]*).*?[\"'`]" },
+              { "Styles \\=([^;]*);",        "'([^']*)'" },
+              { "Styles \\=([^;]*);",        "\"([^\"]*)\"" },
+              { "Styles \\=([^;]*);",        "\\`([^\\`]*)\\`" }
             }
           }
         }
       }
     },
     phpactor = true,
-    intelephense = true
+    intelephense = true,
+    gleam = true
 
   }
 
