@@ -26,7 +26,6 @@ return {
       }
       require('lualine').setup {
         options = {
-          -- theme = "tokyonight",
           theme = "catppuccin",
           component_separators = '|',
           section_separators = { left = '', right = '' },
@@ -64,13 +63,6 @@ return {
 
   {
     'j-hui/fidget.nvim',
-    tag = 'legacy',
-    config = function()
-      require('fidget').setup({
-        window = {
-          blend = 0
-        }
-      })
-    end
+    opts = {}
   },
 }
