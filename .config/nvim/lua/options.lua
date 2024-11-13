@@ -25,7 +25,7 @@ vim.g.syntax_on = true
 --opt.wildmode = {'list', 'longest'}  -- Command-line completion mode
 opt.wrap = false -- Disable line wrap
 opt.relativenumber = true
-
 opt.mouse = 'a'
+opt.exrc = true
 
 -- vim.g.netrw_keepdir = false
