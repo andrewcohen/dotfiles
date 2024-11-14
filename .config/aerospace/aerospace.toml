@@ -116,6 +116,7 @@ alt-shift-l = 'move right'
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
 alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
+alt-shift-backslash = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 alt-1 = 'workspace 1'
@@ -226,4 +227,8 @@ run = 'move-node-to-workspace S'
 [[on-window-detected]]
 if.app-id = 'com.figma.Desktop'
 run = 'move-node-to-workspace F'
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace C'
 
