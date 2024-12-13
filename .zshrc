@@ -8,6 +8,8 @@ for dump in ~/.zcompdump(N.mh+24); do
 done
 
 compinit -C
+source <(jj util completion zsh)
+
 ##
 
 # # source /usr/local/share/antigen/antigen.zsh
