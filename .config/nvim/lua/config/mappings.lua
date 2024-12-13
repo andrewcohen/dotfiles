@@ -63,6 +63,7 @@ nnoremap <leader>gb :call <SID>ToggleBlame()<CR>
 
 map('n', '<leader>gl', ':Git log<CR>', opts)
 map('n', '<leader>G', ':Git<CR>', opts)
+map('n', '<leader>gco', ':Git checkout ', { silent = false })
 
 map('n', '<leader>rc', '<cmd>luafile ~/.config/nvim/init.lua<cr>')
 map('n', '<leader>ec', '<cmd>:e ~/.config/nvim/init.lua<cr>')
