@@ -62,6 +62,7 @@ function tat {
 #export PATH="$HOME/.fastlane/bin:/usr/local/bin/:$PATH"
 #export PATH=$PATH:/usr/local/opt/sbt/bin
 export GIT_EDITOR=nvim
+export EDITOR=nvim
 export ZVM_VI_EDITOR=nvim
 
 export GOPATH=~/go
