@@ -151,7 +151,7 @@ function M.setup()
       buf_set_keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", opts)
     end
 
-    if client.server_capabilities.inlayHintProvider then
+    if client.server_capabilities.inlayHintProvider and client.name ~= "zls" then
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
   end
