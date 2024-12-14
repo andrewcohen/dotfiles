@@ -156,7 +156,6 @@ function M.setup()
     end
   end
 
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
   require("mason").setup()
 
   local kinds = vim.lsp.protocol.CompletionItemKind
@@ -217,7 +216,6 @@ function M.setup()
 
     lua_ls = {
       on_attach = common_on_attach,
-      capabilities = capabilities,
       settings = {
         Lua = {
           diagnostics = {
@@ -263,11 +261,16 @@ function M.setup()
       config = {}
     end
 
+
+
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
+
     config = vim.tbl_deep_extend("force", {
       on_attach = common_on_attach,
       capabilities = capabilities,
       handlers = handlers
     }, config)
+
     lspconfig[server].setup(config)
   end
 
