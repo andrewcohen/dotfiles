@@ -8,6 +8,7 @@ return {
         flavour = "macchiato",
         -- transparent_background = true,
         integrations = {
+          blink_cmp = true,
           cmp = true,
           dap = {
             enabled = true,
@@ -22,26 +23,26 @@ return {
           },
           markdown = true,
           mason = true,
+          native_lsp = {
+            enabled = true,
+            virtual_text = {
+              errors = { "italic" },
+              hints = { "italic" },
+              warnings = { "italic" },
+              information = { "italic" },
+            },
+            underlines = {
+              errors = { "undercurl" },
+              hints = { "undercurl" },
+              warnings = { "undercurl" },
+              information = { "undercurl" },
+            },
+          },
           neogit = true,
           telescope = true,
           treesitter = true,
           treesitter_context = true,
           which_key = true,
-        },
-        native_lsp = {
-          enabled = true,
-          virtual_text = {
-            errors = { "italic" },
-            hints = { "italic" },
-            warnings = { "italic" },
-            information = { "italic" },
-          },
-          underlines = {
-            errors = { "underline" },
-            hints = { "underline" },
-            warnings = { "underline" },
-            information = { "underline" },
-          },
         },
       }
       vim.cmd.colorscheme "catppuccin"

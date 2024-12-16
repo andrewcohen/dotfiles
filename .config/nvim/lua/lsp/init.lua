@@ -43,6 +43,7 @@ function M.setup()
       })
     end)
 
+
     buf_set_keymap('n', '<leader>gS', '<cmd>lua require("telescope.builtin").lsp_dynamic_workspace_symbols()<CR>', opts)
     buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
@@ -158,12 +159,6 @@ function M.setup()
 
   require("mason").setup()
 
-  local kinds = vim.lsp.protocol.CompletionItemKind
-  local icons = require('config.icons')
-  for i, kind in ipairs(kinds) do
-    kinds[i] = icons[kind] or kind
-  end
-
   vim.diagnostic.config {
     float = { border = 'rounded' },
   }
@@ -252,6 +247,8 @@ function M.setup()
 
   }
 
+  local capabilities = require('blink.cmp').get_lsp_capabilities()
+
   local setup_server = function(server, config)
     if not config then
       return
@@ -260,10 +257,6 @@ function M.setup()
     if type(config) ~= "table" then
       config = {}
     end
-
-
-
-    local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     config = vim.tbl_deep_extend("force", {
       on_attach = common_on_attach,
