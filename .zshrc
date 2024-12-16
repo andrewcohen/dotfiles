@@ -8,7 +8,6 @@ for dump in ~/.zcompdump(N.mh+24); do
 done
 
 compinit -C
-source <(jj util completion zsh)
 
 ##
 
@@ -78,3 +77,5 @@ source ~/.profile
 
 eval "$(starship init zsh)"
 eval "$(/opt/homebrew/bin/mise activate zsh)"
+
+source <(jj util completion zsh)

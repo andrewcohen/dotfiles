@@ -238,10 +238,4 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {}
   },
-  {
-    'echasnovski/mini.nvim',
-    config = function()
-      require('mini.move').setup()
-    end
-  },
 }

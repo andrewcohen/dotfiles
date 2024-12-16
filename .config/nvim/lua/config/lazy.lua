@@ -28,10 +28,8 @@ autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace on save
 require('config.options')
 require('config.mappings')
 
--- Setup lazy.nvim
 require("lazy").setup({
   spec = {
-    -- import your plugins
     { import = "plugins" },
   },
   -- Configure any other settings here. See the documentation for more details.
