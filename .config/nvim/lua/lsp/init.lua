@@ -152,7 +152,7 @@ function M.setup()
       buf_set_keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", opts)
     end
 
-    if client.server_capabilities.inlayHintProvider and client.name ~= "zls" then
+    if client.server_capabilities.inlayHintProvider then
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
   end
@@ -193,7 +193,13 @@ function M.setup()
 
     emmet_language_server = true,
 
-    zls = true,
+    zls = {
+      settings = {
+        zls = {
+          enable_build_on_save = true
+        }
+      }
+    },
 
     eslint = {
       settings = {
@@ -255,7 +261,10 @@ function M.setup()
     },
     phpactor = true,
     intelephense = true,
-    gleam = true
+    gleam = true,
+    elixirls = {
+      cmd = { "/Users/andrew/.local/share/nvim/mason/bin/elixir-ls" }
+    }
 
   }
 
