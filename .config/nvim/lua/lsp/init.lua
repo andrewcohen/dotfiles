@@ -231,11 +231,23 @@ function M.setup()
         tailwindCSS = {
           experimental = {
             classRegex = {
-              { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
-              { "tv\\(([^)]*)\\)",           "[\"'`]([^\"'`]*).*?[\"'`]" },
-              { "Styles \\=([^;]*);",        "'([^']*)'" },
-              { "Styles \\=([^;]*);",        "\"([^\"]*)\"" },
-              { "Styles \\=([^;]*);",        "\\`([^\\`]*)\\`" }
+              -- Matches strings within quotes (single, double, or backticks)
+              -- { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
+
+              -- Matches arguments passed inside the `cn` function
+              { "cn\\(([^)]*)\\)",    "[\"'`]([^\"'`]+)[\"'`]" },
+
+              -- Matches Tailwind classes within the `tv` function
+              { "tv\\(([^)]*)\\)",    "[\"'`]([^\"'`]*).*?[\"'`]" },
+
+              -- Matches single-quoted classes assigned to a variable `Styles`
+              { "Styles \\=([^;]*);", "'([^']*)'" },
+
+              -- Matches double-quoted classes assigned to a variable `Styles`
+              { "Styles \\=([^;]*);", "\"([^\"]*)\"" },
+
+              -- Matches backtick-enclosed classes assigned to a variable `Styles`
+              { "Styles \\=([^;]*);", "\\`([^\\`]*)\\`" }
             }
           }
         }
