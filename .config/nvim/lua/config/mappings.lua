@@ -15,6 +15,10 @@ map('i', 'jj', '<esc>')
 map('', 'Y', 'y$')
 map('v', '<leader>y', '"*y')
 
+-- move visual lines up/down
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
 -- quickfix
 map('n', '<leader>cn', '<cmd>cnext<cr>')
 map('n', '<leader>cp', '<cmd>cprev<cr>')
