@@ -13,3 +13,9 @@ mouse-hide-while-typing = true
 # keybind = global:cmd+/=toggle_quick_terminal
 # quick-terminal-animation-duration = 0.1
 
+# Sends Ctrl-b N for tmux next window
+keybind = cmd+]=text:\x02n
+# Sends Ctrl-b P for tmux previous window
+keybind = cmd+[=text:\x02p
+# Sends Ctrl-b S for tmux show sessions
+keybind = cmd+;=text:\x02s
