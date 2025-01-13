@@ -16,26 +16,22 @@ function M.setup()
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
   local common_on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function nmap(lhs, rhs) vim.api.nvim_buf_set_keymap(bufnr, 'n', lhs, rhs, { noremap = true, silent = true }) end
     local opts = { noremap = true, silent = true }
 
     -- Mappings.
-
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-    buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('v', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n', '<leader>gr', '<cmd>lua require("telescope.builtin").lsp_references()<CR>', opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>gr', require("telescope.builtin").lsp_references, opts)
     vim.keymap.set('n', '<leader>gs', function()
       require 'telescope.builtin'.lsp_document_symbols({
         symbol_width = 50,     -- make the symbols a bit wider than the 25 by default otherwise they are always cut off
@@ -43,31 +39,29 @@ function M.setup()
         symbols = { 'function', 'method' }
       })
     end)
+    vim.keymap.set('n', '<leader>gS', function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end, opts)
+    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
+    vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, opts)
+    vim.keymap.set('n', 'gF', '<c-w>v<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
-
-    buf_set_keymap('n', '<leader>gS', '<cmd>lua require("telescope.builtin").lsp_dynamic_workspace_symbols()<CR>', opts)
-    buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-    buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-    buf_set_keymap('n', 'gF', '<c-w>v<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-
-    buf_set_keymap('n', '<leader>gD', '', {
+    vim.keymap.set('n', '<leader>gD', '', {
       noremap = true,
       callback = function()
         vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
       end,
     })
 
-    buf_set_keymap('n', '<leader>gd', '', {
+    vim.keymap.set('n', '<leader>gd', '', {
       noremap = true,
       callback = function()
         vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
       end,
     })
 
-    buf_set_keymap('n', '<leader>ga', '', {
+    vim.keymap.set('n', '<leader>ga', '', {
       noremap = true,
       callback = function()
         if #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR }) > 0 then
@@ -79,7 +73,7 @@ function M.setup()
       end,
     })
 
-    buf_set_keymap('n', '<leader>gA', '', {
+    vim.keymap.set('n', '<leader>gA', '', {
       noremap = true,
       callback = function()
         if #vim.diagnostic.get(0) > 0 then
@@ -150,7 +144,7 @@ function M.setup()
 
 
     if client.name == "gopls" then
-      buf_set_keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", opts)
+      vim.keymap.set("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", opts)
     end
 
     if client.server_capabilities.inlayHintProvider then
