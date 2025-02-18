@@ -78,4 +78,5 @@ source ~/.profile
 eval "$(starship init zsh)"
 eval "$(/opt/homebrew/bin/mise activate zsh)"
 
-source <(jj util completion zsh)
+source <(COMPLETE=zsh jj)
+

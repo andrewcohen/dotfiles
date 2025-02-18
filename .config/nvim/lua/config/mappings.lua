@@ -29,7 +29,7 @@ map('n', '<leader>N', '<cmd>tab drop ~/notes.md<cr>')
 
 
 -- tmux sessionizer
-map('n', '<leader>F', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
+map('n', '<leader>F', '<cmd>silent !tmux neww tms<CR>')
 
 -- trouble
 --
@@ -90,6 +90,99 @@ vim.keymap.set('n', '<leader>dS', "<Cmd>lua require'dap'.disconnect()<CR>")
 
 -- terminal  escape
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+
+
+local function load_jj_conflicts_to_qf()
+  -- Run jj status to get conflicted files
+  local handle = io.popen("jj status | grep '2-sided conflict' | awk '{print $1}'")
+  if not handle then return end
+  local result = handle:read("*a")
+  handle:close()
+
+  -- Table to store quickfix items
+  local qf_list = {}
+
+  -- Process each conflicted file
+  for file in result:gmatch("[^\r\n]+") do
+    local conflict_file = io.open(file, "r")
+    if conflict_file then
+      local line_num = 0
+      local in_conflict = false
+      local conflict_text = {}
+
+      for line in conflict_file:lines() do
+        line_num = line_num + 1
+
+        if line:match("^<<<<<<<") then
+          in_conflict = true
+          conflict_text = { line } -- Start a new conflict block
+        elseif line:match("^>>>>>>>") and in_conflict then
+          table.insert(conflict_text, line)
+          local text = table.concat(conflict_text, " | ") -- Concatenate for quickfix display
+
+          -- Add to quickfix list
+          table.insert(qf_list, {
+            filename = file,
+            lnum = line_num - #conflict_text + 1, -- Start line of the conflict
+            col = 1,
+            text = text
+          })
+
+          in_conflict = false
+        elseif in_conflict then
+          table.insert(conflict_text, line)
+        end
+      end
+      conflict_file:close()
+    end
+  end
+
+  -- Load conflicts into the quickfix list
+  if #qf_list > 0 then
+    vim.fn.setqflist(qf_list, "r") -- Replace quickfix list
+    vim.cmd("copen")               -- Open quickfix window
+  else
+    print("No Jujutsu conflicts found!")
+  end
+end
+
+-- Create a Neovim command
+vim.api.nvim_create_user_command("JJConflicts", load_jj_conflicts_to_qf, {})
+
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
+
+
+-- local function load_jj_conflicts_to_qf()
+--   -- Run jj status and extract conflicts
+--   local handle = io.popen("jj status | grep '2-sided conflict' | awk '{print $1}'")
+--   if not handle then return end
+--   local result = handle:read("*a")
+--   handle:close()
+
+--   -- Parse file names
+--   local files = {}
+--   for file in result:gmatch("[^\r\n]+") do
+--     table.insert(files, { filename = file, lnum = 1, col = 1, text = "" })
+--   end
+
+--   -- Load into quickfix list
+--   if #files > 0 then
+--     vim.fn.setqflist(files, "r") -- Replace quickfix list with conflicts
+--     vim.cmd("copen")             -- Open quickfix window
+--   else
+--     print("No Jujutsu conflicts found!")
+--   end
+-- end
+
+-- -- Create a Neovim command
+-- vim.api.nvim_create_user_command("JJConflicts", load_jj_conflicts_to_qf, {})
 
 return {
   set_normal_mappings = function()

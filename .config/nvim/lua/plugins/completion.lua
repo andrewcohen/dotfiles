@@ -8,7 +8,7 @@ return {
     'saghen/blink.cmp',
     lazy = false, -- lazy loading handled internally
     -- optional: provides snippets for the snippet source
-    dependencies = 'rafamadriz/friendly-snippets',
+    dependencies = { 'rafamadriz/friendly-snippets', "fang2hou/blink-copilot" },
 
     -- use a release tag to download pre-built binaries
     version = 'v0.*',
@@ -54,12 +54,20 @@ return {
         }
       },
       -- },
-
+      --
       -- default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, via `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'copilot', 'lsp', 'path', 'snippets', 'buffer' },
         -- optionally disable cmdline completions
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
       },
 
       -- experimental signature help support
@@ -68,5 +76,34 @@ return {
     -- allows extending the providers array elsewhere in your config
     -- without having to redefine it
     opts_extend = { "sources.default" }
+  },
+  -- {
+  --   "copilotlsp-nvim/copilot-lsp",
+  --   init = function()
+  --     vim.g.copilot_nes_debounce = 500
+  --     vim.lsp.enable("copilot")
+  --     vim.keymap.set("n", "<tab>", function()
+  --       -- Try to jump to the start of the suggestion edit.
+  --       -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
+  --       local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
+  --           or (
+  --             require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit()
+  --           )
+  --     end)
+  --   end,
+  -- },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+    },
   }
+
 }

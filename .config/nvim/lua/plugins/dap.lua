@@ -51,6 +51,16 @@ return {
         -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
       })
 
+      require("dap").adapters["pwa-node"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+          command = "node",
+          args = { vim.env.HOME .. "/.local/share/nvim/lazy/vscode-js-debug/dist/src/dapDebugServer.js", "${port}" },
+        }
+      }
+
       for _, language in ipairs({ "typescript", "javascript", "typescriptreact", "javascriptreact" }) do
         require("dap").configurations[language] = {
           {
@@ -67,6 +77,24 @@ return {
             program = "${file}",
             cwd = "${workspaceFolder}",
           },
+          {
+            type = "pwa-node",
+            request = "attach",
+            name = "Hydrogen",
+            port = "9229",
+            cwd = "${workspaceFolder}",
+          },
+          -- {
+          --   type = "pwa-node",
+          --   request = "launch",
+          --   name = "Debug Current Test File",
+          --   autoAttachChildProcesses = true,
+          --   skipFiles = { "<node_internals>/**", "**/node_modules/**" },
+          --   program = "${workspaceRoot}/node_modules/vitest/vitest.mjs",
+          --   args = { "run", "${relativeFile}" },
+          --   smartStep = true,
+          --   console = "integratedTerminal"
+          -- }
         }
       end
     end
@@ -76,6 +104,6 @@ return {
     -- this is kind of a weird hack to have Lazy manage this dependency, but it works
     -- required by 'nvim-dap-vscode-js'
     "microsoft/vscode-js-debug",
-    build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+    build = "npm install --legacy-peer-deps && npx gulp dapDebugServer"
   }
 }
