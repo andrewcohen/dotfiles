@@ -78,11 +78,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = { 'saghen/blink.cmp' },
-    config = function()
-      require("lsp").setup()
-    end
   },
-
 
   {
     "williamboman/mason.nvim",
@@ -144,19 +140,14 @@ return {
     opts = {
       tag_transform = "camelcase",
       dap_debug_keymap = false,
+      diagnostic = false
     }
   },
 
   {
-    "simrat39/rust-tools.nvim",
-    -- https://github.com/simrat39/rust-tools.nvim/issues/157
-    -- 'Freyskeyd/rust-tools.nvim',
-    -- branch = 'dap_fix',
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "nvim-lua/plenary.nvim",
-      "mfussenegger/nvim-dap"
-    }
+    'mrcjkb/rustaceanvim',
+    version = '^6', -- Recommended
+    lazy = false,   -- This plugin is already lazy
   },
 
   -- sizzle

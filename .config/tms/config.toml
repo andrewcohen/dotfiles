@@ -1,0 +1,8 @@
+[[search_dirs]]
+path = "~/p"
+depth = 10
+
+[[search_dirs]]
+path = "~/go/src/github.com/"
+depth = 10
+

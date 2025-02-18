@@ -50,6 +50,7 @@ return {
       local actions = require('telescope.actions')
       require('telescope').setup {
         defaults = {
+          border = false,
           layout_strategy = 'flex',
           sorting_strategy = 'ascending',
           layout_config = {

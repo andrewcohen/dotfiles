@@ -1,4 +1,4 @@
-local opt = vim.opt -- to set options
+local opt = vim.o -- to set options
 
 opt.completeopt = "menuone,noinsert,noselect"
 opt.cursorline = true
@@ -27,5 +27,5 @@ opt.wrap = false -- Disable line wrap
 opt.relativenumber = true
 opt.mouse = 'a'
 opt.exrc = true
-
+opt.winborder = 'rounded'
 -- vim.g.netrw_keepdir = false

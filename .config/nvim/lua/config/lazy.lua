@@ -27,6 +27,7 @@ autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace on save
 
 require('config.options')
 require('config.mappings')
+require('config.lsp')
 
 require("lazy").setup({
   spec = {

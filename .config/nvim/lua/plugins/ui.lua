@@ -50,17 +50,24 @@ return {
     end
   },
 
+  -- lazy.nvim
   {
-    'stevearc/dressing.nvim',
+    "folke/snacks.nvim",
+    ---@type snacks.Config
     opts = {
       input = {
-        win_options = {
-          winblend = 0,
+        enabled = true,
+      },
+      picker = { enabled = true },
+      styles = {
+        input = {
+          relative = 'cursor',
+          row = -4,
+          col = 0
         }
       }
     }
   },
-
   {
     'j-hui/fidget.nvim',
     opts = {}
