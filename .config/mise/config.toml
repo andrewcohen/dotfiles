@@ -2,3 +2,4 @@
 gleam = "1.7.0"
 go = "latest"
 node = "lts"
+python = "3.10"
