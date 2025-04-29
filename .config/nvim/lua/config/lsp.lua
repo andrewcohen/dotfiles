@@ -3,7 +3,9 @@ vim.lsp.enable({
   'ts_ls',
   'eslint',
   'tailwindcss',
-  'jsonls'
+  'jsonls',
+  'basedpyright',
+  'ruff'
 })
 
 -- diagnostics
