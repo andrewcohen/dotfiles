@@ -1,12 +1,4 @@
-vim.lsp.config('vtsls', {
-  -- root_dir = require('lspconfig.util').root_pattern('tsconfig.json', 'package.json'),
-  settings = {
-    typescript = {
-      preferences = {
-        -- importModuleSpecifier = "non-relative", -- prevents ./../ imports
-      }
-    }
-  },
+vim.lsp.config('tsgo', {
   on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "",
       {

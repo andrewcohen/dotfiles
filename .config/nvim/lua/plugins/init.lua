@@ -2,31 +2,138 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    config = function()
-      local configs = require("nvim-treesitter.configs")
+    event = "BufReadPost",
+    branch = "main",
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-context",
+        config = true,
+        opts = {
+          enable = true,
+          max_lines = 3,
+          multiline_threshold = 1,
+          min_window_height = 20,
+        },
 
-      configs.setup({
-        auto_install = true,
-        -- sync_install = false,
-        highlight = { enable = true },
-        indent = { enable = true },
+        keys = {
+          { "<leader>uC", ":TSContextToggle<CR>", desc = "Toggle TSContext" },
+          {
+            "[c",
+            ":lua require('treesitter-context').go_to_context()<cr>",
+            silent = true,
+            desc = "Go to context",
+          },
+        },
+      },
+    },
+    opts = {
+      ensure_installed = {
+        "javascript",
+        "typescript",
+        "tsx",
+        "lua",
+        "jsdoc",
+        "json",
+        "json5",
+        "jsonc",
+        "prisma",
+        "sql",
+        "regex",
+        "html",
+        "css",
+        "scss",
+        "jsdoc",
+        "astro",
+        "go",
+        "gomod",
+        "bash",
+        "markdown",
+        "http",
+        "markdown_inline",
+        "query",
+        "vim",
+        "vimdoc",
+        "gitignore",
+        "gitcommit",
+        "git_config",
+        "diff",
+        "http",
+        "git_rebase",
+        "toml",
+        "yaml",
+      },
+    },
+    config = function(_, opts)
+      require("nvim-treesitter").setup()
+      require("nvim-treesitter").install(opts.ensure_installed)
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
+          "astro",
+          "css",
+          "diff",
+          "gitcommit",
+          "gitconfig",
+          "gitignore",
+          "gitrebase",
+          "go",
+          "gomod",
+          "html",
+          "http",
+          "javascript",
+          "json",
+          "lua",
+          "markdown",
+          "markdown_inline",
+          "python",
+          "query",
+          "regex",
+          "scss",
+          "sh",
+          "sql",
+          "toml",
+          "typescript",
+          "typescriptreact",
+          "vim",
+          "vimdoc",
+          "yaml",
+        },
+        callback = function()
+          local ok = pcall(vim.treesitter.start)
+          if not ok then
+            print("Treesitter not enabling")
+            return
+          end
+        end,
       })
-    end
-    -- build = ":TSUpdate",
-    -- dependencies = {
-    --   "windwp/nvim-ts-autotag",
-    -- },
-    -- main = "nvim-treesitter.configs",
-    -- opts = {
-    --   auto_install = true,
-    --   highlight = {
-    --     enable = true
-    --   },
-    --   indent = {
-    --     enable = true
-    --   }
-    -- }
+    end,
   },
+  -- {
+  --   "nvim-treesitter/nvim-treesitter",
+  --   build = ":TSUpdate",
+  --   branch = "main",
+  --   lazy = "false",
+  --   init = function()
+  --     require("nvim-treesitter").update()
+
+  --     vim.api.nvim_create_autocmd('FileType', {
+  --       pattern = { '*' },
+  --       callback = function(e)
+  --         print("start TS")
+  --         vim.treesitter.start()
+  --       end,
+  --     })
+  --   end
+  --   -- config = function()
+  --   --   local configs = require("nvim-treesitter.configs")
+
+  --   --   configs.setup({
+  --   --     auto_install = true,
+  --   --     -- sync_install = false,
+  --   --     highlight = { enable = true },
+  --   --     indent = { enable = true },
+  --   --   })
+  --   -- end
 
   {
     "windwp/nvim-ts-autotag",
@@ -50,7 +157,7 @@ return {
     end
   },
 
-  { "nvim-treesitter/playground" },
+  -- { "nvim-treesitter/playground" },
   {
     "nvim-treesitter/nvim-treesitter-context",
     opts = function()
@@ -135,14 +242,14 @@ return {
     opts = {}
   },
 
-  {
-    "ray-x/go.nvim",
-    opts = {
-      tag_transform = "camelcase",
-      dap_debug_keymap = false,
-      diagnostic = false
-    }
-  },
+  -- {
+  --   "ray-x/go.nvim",
+  --   opts = {
+  --     tag_transform = "camelcase",
+  --     dap_debug_keymap = false,
+  --     diagnostic = false
+  --   }
+  -- },
 
   {
     'mrcjkb/rustaceanvim',
@@ -205,7 +312,8 @@ return {
   {
     'ggandor/leap.nvim',
     config = function()
-      require('leap').create_default_mappings()
+      vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
+      vim.keymap.set('n', 'S', '<Plug>(leap-from-window)')
     end
   },
   {

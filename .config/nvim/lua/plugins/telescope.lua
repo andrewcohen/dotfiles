@@ -7,7 +7,7 @@ local dir_files = function()
   require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })
 end
 
-local additional_args = { '--hidden', '-g', '!.git' }
+local additional_args = { '--hidden', '-g', '!.git', '-g', '!.jj' }
 
 return {
   {
@@ -15,7 +15,7 @@ return {
     dependencies = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
     keys = {
       { '<leader>ff', project_files },
-      { '<leader>fg', function() require('telescope.builtin').live_grep({ additional_args }) end },
+      { '<leader>fg', function() require('telescope.builtin').live_grep({ additional_args = additional_args }) end },
       { '<leader>fw', '<cmd>Telescope grep_string<cr>' },
       {
         '<leader>fw',
@@ -50,7 +50,7 @@ return {
       local actions = require('telescope.actions')
       require('telescope').setup {
         defaults = {
-          border = false,
+          border = true,
           layout_strategy = 'flex',
           sorting_strategy = 'ascending',
           layout_config = {

@@ -104,6 +104,11 @@ return {
     -- this is kind of a weird hack to have Lazy manage this dependency, but it works
     -- required by 'nvim-dap-vscode-js'
     "microsoft/vscode-js-debug",
-    build = "git checkout . && npm install --legacy-peer-deps && npx gulp dapDebugServer"
+    build = table.concat({
+      "npm ci --legacy-peer-deps",
+      "npx gulp dapDebugServer",
+      -- keep the plugin repo clean so Lazy can update it later
+      "git checkout -- package-lock.json || true"
+    }, " && ")
   }
 }

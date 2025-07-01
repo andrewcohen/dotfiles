@@ -1,3 +1,7 @@
+vim.keymap.set("n", "<leader>O", function()
+  require("helpers.tmux").open_or_jump_to_window("opencode")
+end, { desc = "Open or jump to Opencode in tmux" })
+
 return {
   {
     "zbirenbaum/copilot.lua",
@@ -14,6 +18,8 @@ return {
   },
   {
     "olimorris/codecompanion.nvim",
+    tag = 'v17.33.0',
+    pin = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -21,24 +27,26 @@ return {
     },
     opts = {
       adapters = {
-        copilot = function()
-          return require('codecompanion.adapters').extend('copilot', {
-            schema = {
-              model = {
-                -- default = 'gpt-4.1'
-                default = "claude-sonnet-4"
+        http = {
+          copilot = function()
+            return require('codecompanion.adapters').extend('copilot', {
+              schema = {
+                model = {
+                  -- default = 'gpt-4.1'
+                  default = "claude-sonnet-4"
+                }
               }
-            }
-          })
-        end
+            })
+          end
+        }
       },
       display = {
         action_palette = {
           provider = "mini_pick"
         },
-        diff = {
-          provider = "mini_diff"
-        }
+        -- diff = {
+        --   provider = "mini_diff"
+        -- }
       },
       strategies = {
         chat = {
