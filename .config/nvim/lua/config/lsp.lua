@@ -1,25 +1,31 @@
 vim.lsp.enable({
   'lua_ls',
-  'ts_ls',
+  -- 'ts_ls',
+  'vtsls',
   'eslint',
   'tailwindcss',
   'jsonls',
   'basedpyright',
-  'ruff'
+  'ruff',
+  'gopls'
 })
 
 -- diagnostics
+-- vim.diagnostic.config {
+--   virtual_text = {
+--     severity = {
+--       max = vim.diagnostic.severity.WARN,
+--     },
+--   },
+--   virtual_lines = {
+--     severity = {
+--       min = vim.diagnostic.severity.ERROR,
+--     },
+--   },
+-- }
 vim.diagnostic.config {
-  virtual_text = {
-    severity = {
-      max = vim.diagnostic.severity.WARN,
-    },
-  },
-  virtual_lines = {
-    severity = {
-      min = vim.diagnostic.severity.ERROR,
-    },
-  },
+  virtual_text = true,
+  virtual_lines = false
 }
 
 vim.keymap.set('n', '<leader>tdd', function()
@@ -27,24 +33,23 @@ vim.keymap.set('n', '<leader>tdd', function()
     virtual_lines = not vim.diagnostic.config().virtual_lines,
     virtual_text = not vim.diagnostic.config().virtual_text,
   }
-  vim.print(vim.diagnostic.config())
 end, { desc = 'Toggle diagnostic virtual lines and virtual text' })
 
 -- format on save
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
+-- vim.api.nvim_create_autocmd('LspAttach', {
+--   callback = function(args)
+--     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-    if client ~= nil and client:supports_method('textDocument/formatting') then
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        buffer = args.buf,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
-        end,
-      })
-    end
-  end,
-})
+--     if client ~= nil and client:supports_method('textDocument/formatting') then
+--       vim.api.nvim_create_autocmd('BufWritePre', {
+--         buffer = args.buf,
+--         callback = function()
+--           vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+--         end,
+--       })
+--     end
+--   end,
+-- })
 
 -- keybinds
 vim.api.nvim_create_autocmd('LspAttach', {

@@ -158,32 +158,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-
--- local function load_jj_conflicts_to_qf()
---   -- Run jj status and extract conflicts
---   local handle = io.popen("jj status | grep '2-sided conflict' | awk '{print $1}'")
---   if not handle then return end
---   local result = handle:read("*a")
---   handle:close()
-
---   -- Parse file names
---   local files = {}
---   for file in result:gmatch("[^\r\n]+") do
---     table.insert(files, { filename = file, lnum = 1, col = 1, text = "" })
---   end
-
---   -- Load into quickfix list
---   if #files > 0 then
---     vim.fn.setqflist(files, "r") -- Replace quickfix list with conflicts
---     vim.cmd("copen")             -- Open quickfix window
---   else
---     print("No Jujutsu conflicts found!")
---   end
--- end
-
--- -- Create a Neovim command
--- vim.api.nvim_create_user_command("JJConflicts", load_jj_conflicts_to_qf, {})
-
 return {
   set_normal_mappings = function()
     vim.keymap.set('n', 'c', "<Cmd>lua require'dap'.continue()<CR>")
