@@ -59,6 +59,9 @@ return {
       -- elsewhere in your config, without redefining it, via `opts_extend`
       sources = {
         default = { 'copilot', 'lsp', 'path', 'snippets', 'buffer' },
+        per_filetype = {
+          sql = { 'snippets', 'dadbod', 'buffer' },
+        },
         -- optionally disable cmdline completions
         providers = {
           copilot = {
@@ -67,6 +70,7 @@ return {
             score_offset = 100,
             async = true,
           },
+          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
         },
       },
 
@@ -77,33 +81,5 @@ return {
     -- without having to redefine it
     opts_extend = { "sources.default" }
   },
-  -- {
-  --   "copilotlsp-nvim/copilot-lsp",
-  --   init = function()
-  --     vim.g.copilot_nes_debounce = 500
-  --     vim.lsp.enable("copilot")
-  --     vim.keymap.set("n", "<tab>", function()
-  --       -- Try to jump to the start of the suggestion edit.
-  --       -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
-  --       local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
-  --           or (
-  --             require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit()
-  --           )
-  --     end)
-  --   end,
-  -- },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = {
-      suggestion = { enabled = false },
-      panel = { enabled = false },
-      filetypes = {
-        markdown = true,
-        help = true,
-      },
-    },
-  }
 
 }

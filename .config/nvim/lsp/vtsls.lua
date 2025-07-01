@@ -1,4 +1,4 @@
-vim.lsp.config('ts_ls', {
+vim.lsp.config('vtsls', {
   on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "",
       {
@@ -7,7 +7,7 @@ vim.lsp.config('ts_ls', {
           vim.lsp.buf.code_action({
             apply = true,
             context = {
-              only = { "source.removeUnusedImports.ts" },
+              only = { "source.removeUnusedImports" },
               diagnostics = {},
             },
           })

@@ -60,6 +60,27 @@ function tat {
   fi
 }
 
+function lz() {
+  if tmux list-windows | grep -q 'lazygit'; then
+    tmux select-window -t lazygit
+  else
+    tmux new-window -n lazygit -c "#{pane_current_path}" lazygit
+  fi
+}
+
+
+function curl_time() {
+    curl -so /dev/null -w "\
+   namelookup:  %{time_namelookup}s\n\
+      connect:  %{time_connect}s\n\
+   appconnect:  %{time_appconnect}s\n\
+  pretransfer:  %{time_pretransfer}s\n\
+     redirect:  %{time_redirect}s\n\
+starttransfer:  %{time_starttransfer}s\n\
+-------------------------\n\
+        total:  %{time_total}s\n" "$@"
+}
+
 #export PATH="$HOME/.fastlane/bin:/usr/local/bin/:$PATH"
 #export PATH=$PATH:/usr/local/opt/sbt/bin
 export GIT_EDITOR=nvim
@@ -68,6 +89,11 @@ export ZVM_VI_EDITOR=nvim
 
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
+
+# no idea why these are broken in tmux 3
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
+bindkey "^R" history-incremental-search-backward
 
 source ~/.profile
 

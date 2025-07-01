@@ -104,6 +104,6 @@ return {
     -- this is kind of a weird hack to have Lazy manage this dependency, but it works
     -- required by 'nvim-dap-vscode-js'
     "microsoft/vscode-js-debug",
-    build = "npm install --legacy-peer-deps && npx gulp dapDebugServer"
+    build = "git checkout . && npm install --legacy-peer-deps && npx gulp dapDebugServer"
   }
 }
