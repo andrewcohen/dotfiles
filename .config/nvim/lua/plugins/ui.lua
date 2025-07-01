@@ -4,6 +4,19 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     -- after = 'onedark.nvim',
     config = function()
+      local function jj_description()
+        local first_line = io.popen 'jj log -T "description.first_line()" --no-graph --color=never --ignore-working-copy -r @'
+        if first_line then
+          local result = first_line:read '*a'
+          first_line:close()
+          if type(result) == 'string' and string.len(result) > 0 then
+            return result
+          else
+            return '(empty)'
+          end
+        end
+      end
+
       local extend_sections = {
         lualine_a = {
           'filetype',
@@ -24,6 +37,7 @@ return {
           'dapui_watches',
         },
       }
+
       require('lualine').setup {
         options = {
           theme = "catppuccin",
@@ -38,7 +52,9 @@ return {
           -- }
         },
         sections = {
-          lualine_b = { 'branch', 'diff',
+          lualine_b = {
+            jj_description,
+            'diff',
             { 'diagnostics', symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' } }
           },
         }

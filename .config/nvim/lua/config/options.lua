@@ -29,3 +29,5 @@ opt.mouse = 'a'
 opt.exrc = true
 opt.winborder = 'rounded'
 -- vim.g.netrw_keepdir = false
+--
+-- opt.laststatus=3

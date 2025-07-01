@@ -2,12 +2,17 @@ vim.lsp.enable({
   'lua_ls',
   -- 'ts_ls',
   'vtsls',
+  -- 'tsgo',
   'eslint',
   'tailwindcss',
   'jsonls',
   'basedpyright',
   'ruff',
-  'gopls'
+  'gopls',
+  'yamlls',
+  'racket_langserver',
+  'ocamllsp',
+  'clangd'
 })
 
 -- diagnostics

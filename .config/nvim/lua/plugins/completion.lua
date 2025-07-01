@@ -8,7 +8,10 @@ return {
     'saghen/blink.cmp',
     lazy = false, -- lazy loading handled internally
     -- optional: provides snippets for the snippet source
-    dependencies = { 'rafamadriz/friendly-snippets', "fang2hou/blink-copilot" },
+    dependencies = { 'rafamadriz/friendly-snippets', "fang2hou/blink-copilot",
+      'Kaiser-Yang/blink-cmp-avante',
+
+    },
 
     -- use a release tag to download pre-built binaries
     version = 'v0.*',
@@ -58,7 +61,7 @@ return {
       -- default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, via `opts_extend`
       sources = {
-        default = { 'copilot', 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'avante', 'lsp', 'path', 'snippets', 'buffer' },
         per_filetype = {
           sql = { 'snippets', 'dadbod', 'buffer' },
         },
@@ -69,6 +72,13 @@ return {
             module = "blink-copilot",
             score_offset = 100,
             async = true,
+          },
+          avante = {
+            module = 'blink-cmp-avante',
+            name = 'Avante',
+            opts = {
+              -- options for blink-cmp-avante
+            }
           },
           dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
         },

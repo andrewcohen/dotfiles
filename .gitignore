@@ -2,3 +2,4 @@
 .vim
 .config/nvim/plugin
 .config/github-copilot/hosts.json
+.aider*

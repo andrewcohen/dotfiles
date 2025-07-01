@@ -43,7 +43,12 @@ alias gd="git diff"
 alias gst="git status"
 alias gco="git checkout"
 
+function git-cleanup-old-branches() {
+  git fetch --prune && git branch --delete $(git for-each-ref --format '%(if:equals=gone)%(upstream:track,nobracket)%(then)%(refname:short)%(end)' refs/heads/)
+}
+
 alias vim="nvim"
+alias tf="terraform"
 with-env() {
   env $(cat .env | grep -v "#" | xargs) $@
 }
@@ -106,3 +111,6 @@ eval "$(/opt/homebrew/bin/mise activate zsh)"
 
 source <(COMPLETE=zsh jj)
 
+
+# bun completions
+[ -s "/Users/acohen/.bun/_bun" ] && source "/Users/acohen/.bun/_bun"

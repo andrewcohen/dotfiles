@@ -1,9 +1,14 @@
 macos-titlebar-style = hidden
-theme = catppuccin-macchiato
+theme = Catppuccin Macchiato
 
+font-family = Maple Mono
+# Maple mono features
+# cv01 - @ symbol
+# cv04 - cursive L
+font-feature = +cv01, +cv04
 font-size = 15
 font-thicken = true
-adjust-cell-height = 2
+#adjust-cell-height = 2
 
 window-padding-x = 10
 window-padding-y = 10
