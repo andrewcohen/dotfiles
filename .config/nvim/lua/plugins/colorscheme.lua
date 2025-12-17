@@ -7,6 +7,15 @@ return {
       require('catppuccin').setup {
         flavour = "macchiato",
         -- transparent_background = true,
+        custom_highlights = function(colors)
+          return {
+            DapBreakpoint = { fg = colors.mauve },
+            DapBreakpointCondition = { fg = colors.yellow },
+            DapLogPoint = { fg = colors.sapphire },
+            DapStopped = { fg = colors.green },
+            DapBreakpointRejected = { fg = colors.red },
+          }
+        end,
         integrations = {
           blink_cmp = true,
           cmp = true,

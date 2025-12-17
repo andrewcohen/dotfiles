@@ -2,12 +2,25 @@ return {
   {
     'mfussenegger/nvim-dap',
     config = function()
-      -- enhanced dap theming for catppuccin
-      require("dap")
+      local dap = require("dap")
+
       local sign = vim.fn.sign_define
-      sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-      sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
-      sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
+      sign("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+      sign("DapBreakpointCondition", { text = "", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+      sign("DapLogPoint", { text = "󰍩", texthl = "DapLogPoint", linehl = "", numhl = "" })
+      sign("DapStopped", { text = "󰜴", texthl = "DapStopped", linehl = "", numhl = "" })
+      sign("DapBreakpointRejected", { text = "󰅙", texthl = "DapBreakpointRejected", linehl = "", numhl = "" })
+
+
+      dap.adapters["pwa-node"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+          command = "node",
+          args = { vim.env.HOME .. "/.local/share/nvim/lazy/vscode-js-debug/dist/src/dapDebugServer.js", "${port}" },
+        }
+      }
     end
   },
 
@@ -19,15 +32,12 @@ return {
       dapui.setup()
       require("nvim-dap-virtual-text").setup()
       dap.listeners.after.event_initialized["dapui_config"] = function()
-        -- require 'mappings'.set_normal_mappings()
         dapui.open()
       end
       dap.listeners.before.event_terminated["dapui_config"] = function()
-        -- require 'mappings'.unset_normal_mappings()
         dapui.close()
       end
       dap.listeners.before.event_exited["dapui_config"] = function()
-        -- require 'mappings'.unset_normal_mappings()
         dapui.close()
       end
     end
@@ -36,69 +46,6 @@ return {
   { 'nvim-telescope/telescope-dap.nvim' },
 
   { 'leoluz/nvim-dap-go' },
-
-  {
-    "mxsdev/nvim-dap-vscode-js",
-    dependencies = { "mfussenegger/nvim-dap" },
-    config = function()
-      require("dap-vscode-js").setup({
-        -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-        debugger_path = vim.env.HOME .. "/.local/share/nvim/lazy/vscode-js-debug",                   -- Path to vscode-js-debug installation.
-        -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
-        adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
-        -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
-        -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
-        -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
-      })
-
-      require("dap").adapters["pwa-node"] = {
-        type = "server",
-        host = "localhost",
-        port = "${port}",
-        executable = {
-          command = "node",
-          args = { vim.env.HOME .. "/.local/share/nvim/lazy/vscode-js-debug/dist/src/dapDebugServer.js", "${port}" },
-        }
-      }
-
-      for _, language in ipairs({ "typescript", "javascript", "typescriptreact", "javascriptreact" }) do
-        require("dap").configurations[language] = {
-          {
-            type = "pwa-node",
-            request = "attach",
-            name = "Attach",
-            processId = require 'dap.utils'.pick_process,
-            cwd = "${workspaceFolder}",
-          },
-          {
-            type = "pwa-node",
-            request = "launch",
-            name = "Launch file",
-            program = "${file}",
-            cwd = "${workspaceFolder}",
-          },
-          {
-            type = "pwa-node",
-            request = "attach",
-            name = "Hydrogen",
-            port = "9229",
-            cwd = "${workspaceFolder}",
-          },
-          -- {
-          --   type = "pwa-node",
-          --   request = "launch",
-          --   name = "Debug Current Test File",
-          --   autoAttachChildProcesses = true,
-          --   skipFiles = { "<node_internals>/**", "**/node_modules/**" },
-          --   program = "${workspaceRoot}/node_modules/vitest/vitest.mjs",
-          --   args = { "run", "${relativeFile}" },
-          --   smartStep = true,
-          --   console = "integratedTerminal"
-          -- }
-        }
-      end
-    end
-  },
 
   {
     -- this is kind of a weird hack to have Lazy manage this dependency, but it works
