@@ -3,3 +3,6 @@
 .config/nvim/plugin
 .config/github-copilot/hosts.json
 .aider*
+
+# fish writes this frequently (universal variables)
+/.config/fish/fish_variables

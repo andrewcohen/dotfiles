@@ -116,17 +116,6 @@ map('n', '<leader>ec', '<cmd>:e ~/.config/nvim/init.lua<cr>')
 map('n', '<leader>M', '<cmd>:make<cr>')
 -- map('n', '<leader>mr', '<cmd>:make run<cr>')
 
--- debugger
-vim.keymap.set('n', '<leader>b', "<Cmd>lua require'dap'.toggle_breakpoint()<CR>")
-vim.keymap.set('n', '<leader>B', "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-vim.keymap.set('n', '<leader>lp',
-  "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
-vim.keymap.set('n', '<leader>dc', "<Cmd>lua require'dap'.continue()<CR>")
-vim.keymap.set('n', '<leader>do', "<Cmd>lua require'dap'.step_over()<CR>")
-vim.keymap.set('n', '<leader>di', "<Cmd>lua require'dap'.step_into()<CR>")
-vim.keymap.set('n', '<leader>dI', "<Cmd>lua require'dap'.step_out()<CR>")
-vim.keymap.set('n', '<leader>du', "<Cmd>lua require'dapui'.toggle()<CR>")
-vim.keymap.set('n', '<leader>dS', "<Cmd>lua require'dap'.disconnect()<CR>")
 
 -- terminal  escape
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
@@ -140,20 +129,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
-
-return {
-  set_normal_mappings = function()
-    vim.keymap.set('n', 'c', "<Cmd>lua require'dap'.continue()<CR>")
-    vim.keymap.set('n', 'o', "<Cmd>lua require'dap'.step_over()<CR>")
-    vim.keymap.set('n', 'i', "<Cmd>lua require'dap'.step_into()<CR>")
-    vim.keymap.set('n', 'I', "<Cmd>lua require'dap'.step_out()<CR>")
-    vim.keymap.set('n', 'S', "<Cmd>lua require'dap'.disconnect()<CR>")
-  end,
-  unset_normal_mappings = function()
-    vim.cmd [[silent! unmap c]]
-    vim.cmd [[silent! unmap o]]
-    vim.cmd [[silent! unmap i]]
-    vim.cmd [[silent! unmap I]]
-    vim.cmd [[silent! unmap S]]
-  end
-}
