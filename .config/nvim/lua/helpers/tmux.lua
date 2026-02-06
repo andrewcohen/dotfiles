@@ -29,7 +29,13 @@ function M.open_or_jump_to_window(command, opts)
       "-c", working_dir
     }
 
-    table.insert(cmd, command)
+    if type(command) == "table" then
+      for _, arg in ipairs(command) do
+        table.insert(cmd, arg)
+      end
+    else
+      table.insert(cmd, command)
+    end
 
     vim.fn.jobstart(cmd, { detach = true })
   end

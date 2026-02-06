@@ -57,23 +57,30 @@ map('n', '<leader>F', '<cmd>silent !tmux neww tms<CR>')
 
 -- tmux test runner with custom window name
 vim.keymap.set("n", "<leader>T", function()
-  local command = "bash -c 'CI=1 pnpm vitest; read -p \"Press Enter to close...\"'"
+  local command = { "bash", "-lc", "CI=1 pnpm vitest; read -p \"Press Enter to close...\"" }
   require("helpers.tmux").open_or_jump_to_window(command, {
     window_name = "pnpm test"
   })
 end, { desc = "Run tests in tmux" })
 
 vim.keymap.set("n", "<leader>tt", function()
-  local current_file = vim.fn.expand("%")
+  local current_file = vim.api.nvim_buf_get_name(0)
   local test_file
 
-  if current_file:match("%.test%.ts$") then
+  if current_file:match("%.test%.tsx?$") then
     test_file = current_file                       -- Already a test file
   else
-    test_file = vim.fn.expand("%:r") .. ".test.ts" -- Remove extension and add .test.ts
+    if current_file:match("%.tsx$") then
+      test_file = current_file:gsub("%.tsx$", ".test.tsx")
+    elseif current_file:match("%.ts$") then
+      test_file = current_file:gsub("%.ts$", ".test.ts")
+    else
+      test_file = current_file .. ".test.ts"
+    end
   end
 
-  local command = "bash -c 'CI=1 pnpm vitest --allowOnly " .. test_file .. "; read -p \"Press Enter to close...\"'"
+  local test_cmd = "CI=1 pnpm vitest --allowOnly " .. vim.fn.shellescape(test_file) .. "; read -p \"Press Enter to close...\""
+  local command = { "bash", "-lc", test_cmd }
   require("helpers.tmux").open_or_jump_to_window(command, {
     window_name = "pnpm test"
   })

@@ -35,7 +35,6 @@ return {
         "jsdoc",
         "json",
         "json5",
-        "jsonc",
         "prisma",
         "sql",
         "regex",
@@ -309,13 +308,6 @@ return {
   },
   { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 
-  {
-    'ggandor/leap.nvim',
-    config = function()
-      vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
-      vim.keymap.set('n', 'S', '<Plug>(leap-from-window)')
-    end
-  },
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
