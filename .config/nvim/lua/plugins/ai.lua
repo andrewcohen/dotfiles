@@ -3,19 +3,19 @@ vim.keymap.set("n", "<leader>O", function()
 end, { desc = "Open or jump to Opencode in tmux" })
 
 return {
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = {
-      suggestion = { enabled = false },
-      panel = { enabled = false },
-      filetypes = {
-        markdown = true,
-        help = true,
-      },
-    },
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   event = "InsertEnter",
+  --   opts = {
+  --     suggestion = { enabled = false },
+  --     panel = { enabled = false },
+  --     filetypes = {
+  --       markdown = true,
+  --       help = true,
+  --     },
+  --   },
+  -- },
   {
     "olimorris/codecompanion.nvim",
     tag = 'v17.33.0',
@@ -72,24 +72,59 @@ return {
       -- { "ga",         "<cmd>CodeCompanionChat Add<cr>",    mode = "v",          desc = "Add to CodeCompanion Chat" },
     },
   },
-  -- {
-  -- "azorng/goose.nvim",
-  -- config = function()
-  --   require("goose").setup({
-  --     preferred_picker = "mini_pick"
-  --   })
-  -- end,
-  -- dependencies = {
-  --   "nvim-lua/plenary.nvim",
-  --   "echasnovski/mini.pick",
-  --   {
-  --     "MeanderingProgrammer/render-markdown.nvim",
-  --     opts = {
-  --       anti_conceal = { enabled = false },
-  --     },
-  --   }
-  -- },
-  -- },
+  {
+    "ggml-org/llama.vim",
+    enabled = true,
+    -- load on demand-ish; you can change to VeryLazy if you want
+    -- event = "InsertEnter",
+    init = function()
+      -- llama.vim reads g:llama_config (vim.g.llama_config in Lua) :contentReference[oaicite:1]{index=1}
+      vim.g.llama_config = {
+        -- Where your llama-server listens (this is the documented default) :contentReference[oaicite:2]{index=2}
+        -- endpoint = "http://127.0.0.1:8012/infill",
+
+        -- IMPORTANT: don’t auto-trigger while moving/typing; keep blink/LSP as primary :contentReference[oaicite:3]{index=3}
+        auto_fim = true,
+
+
+        -- Keymaps: avoid <Tab>, avoid <C-h/j/k/l>, avoid Alt/Option.
+        -- These options are in llama.vim’s defaults table. :contentReference[oaicite:4]{index=4}
+        -- keymap_fim_trigger = "<C-x><C-f>",     -- request infill manually
+        keymap_fim_accept_full = "<C-a>", -- accept full suggestion
+        keymap_fim_accept_line = "<C-e>", -- accept one line
+        keymap_fim_accept_word = "<C-d>", -- accept one word
+
+        show_info = 0,
+      }
+    end,
+    config = function()
+      -- Detect floating windows on BufEnter
+      vim.api.nvim_create_autocmd("BufEnter", {
+        -- group = augroup,
+        pattern = "*",
+        callback = function()
+          -- Check if the buffer is in a floating window
+          local buftype = vim.bo.buftype
+          local is_floating = vim.api.nvim_win_get_config(0).relative ~= ""
+          if is_floating or buftype == "prompt" or buftype == "nofile" or buftype == "popup" then
+            -- Disable completion (affects plugins like llama.vim if they use completion)
+            vim.opt_local.completeopt = { "menu", "menuone", "noselect" }
+            vim.opt_local.complete = "" -- Disable completion sources
+            vim.cmd("LlamaDisable")
+
+            -- Hypothetical: Disable specific plugins using buffer-local variables
+            -- Optionally, remove plugin-specific keymaps (e.g., if plugin uses <Tab>)
+          else
+            -- Restore settings for non-floating windows
+            vim.opt_local.completeopt = { "menu", "menuone", "noselect", "noinsert" }
+            vim.opt_local.complete = ".,w,b,u,t,i"
+            vim.cmd("LlamaEnable")
+          end
+        end,
+      })
+    end,
+
+  },
   {
     "echasnovski/mini.diff",
     config = function()
@@ -104,79 +139,6 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown", "codecompanion" }
   },
-  -- {
-  --   "yetone/avante.nvim",
-  --   event = "VeryLazy",
-  --   version = false, -- Never set this value to "*"! Never!
-  --   opts = {
-  --     mode = "agentic",
-  --     provider = "ollama",
-  --     cursor_applying_provider = 'ollama',
-  --     behaviour = {
-  --       -- enable_cursor_planning_mode = true, -- enable cursor planning mode!
-  --     },
-  --     providers = {
-  --       copilot = {
-  --         model = "gpt-4.1",
-  --       },
-  --       ollama = {
-  --         model = "llama3.1:8b"
-  --       },
-  --     },
-  --     selector = { provider = "mini_pick" }
-  --   },
-  --   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-  --   build = "make",
-  --   -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --     "stevearc/dressing.nvim",
-  --     "nvim-lua/plenary.nvim",
-  --     "MunifTanjim/nui.nvim",
-  --     --- The below dependencies are optional,
-  --     "echasnovski/mini.pick", -- for file_selector provider mini.pick
-  --     -- "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-  --     -- "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-  --     -- "ibhagwan/fzf-lua", -- for file_selector provider fzf
-  --     -- "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-  --     -- "zbirenbaum/copilot.lua", -- for providers='copilot'
-  --     -- {
-  --     --   -- support for image pasting
-  --     --   "HakonHarnes/img-clip.nvim",
-  --     --   event = "VeryLazy",
-  --     --   opts = {
-  --     --     -- recommended settings
-  --     --     default = {
-  --     --       embed_image_as_base64 = false,
-  --     --       prompt_for_file_name = false,
-  --     --       drag_and_drop = {
-  --     --         insert_mode = true,
-  --     --       },
-  --     --       -- required for Windows users
-  --     --       use_absolute_path = true,
-  --     --     },
-  --     --   },
-  --     -- },
-  --     {
-  --       -- Make sure to set this up properly if you have lazy=true
-  --       'MeanderingProgrammer/render-markdown.nvim',
-  --       opts = {
-  --         file_types = { "markdown", "Avante" },
-  --       },
-  --       ft = { "markdown", "Avante" },
-  --     },
-  --   },
-  -- },
 
   { "echasnovski/mini.pick", config = function() require("mini.pick").setup() end },
-  -- {
-  --   "ravitemer/mcphub.nvim",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --   },
-  --   build = "npm install -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
-  --   config = function()
-  --     require("mcphub").setup()
-  --   end
-  -- }
 }

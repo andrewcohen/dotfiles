@@ -1,8 +1,12 @@
+local ts = "vtsls"
+
+if vim.env.USE_TSGO == "1" then
+  ts = 'tsgo'
+end
+
 vim.lsp.enable({
   'lua_ls',
-  -- 'ts_ls',
-  'vtsls',
-  -- 'tsgo',
+  ts,
   'eslint',
   'tailwindcss',
   'jsonls',

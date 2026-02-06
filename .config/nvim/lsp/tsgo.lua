@@ -7,7 +7,8 @@ vim.lsp.config('tsgo', {
           vim.lsp.buf.code_action({
             apply = true,
             context = {
-              only = { "source.removeUnusedImports" },
+              only = { "source.organizeImports" },
+              -- only = { "source.removeUnusedImports" },
               diagnostics = {},
             },
           })
