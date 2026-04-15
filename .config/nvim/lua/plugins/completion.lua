@@ -64,6 +64,8 @@ return {
         default = { 'avante', 'lsp', 'path', 'snippets', 'buffer' },
         per_filetype = {
           sql = { 'snippets', 'dadbod', 'buffer' },
+          mysql = { 'snippets', 'dadbod', 'buffer' },
+          plsql = { 'snippets', 'dadbod', 'buffer' },
         },
         -- optionally disable cmdline completions
         providers = {

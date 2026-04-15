@@ -19,6 +19,19 @@ vim.lsp.enable({
   'clangd'
 })
 
+-- Neovim 0.12 dropped legacy :LspInfo/:LspLog commands from lspconfig.
+if vim.fn.exists(':LspInfo') == 0 then
+  vim.api.nvim_create_user_command('LspInfo', function()
+    vim.cmd('checkhealth vim.lsp')
+  end, { desc = 'Show LSP health (compat alias for nvim 0.11)' })
+end
+
+if vim.fn.exists(':LspLog') == 0 then
+  vim.api.nvim_create_user_command('LspLog', function()
+    vim.cmd('edit ' .. vim.lsp.log.get_filename())
+  end, { desc = 'Open LSP log file (compat alias for nvim 0.11)' })
+end
+
 -- diagnostics
 -- vim.diagnostic.config {
 --   virtual_text = {

@@ -1,9 +1,9 @@
-vim.lsp.config('basedpyright', {
+return {
   settings = {
     basedpyright = {
       analysis = {
         typeCheckingMode = "basic",
       },
     },
-  }
-})
+  },
+}

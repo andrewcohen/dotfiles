@@ -1,18 +1,17 @@
-vim.lsp.config('ts_ls', {
+return {
   on_attach = function(client, bufnr)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "",
-      {
-        silent = true,
-        callback = function()
-          vim.lsp.buf.code_action({
-            apply = true,
-            context = {
-              only = { "source.removeUnusedImports.ts" },
-              diagnostics = {},
-            },
-          })
-        end
-      })
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "", {
+      silent = true,
+      callback = function()
+        vim.lsp.buf.code_action({
+          apply = true,
+          context = {
+            only = { "source.removeUnusedImports.ts" },
+            diagnostics = {},
+          },
+        })
+      end,
+    })
 
     -- -- neoformat uses prettier unlike the lsp
     -- client.server_capabilities.documentFormattingProvider = false
@@ -25,4 +24,4 @@ vim.lsp.config('ts_ls', {
     --   end
     -- })
   end,
-})
+}

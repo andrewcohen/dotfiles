@@ -1,0 +1,15 @@
+# (defaults + .jj)
+\.cvsignore
+\.git
+\.gitignore
+^CVS$
+^RCS$
+^#.+#$
+,v$
+~$
+^\.#
+^\.stow-global-ignore$
+^\.stow-local-ignore$
+\.jj
+\.jj/.+
+

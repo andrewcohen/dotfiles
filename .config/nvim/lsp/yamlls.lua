@@ -1,9 +1,9 @@
-vim.lsp.config('yamlls', {
+return {
   settings = {
     yaml = {
       format = {
-        singleQuote = true
-      }
-    }
-  }
-})
+        singleQuote = true,
+      },
+    },
+  },
+}

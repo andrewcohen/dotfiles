@@ -1,7 +1,10 @@
 return {
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'catppuccin/nvim',
+    },
     -- after = 'onedark.nvim',
     config = function()
       local function jj_description()
@@ -40,7 +43,7 @@ return {
 
       require('lualine').setup {
         options = {
-          theme = "catppuccin",
+          theme = "catppuccin-macchiato",
           component_separators = '|',
           section_separators = { left = '', right = '' },
           extensions = { dapui },
