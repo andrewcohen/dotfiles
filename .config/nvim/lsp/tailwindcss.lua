@@ -1,4 +1,4 @@
-vim.lsp.config('tailwindcss', {
+return {
   settings = {
     tailwindCSS = {
       classFunctions = { "cva", "tv", "cn" },
@@ -26,7 +26,7 @@ vim.lsp.config('tailwindcss', {
         --   { "cva\\(([^)]*)\\)",   "[\"'`]([^\"'`]*).*?[\"'`]" },
 
         -- }
-      }
-    }
-  }
-})
+      },
+    },
+  },
+}

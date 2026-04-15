@@ -7,7 +7,7 @@ local dir_files = function()
   require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })
 end
 
-local additional_args = { '--hidden', '-g', '!.git', '-g', '!.jj' }
+local additional_args = { '--hidden', '-g', '!.git', '-g', '!.jj', '--no-require-git', '--smart-case' }
 
 return {
   {

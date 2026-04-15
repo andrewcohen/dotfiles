@@ -1,9 +1,12 @@
 [tools]
+"github:agavra/tuicr" = "latest"
 gleam = "1.7.0"
 go = "latest"
-node = "lts"
+node = "24"
+"npm:@mariozechner/pi-coding-agent" = "latest"
 python = "3.10"
 terraform = "1.9.8"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]
+experimental = true

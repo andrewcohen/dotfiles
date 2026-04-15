@@ -15,6 +15,10 @@ map('i', 'jj', '<esc>')
 map('', 'Y', 'y$')
 map('v', '<leader>y', '"*y')
 
+-- comments
+vim.keymap.set('n', '<leader>/', '<cmd>Commentary<cr>', { desc = 'Toggle comment' })
+vim.keymap.set('v', '<leader>/', '<cmd>Commentary<cr>', { desc = 'Toggle comment' })
+
 -- move visual lines up/down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
