@@ -1,0 +1,2 @@
+[revisions]
+revset = "stack() | trunk()"

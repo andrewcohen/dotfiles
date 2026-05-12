@@ -23,4 +23,30 @@ function setup(config)
     scope = "git",
     desc = "run jj git export",
   })
+
+  config.action("jj workspace update-stale", function()
+    exec_shell("sh -lc 'jj workspace update-stale'")
+  end, {
+    key = "w",
+    scope = "revisions",
+    desc = "run jj workspace update-stale",
+  })
+
+  config.action("copy change id", function()
+    local id = context.change_id()
+    if not id then
+      flash("No revision selected")
+      return
+    end
+    local ok, err = copy_to_clipboard(id)
+    if ok then
+      flash("Copied " .. id)
+    else
+      flash({ text = "Copy failed: " .. (err or "unknown"), error = true })
+    end
+  end, {
+    key = "Y",
+    scope = "revisions",
+    desc = "copy selected change id to clipboard",
+  })
 end
