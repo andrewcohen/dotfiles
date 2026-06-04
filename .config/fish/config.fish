@@ -107,6 +107,12 @@ end
 
 if command -q mise
     mise activate fish | source
+    # Also put the shims dir on PATH directly. `mise activate` only
+    # resolves tools via a per-prompt hook, so non-interactive children
+    # (tmux display-popup, `sh -c` background jobs, the awp deck) never
+    # see `go`/etc. The shims work without the hook, so this fixes
+    # "command not found" in those contexts.
+    fish_add_path $HOME/.local/share/mise/shims
 end
 
 if command -q kubectl

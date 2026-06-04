@@ -1,7 +1,7 @@
-local ts = 'vtsls'
+local ts = 'tsgo'
 
-if vim.env.USE_TSGO == "1" then
-  ts = "tsgo"
+if vim.env.USE_TSGO == "0" then
+  ts = "vtsls"
 end
 
 vim.lsp.enable({

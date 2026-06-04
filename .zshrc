@@ -114,3 +114,4 @@ source <(COMPLETE=zsh jj)
 
 # bun completions
 [ -s "/Users/acohen/.bun/_bun" ] && source "/Users/acohen/.bun/_bun"
+eval "$(mise activate zsh)"

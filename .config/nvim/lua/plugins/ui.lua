@@ -7,17 +7,34 @@ return {
     },
     -- after = 'onedark.nvim',
     config = function()
-      local function jj_description()
-        local first_line = io.popen 'jj log -T "description.first_line()" --no-graph --color=never --ignore-working-copy -r @'
-        if first_line then
-          local result = first_line:read '*a'
-          first_line:close()
-          if type(result) == 'string' and string.len(result) > 0 then
-            return result
-          else
-            return '(empty)'
+      -- Cached async jj description: io.popen here blocked the UI on every
+      -- statusline refresh (each scroll tick spawned a jj subprocess).
+      local jj_desc = ''
+      local function refresh_jj_description()
+        vim.system(
+          { 'jj', 'log', '-T', 'description.first_line()', '--no-graph', '--color=never', '--ignore-working-copy', '-r', '@' },
+          { text = true },
+          function(out)
+            local result = vim.trim(out.stdout or '')
+            if out.code ~= 0 then
+              jj_desc = ''
+            elseif result ~= '' then
+              jj_desc = result
+            else
+              jj_desc = '(empty)'
+            end
           end
-        end
+        )
+      end
+
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'FocusGained', 'TermLeave' }, {
+        group = vim.api.nvim_create_augroup('LualineJjDescription', { clear = true }),
+        callback = refresh_jj_description,
+      })
+      refresh_jj_description()
+
+      local function jj_description()
+        return jj_desc
       end
 
       local extend_sections = {
