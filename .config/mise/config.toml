@@ -15,3 +15,30 @@ terraform = "1.9.8"
 idiomatic_version_file_enable_tools = ["node"]
 experimental = true
 go_set_gobin = false
+dotfiles.root = "~/dotfiles"
+dotfiles.default_mode = "symlink"
+
+# Dotfile management (replaces GNU stow). `{}` infers the source by mirroring the
+# home-relative target under dotfiles.root, e.g. ~/.config/fish -> ~/dotfiles/.config/fish.
+# Apply with `mise dotfiles apply` (or `mise bootstrap`); preview with --dry-run.
+[dotfiles]
+# Whole-directory symlinks
+"~/.config/fish"      = {}
+"~/.config/nvim"      = {}
+"~/.config/ghostty"   = {}
+"~/.config/aerospace" = {}
+"~/.config/jjui"      = {}
+"~/.agents"           = {}
+
+# Single files (top-level, or dirs that also hold runtime/other content)
+"~/.zshrc"                   = {}
+"~/.tmux.conf"               = {}
+"~/.ripgreprc"               = {}
+"~/.config/mise/config.toml" = {}
+"~/.config/jj/config.toml"   = {}
+"~/.claude/CLAUDE.md"        = {}
+"~/.codex/AGENTS.md"         = {}
+"~/.pi/AGENTS.md"            = {}
+
+# Managed files that must coexist with runtime state (node_modules, bun.lock, …)
+"~/.config/opencode" = { mode = "symlink-each" }

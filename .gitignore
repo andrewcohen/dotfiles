@@ -6,3 +6,7 @@
 
 # fish writes this frequently (universal variables)
 /.config/fish/fish_variables
+
+# Machine-specific files (never committed)
+.config/jj/conf.d/
+mise.local.toml

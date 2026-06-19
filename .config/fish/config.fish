@@ -19,6 +19,8 @@ set -gx GIT_EDITOR nvim
 set -gx EDITOR nvim
 set -gx ZVM_VI_EDITOR nvim
 set -gx GOPATH ~/go
+# ripgrep only reads the file this points at (it won't auto-read ~/.ripgreprc)
+set -gx RIPGREP_CONFIG_PATH ~/.ripgreprc
 
 # Add paths
 fish_add_path $GOPATH/bin

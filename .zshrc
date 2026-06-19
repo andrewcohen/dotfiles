@@ -91,6 +91,8 @@ starttransfer:  %{time_starttransfer}s\n\
 export GIT_EDITOR=nvim
 export EDITOR=nvim
 export ZVM_VI_EDITOR=nvim
+# ripgrep only reads the file this points at (it won't auto-read ~/.ripgreprc)
+export RIPGREP_CONFIG_PATH=~/.ripgreprc
 
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
