@@ -9,4 +9,5 @@
 
 # Machine-specific files (never committed)
 .config/jj/conf.d/
+.config/jj/repos/
 mise.local.toml
