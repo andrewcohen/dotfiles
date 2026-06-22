@@ -32,6 +32,19 @@ function setup(config)
     desc = "run jj workspace update-stale",
   })
 
+  config.action("review in tuicr", function()
+    local rev = context.change_id()
+    if not rev then
+      flash("No revision selected")
+      return
+    end
+    exec_shell(string.format("tuicr -r %s", rev))
+  end, {
+    key = "t",
+    scope = "revisions",
+    desc = "review selected revision in tuicr",
+  })
+
   config.action("copy change id", function()
     local id = context.change_id()
     if not id then
