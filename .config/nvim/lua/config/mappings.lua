@@ -106,16 +106,8 @@ end, { desc = "Run tests for current file in tmux" })
 -- map('n', '<S-h>', "<cmd> lua require('harpoon.ui').nav_prev()<cr>", opts)
 
 -- git
-vim.api.nvim_command([[
-function! s:ToggleBlame()
-    if &l:filetype ==# 'fugitiveblame'
-        :normal gq
-    else
-        Git blame
-    endif
-endfunction
-nnoremap <leader>gb :call <SID>ToggleBlame()<CR>
-]])
+-- <leader>gb is defined in plugins/jujutsu.lua (jj blame) since fugitive's
+-- :Git blame doesn't work inside jj workspaces.
 
 map('n', '<leader>gl', ':Git log<CR>', opts)
 map('n', '<leader>G', ':Git<CR>', opts)
