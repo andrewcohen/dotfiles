@@ -1,7 +1,9 @@
 [tools]
+aube = "latest"
 "github:agavra/tuicr" = "latest"
 go = "latest"
 node = "24"
+"npm:@earendil-works/gondolin" = "latest"
 "npm:@mariozechner/pi-coding-agent" = "latest"
 "npm:opencode-ai" = "latest"
 "npm:sentry" = "latest"
