@@ -178,6 +178,53 @@ local function load_jj_conflicts_to_qf()
   end
 end
 
+-- ── remote URL helpers (shared by blame popup + :JJBrowse) ─────────────────
+local function git_remote_to_https(url)
+  url = url:gsub("%.git$", "")
+  local host, path = url:match("^git@([^:]+):(.+)$") -- git@github.com:owner/repo
+  if host then return "https://" .. host .. "/" .. path end
+  host, path = url:match("^ssh://git@([^/]+)/(.+)$") -- ssh://git@github.com/owner/repo
+  if host then return "https://" .. host .. "/" .. path end
+  if url:match("^https?://") then return (url:gsub("^(https?://)[^@/]*@", "%1")) end
+  return nil
+end
+
+-- Pick the origin remote (or the first one) and normalise to an https base URL.
+local function jj_remote_base()
+  local remote_url
+  for _, line in ipairs(vim.fn.systemlist({ "jj", "git", "remote", "list" })) do
+    local name, url = line:match("^(%S+)%s+(%S+)")
+    if name == "origin" then
+      remote_url = url
+      break
+    end
+    remote_url = remote_url or url
+  end
+  return remote_url and git_remote_to_https(remote_url)
+end
+
+-- Copy the GitHub/GitLab web link for `rev`'s commit to the clipboard.
+local function jj_copy_commit_url(rev)
+  local base = jj_remote_base()
+  if not base then
+    vim.notify("Could not determine a GitHub/GitLab remote URL", vim.log.levels.ERROR)
+    return
+  end
+  -- Resolve the change to its full commit id (the blame gutter shows a short
+  -- change id; the web link needs the git commit hash).
+  local commit = vim.fn.systemlist({ "jj", "log", "--no-graph", "--ignore-working-copy",
+    "-r", rev, "-T", "commit_id" })[1]
+  if not commit or commit == "" then
+    vim.notify("Could not resolve a commit id for " .. rev, vim.log.levels.ERROR)
+    return
+  end
+  -- GitLab nests commit pages under /-/; GitHub serves them at the top level.
+  local sep = base:match("gitlab") and "/-/commit/" or "/commit/"
+  local url = base .. sep .. commit
+  vim.fn.setreg("+", url)
+  vim.notify("Copied " .. url)
+end
+
 -- ── jj blame (fugitive-style, scroll/cursor-bound annotate gutter) ─────────
 local jj_blame_state = { win = nil, buf = nil, src_win = nil }
 local jj_blame_ns = vim.api.nvim_create_namespace("jjblame")
@@ -240,6 +287,9 @@ local function jj_blame_show_commit(change_ids)
     vim.keymap.set("n", "q", function()
       pcall(vim.api.nvim_win_close, win, true)
     end, { buffer = buf, nowait = true, silent = true })
+    vim.keymap.set("n", "o", function()
+      jj_copy_commit_url(cid)
+    end, { buffer = buf, nowait = true, silent = true, desc = "copy this commit's GitHub/GitLab link" })
   end
 end
 
@@ -360,17 +410,7 @@ end
 vim.api.nvim_create_user_command("JJBlame", jj_blame, {})
 vim.keymap.set("n", "<leader>gb", jj_blame, { desc = "jj blame (annotate)", silent = true })
 
--- ── jj browse (fugitive :GBrowse replacement — open file/line on GitHub) ───
-local function git_remote_to_https(url)
-  url = url:gsub("%.git$", "")
-  local host, path = url:match("^git@([^:]+):(.+)$") -- git@github.com:owner/repo
-  if host then return "https://" .. host .. "/" .. path end
-  host, path = url:match("^ssh://git@([^/]+)/(.+)$") -- ssh://git@github.com/owner/repo
-  if host then return "https://" .. host .. "/" .. path end
-  if url:match("^https?://") then return (url:gsub("^(https?://)[^@/]*@", "%1")) end
-  return nil
-end
-
+-- ── jj browse (fugitive :GBrowse replacement — copy file/line link) ────────
 local function jj_browse(line1, line2)
   local path = vim.fn.expand("%:p")
   if path == "" then
@@ -387,19 +427,9 @@ local function jj_browse(line1, line2)
     relative = vim.fn.fnamemodify(path, ":.")
   end
 
-  -- Pick the origin remote (or the first one) and normalise to an https URL.
-  local remote_url
-  for _, line in ipairs(vim.fn.systemlist({ "jj", "git", "remote", "list" })) do
-    local name, url = line:match("^(%S+)%s+(%S+)")
-    if name == "origin" then
-      remote_url = url
-      break
-    end
-    remote_url = remote_url or url
-  end
-  local base = remote_url and git_remote_to_https(remote_url)
+  local base = jj_remote_base()
   if not base then
-    vim.notify("Could not determine a GitHub remote URL", vim.log.levels.ERROR)
+    vim.notify("Could not determine a GitHub/GitLab remote URL", vim.log.levels.ERROR)
     return
   end
 
@@ -416,11 +446,12 @@ local function jj_browse(line1, line2)
     frag = "#L" .. line1
     if line2 and line2 ~= line1 then frag = frag .. "-L" .. line2 end
   end
-  local url = base .. "/blob/" .. commit .. "/" .. relative .. frag
+  -- GitLab nests blob pages under /-/; GitHub serves them at the top level.
+  local blob = base:match("gitlab") and "/-/blob/" or "/blob/"
+  local url = base .. blob .. commit .. "/" .. relative .. frag
 
   vim.fn.setreg("+", url)
-  local opened = pcall(vim.ui.open, url)
-  vim.notify((opened and "Opened (and copied) " or "Copied ") .. url)
+  vim.notify("Copied " .. url)
 end
 
 vim.api.nvim_create_user_command("JJBrowse", function(o)
@@ -433,11 +464,11 @@ vim.api.nvim_create_user_command("JJBrowse", function(o)
 end, { range = true })
 vim.keymap.set("n", "<leader>gB", function()
   jj_browse(nil, nil) -- no selection → link to the file, no line anchor
-end, { desc = "jj browse file on GitHub", silent = true })
+end, { desc = "jj browse: copy file link", silent = true })
 vim.keymap.set("x", "<leader>gB", function()
   local a, b = vim.fn.line("v"), vim.fn.line(".")
   jj_browse(math.min(a, b), math.max(a, b))
-end, { desc = "jj browse selection on GitHub", silent = true })
+end, { desc = "jj browse: copy selection link", silent = true })
 
 require("which-key").add({
   { "<leader>j",  group = "Jujutsu (jj)" },
