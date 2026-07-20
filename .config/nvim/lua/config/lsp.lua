@@ -16,7 +16,9 @@ vim.lsp.enable({
   'yamlls',
   'racket_langserver',
   'ocamllsp',
-  'clangd'
+  'clangd',
+  'oxlint',
+  'oxfmt'
 })
 
 -- Neovim 0.12 dropped legacy :LspInfo/:LspLog commands from lspconfig.
